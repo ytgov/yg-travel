@@ -159,9 +159,11 @@ export default {
           this.selectedCommunity = response.data[0].destination
           this.purpose = response.data[0].purpose
           this.travellers = response.data[0].travellers
-          this.date = response.data[0].arrivalDate
-          this.date2 = response.data[0].returnDate
-          this.selectedCommunityGroup = response.data[0].selectedCommunityGroup
+          this.date = response.data[0].arrivalDate.substr(0, 10)
+          this.date2 = response.data[0].returnDate.substr(0, 10)
+          this.selectedCommunityGroup = response.data[0].contactedCommunity
+          if(this.selectedCommunityGroup === 0) this.contactedCommunity = false
+          else this.contactedCommunity = true
           this.requireAssistance = response.data[0].requireAssistance
           this.code = response.data[0].code
           this.readTerms=true
@@ -204,7 +206,7 @@ export default {
   mounted: function () {
     this.$api.get(urls.communities).then(response => {this.communities = response.data})
     this.$api.get(urls.communityGroups).then(response => {this.communityGroups = response.data})
-    this.recover()
+    //this.recover('a0de1871-7565-4841-9f0d-935bdca9584f')
   }
 }
 </script>
