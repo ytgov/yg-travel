@@ -11,6 +11,7 @@
     "axios": "^0.19.2",
     "babel-loader": "^8.1.0",
     "core-js": "^3.6.5",
+    "uuid": "^8.0.0",
     "vue": "^2.6.11",
     "vuelidate": "^0.7.5",
     "vuetify": "^2.2.26"

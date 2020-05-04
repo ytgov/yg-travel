@@ -92,11 +92,18 @@
       <v-btn :disabled="!valid" color="success" @click="validate">Submit
       </v-btn>
     </v-form>
+    <v-snackbar v-model="snackbar">
+      {{ snackText }}
+      <v-btn color="pink" text @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
 <script>
 import urls from '../urls'
+import { v4 as uuidv4 } from 'uuid';
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
@@ -132,7 +139,15 @@ export default {
     ],
     phoneRules: [
       //v => /^[2-9]\d{2}-\d{3}-\d{4}$/.test(v) || 'Phone Number must be valid'
-    ]
+    ],
+    arrivalRules: [
+      v => v <= this.date2 || 'This date must be before the return date'
+    ],
+    departureRules: [
+      v => v >= this.date1 || 'This date must be after the return date'
+    ],
+    snackbar: false,
+    snackText: ''
   }),
   methods: {
     submit(){
@@ -149,6 +164,17 @@ export default {
         returnDate: this.date2,
         contactedCommunity: this.selectedCommunityGroup,
         requireAssistance: false,
+        code: uuidv4()
+      })
+      .then(response => {
+        this.snackText = "Form submitted successfully"
+        this.snackbar = true
+        console.log(response)
+      })
+      .catch(e => {
+        this.snackText = "Failed to submit form"
+        this.snackbar = true
+        console.log(e)
       })
     },
     validate(){

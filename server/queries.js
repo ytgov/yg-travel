@@ -35,10 +35,11 @@ const getNotices = (request, response) => {
 }
 
 const createNotice = (request, response) => {
-  const { name, email, phone, destination, purpose, travellers, arrivalDate, returnDate, requireAssistance, contactedCommunity } = request.body
+  const { name, email, phone, destination, purpose, travellers, arrivalDate, returnDate, requireAssistance, contactedCommunity, code } = request.body
+  console.log(request.body)
   pool.query(
-    'insert into travel."travelNotices" (name, email, phone, destination, purpose, travellers, "returnDate", "arrivalDate", "requireAssistance", "contactedCommunity") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
-    [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, contactedCommunity],
+    'insert into travel."travelNotices" (name, email, phone, destination, purpose, travellers, "returnDate", "arrivalDate", "requireAssistance", "contactedCommunity", code) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
+    [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, contactedCommunity, code],
     (error, results) => {
     if (error) {
       console.log(error)
