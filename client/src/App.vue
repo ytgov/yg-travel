@@ -13,13 +13,13 @@
     <v-container style="padding: 56px 0px 0px;">
       <v-app>
         <v-tabs>
-          <v-tab>Admin Tab</v-tab>
-          <v-tab-item>
-            <AdminPage/>
-          </v-tab-item>
           <v-tab>Form</v-tab>
           <v-tab-item>
             <TravelForm/>
+          </v-tab-item>
+          <v-tab>Admin Tab</v-tab>
+          <v-tab-item>
+            <AdminPage/>
           </v-tab-item>
         </v-tabs>
       </v-app>

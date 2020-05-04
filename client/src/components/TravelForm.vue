@@ -1,64 +1,107 @@
 <template>
-  <v-container class=travelForm>
-    <v-form v-model="valid" lazy-validation ref="form">
-      Travel Form
-      <v-text-field
-      label="Name"
-      v-model="name"
-      :rules="nameRules"
-      required
-      filled
-      ></v-text-field>
+  <v-container>
+    <v-row>
+      <v-col md="6">
+        <v-form v-model="valid" lazy-validation ref="form">
+          
+          <v-card md="6">
+            
+            <v-toolbar
+              color="#DC4405"
+              dark>
+              <v-toolbar-title>Program Manager</v-toolbar-title>
+            </v-toolbar>
 
-      <v-text-field
-      label="Email"
-      v-model="email"
-      :rules="emailRules"
-      required
-      filled
-      ></v-text-field>
+            <v-card-text>
+              <v-row>
+                <v-col >
+                  <v-text-field
+                  label="Name"
+                  v-model="name"
+                  :rules="nameRules"
+                  required
+                  filled
+                  md="2"
+                  ></v-text-field>
 
-      <v-text-field
-      label="Phone Number"
-      v-model="phone"
-      :rules="requiredField"
-      required
-      filled
-      ></v-text-field>
+                  <v-text-field
+                  label="Email"
+                  v-model="email"
+                  :rules="emailRules"
+                  required
+                  filled
+                  ></v-text-field>
+                  
+                  <v-text-field
+                  label="Department"
+                  v-model="department"
+                  :rules="requiredField"
+                  required
+                  filled
+                  ></v-text-field>
+                  
+                  <v-text-field
+                  label="Phone Number"
+                  v-model="phone"
+                  :rules="requiredField"
+                  required
+                  filled
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+          <v-row>
+            <v-col>
+              <v-card md="6">
+                <v-toolbar
+              color="#244C5A"
+              dark>
+              <v-toolbar-title>Travel Details</v-toolbar-title>
+              </v-toolbar>
+              <v-card-text> 
+                <v-select
+                  label="Travel Locations"
+                  :items="communities"
+                  item-text="name"
+                  item-value="id"
+                  :rules="requiredField"
+                  v-model="selectedCommunity"
+                  filled
+                ></v-select>
+                
+                <v-textarea :rules="requiredField" v-model="purpose" auto-grow label="Purpose for Travel" filled></v-textarea>
 
-      <v-textarea :rules="requiredField" v-model="purpose" auto-grow label="Purpose for Travel" filled></v-textarea>
+                <v-text-field
+                label="Number of travellers"
+                v-model="travellers"
+                type="number"
+                :rules="requiredField"
+                filled
+                ></v-text-field>
+                <v-row>
+                  <v-col>
+                    <v-menu v-model="arrivalDate" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
+                      <template v-slot:activator="{ on }">
+                        <v-text-field filled v-model="date" label="Arival Date" readonly v-on="on"></v-text-field>
+                      </template>
+                      <v-date-picker v-model="date" @input="arrivalDate = false" color="#4a263c"></v-date-picker>
+                    </v-menu>
+                  </v-col>
+                  <v-col>
+                    <v-menu v-model="departureDate" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
+                      <template v-slot:activator="{ on }">
+                        <v-text-field filled v-model="date2" label="Return Date" readonly v-on="on"></v-text-field>
+                      </template>
+                      <v-date-picker v-model="date2" @input="departureDate = false" color="#4a263c"></v-date-picker>
+                    </v-menu>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+              </v-card>
 
-      <v-select
-      label="Travel Locations"
-      :items="communities"
-      item-text="name"
-      item-value="id"
-      :rules="requiredField"
-      v-model="selectedCommunity"
-      filled
-      ></v-select>
-
-      <v-text-field
-      label="Number of travellers"
-      v-model="travellers"
-      type="number"
-      :rules="requiredField"
-      filled
-      ></v-text-field>
-
-      <v-menu v-model="arrivalDate" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
-        <template v-slot:activator="{ on }">
-          <v-text-field filled v-model="date" label="Arival Date" readonly v-on="on"></v-text-field>
-        </template>
-        <v-date-picker v-model="date" @input="arrivalDate = false" color="#4a263c"></v-date-picker>
-      </v-menu>
-
-      <v-menu v-model="departureDate" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
-        <template v-slot:activator="{ on }">
-          <v-text-field filled v-model="date2" label="Return Date" readonly v-on="on"></v-text-field>
-        </template>
-        <v-date-picker v-model="date2" @input="departureDate = false" color="#4a263c"></v-date-picker>
-      </v-menu>
+            </v-col>
+          </v-row>
 
       <a href="hss-covid-workplace-health-safety.pdf">Covid Workplace Health and Safety</a>
       <v-checkbox
@@ -98,6 +141,8 @@
         Close
       </v-btn>
     </v-snackbar>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -112,6 +157,7 @@ export default {
     email: '',
     phone: '',
     destination: '',
+    department: '',
     purpose: '',
     travellers: '',
     readTerms: '',
