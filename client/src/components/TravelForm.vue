@@ -89,12 +89,12 @@
       v-model="requireAssistance"
       ></v-checkbox>
 
-      <v-btn :disabled="!valid" color="success" @click="validate">Submit
+      <v-btn :disabled="!valid" color="#6f9d2a" dark @click="validate">Submit
       </v-btn>
     </v-form>
     <v-snackbar v-model="snackbar">
       {{ snackText }}
-      <v-btn color="pink" text @click="snackbar = false">
+      <v-btn color="#ffa500" text @click="snackbar = false">
         Close
       </v-btn>
     </v-snackbar>
