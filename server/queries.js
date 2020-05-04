@@ -1,4 +1,5 @@
 const Pool = require('pg').Pool
+const nodemailer = require('nodemailer');
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
@@ -34,6 +35,16 @@ const getNotices = (request, response) => {
   })
 }
 
+const getNotice = (request, response) => {
+  pool.query('SELECT * FROM travel."travelNotices" where code=\''+request.params.code+'\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+
 const createNotice = (request, response) => {
   const { name, email, phone, destination, purpose, travellers, arrivalDate, returnDate, requireAssistance, contactedCommunity, code } = request.body
   console.log(request.body)
@@ -45,6 +56,28 @@ const createNotice = (request, response) => {
       console.log(error)
     }
     response.status(200).send(`Created notice`)
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'maxparkeremailer@gmail.com',
+        pass: 'ygemailer'
+      }
+    });
+
+    var mailOptions = {
+      from: 'maxparkeremailer@gmail.com',
+      to: email,
+      subject: 'Your travel notice has been created',
+      text: 'To update your travel plans visit '+code
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
   })
 }
 
@@ -52,5 +85,6 @@ module.exports = {
   getCommunities,
   getCommunityGroups,
   createNotice,
-  getNotices
+  getNotices,
+  getNotice
 }

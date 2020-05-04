@@ -25,6 +25,8 @@ app.get('/', (request, response) => {
 app.get('/communities', db.getCommunities)
 app.get('/communityGroups', db.getCommunityGroups)
 app.get('/getNotices', db.getNotices)
+app.get('/getNotice/:code', db.getNotice)
+
 app.post('/createNotice', db.createNotice)
 
 app.listen(port, () => {

@@ -4,4 +4,5 @@ export default {
   communityGroups: API_BASE + "/communityGroups",
   createNotice: API_BASE + "/createNotice",
   getNotices: API_BASE + "/getNotices",
+  getNotice: API_BASE + "/getNotice/"
 }

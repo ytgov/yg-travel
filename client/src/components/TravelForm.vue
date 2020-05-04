@@ -150,6 +150,24 @@ export default {
     snackText: ''
   }),
   methods: {
+    recover(code){
+      this.$api.get(urls.getNotice+code).then(response => {
+        if(Object.keys(response.data).length !== 0){
+          this.name = response.data[0].name
+          this.email = response.data[0].email
+          this.phone = response.data[0].phone
+          this.selectedCommunity = response.data[0].destination
+          this.purpose = response.data[0].purpose
+          this.travellers = response.data[0].travellers
+          this.date = response.data[0].arrivalDate
+          this.date2 = response.data[0].returnDate
+          this.selectedCommunityGroup = response.data[0].selectedCommunityGroup
+          this.requireAssistance = response.data[0].requireAssistance
+          this.code = response.data[0].code
+          this.readTerms=true
+        }
+      })
+    },
     submit(){
       if(this.contactedCommunity) this.requireAssistance = false
       else this.selectedCommunityGroup = 0
@@ -163,7 +181,7 @@ export default {
         arrivalDate: this.date,
         returnDate: this.date2,
         contactedCommunity: this.selectedCommunityGroup,
-        requireAssistance: false,
+        requireAssistance: this.requireAssistance,
         code: uuidv4()
       })
       .then(response => {
@@ -186,6 +204,7 @@ export default {
   mounted: function () {
     this.$api.get(urls.communities).then(response => {this.communities = response.data})
     this.$api.get(urls.communityGroups).then(response => {this.communityGroups = response.data})
+    this.recover()
   }
 }
 </script>

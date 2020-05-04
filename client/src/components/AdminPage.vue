@@ -28,7 +28,7 @@ export default {
       { text: 'Reason for Travel', value: 'purpose' },
       { text: 'Nbr of Travellers', value: 'travellers' },
       { text: 'Arrival Date', value: 'arrivalDate' },
-      { text: 'Departure Date', value: 'departureDate' },
+      { text: 'Departure Date', value: 'returnDate' },
       { text: 'Comunity Contacted', value: 'contactedCommunity' },
       { text: 'Requires Assistance', value: 'requireAssistance' },
     ],
