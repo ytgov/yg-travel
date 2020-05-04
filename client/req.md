@@ -45,4 +45,5 @@ YG wishes to build a web portal that enables YG departments to document YG trave
 ## Authentication and Security
 - Write access to this form is restricted to internal YNET users
 - Secure read access by communities will be addressed in a future sprint
-- SSL termination will managed via YG load balancers and doesn’t
+- SSL termination will managed via YG load balancers and is not a required deliverable of this work 
+
