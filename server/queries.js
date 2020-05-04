@@ -10,7 +10,7 @@ const pool = new Pool({
 const getCommunities = (request, response) => {
   pool.query('SELECT * FROM travel."communities"', (error, results) => {
     if (error) {
-      throw error
+      console.log(error)
     }
     response.status(200).json(results.rows)
   })
@@ -19,7 +19,7 @@ const getCommunities = (request, response) => {
 const getCommunityGroups = (request, response) => {
   pool.query('SELECT * FROM travel."communityGroups"', (error, results) => {
     if (error) {
-      throw error
+      console.log(error)
     }
     response.status(200).json(results.rows)
   })
@@ -28,20 +28,20 @@ const getCommunityGroups = (request, response) => {
 const getNotices = (request, response) => {
   pool.query('SELECT * FROM travel."travelNotices"', (error, results) => {
     if (error) {
-      throw error
+      console.log(error)
     }
     response.status(200).json(results.rows)
   })
 }
 
 const createNotice = (request, response) => {
-  const { name, email, phone, destination, purpose, travellers, departureDate, returnDate, contacted, requireAssistance, contactedCommunity } = request.body
+  const { name, email, phone, destination, purpose, travellers, arrivalDate, returnDate, requireAssistance, contactedCommunity } = request.body
   pool.query(
-    'insert into travel."travelNotices" (name, email, phone, destination, purpose, travellers, "departureDate", "returnDate", contacted, "requireAssistance", "contactedCommunity") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
-    [name, email, phone, destination, purpose, travellers, departureDate, returnDate, contacted, requireAssistance, contactedCommunity],
+    'insert into travel."travelNotices" (name, email, phone, destination, purpose, travellers, "returnDate", "arrivalDate", "requireAssistance", "contactedCommunity") values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
+    [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, contactedCommunity],
     (error, results) => {
     if (error) {
-      throw error
+      console.log(error)
     }
     response.status(200).send(`Created notice`)
   })
