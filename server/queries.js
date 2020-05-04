@@ -46,38 +46,38 @@ const getNotice = (request, response) => {
 
 
 const createNotice = (request, response) => {
-  const { name, email, phone, destination, purpose, travellers, arrivalDate, returnDate, requireAssistance, contactedCommunity, code } = request.body
+  const { name, email, phone, destination, department, purpose, travellers, arrivalDate, returnDate, requireAssistance, contactedCommunity, code } = request.body
   console.log(request.body)
   pool.query(
-    'insert into travel."travelNotices" (name, email, phone, destination, purpose, travellers, "returnDate", "arrivalDate", "requireAssistance", "contactedCommunity", code) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
-    [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, contactedCommunity, code],
+    'insert into travel."travelNotices" (name, email, phone, destination, purpose, travellers, "returnDate", "arrivalDate", "requireAssistance", "contactedCommunity", code, department) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)',
+    [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, contactedCommunity, code, department],
     (error, results) => {
     if (error) {
       console.log(error)
     }
     response.status(200).send(`Created notice`)
-    var transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'maxparkeremailer@gmail.com',
-        pass: 'ygemailer'
-      }
-    });
-
-    var mailOptions = {
-      from: 'maxparkeremailer@gmail.com',
-      to: email,
-      subject: 'Your travel notice has been created',
-      text: 'To update your travel plans visit '+code
-    };
-
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
+    // var transporter = nodemailer.createTransport({
+    //   service: 'gmail',
+    //   auth: {
+    //     user: 'maxparkeremailer@gmail.com',
+    //     pass: 'ygemailer'
+    //   }
+    // });
+    //
+    // var mailOptions = {
+    //   from: 'maxparkeremailer@gmail.com',
+    //   to: email,
+    //   subject: 'Your travel notice has been created',
+    //   text: 'To update your travel plans visit '+code
+    // };
+    //
+    // transporter.sendMail(mailOptions, function(error, info){
+    //   if (error) {
+    //     console.log(error);
+    //   } else {
+    //     console.log('Email sent: ' + info.response);
+    //   }
+    // });
   })
 }
 

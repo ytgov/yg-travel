@@ -3,9 +3,9 @@
     <v-row>
       <v-col md="6">
         <v-form v-model="valid" lazy-validation ref="form">
-          
+
           <v-card md="6">
-            
+
             <v-toolbar
               color="#DC4405"
               dark>
@@ -31,7 +31,7 @@
                   required
                   filled
                   ></v-text-field>
-                  
+
                   <v-text-field
                   label="Department"
                   v-model="department"
@@ -39,7 +39,7 @@
                   required
                   filled
                   ></v-text-field>
-                  
+
                   <v-text-field
                   label="Phone Number"
                   v-model="phone"
@@ -59,7 +59,7 @@
               dark>
               <v-toolbar-title>Travel Details</v-toolbar-title>
               </v-toolbar>
-              <v-card-text> 
+              <v-card-text>
                 <v-select
                   label="Travel Locations"
                   :items="communities"
@@ -69,7 +69,7 @@
                   v-model="selectedCommunity"
                   filled
                 ></v-select>
-                
+
                 <v-textarea :rules="requiredField" v-model="purpose" auto-grow label="Purpose for Travel" filled></v-textarea>
 
                 <v-text-field
@@ -212,6 +212,7 @@ export default {
           else this.contactedCommunity = true
           this.requireAssistance = response.data[0].requireAssistance
           this.code = response.data[0].code
+          this.department = response.data[0].department
           this.readTerms=true
         }
       })
@@ -230,6 +231,7 @@ export default {
         returnDate: this.date2,
         contactedCommunity: this.selectedCommunityGroup,
         requireAssistance: this.requireAssistance,
+        department: this.department,
         code: uuidv4()
       })
       .then(response => {
