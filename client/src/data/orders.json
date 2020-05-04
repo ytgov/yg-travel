@@ -1,0 +1,20 @@
+[{
+		"name": "Max Parker",
+		"order": [{
+			"item": "desktop",
+			"quantity": 5
+		}, {
+			"item": "tower",
+			"quantity": 2
+		}],
+		"status": "pending approval"
+	},
+	{
+		"name": "Pierre Lin",
+		"order": [{
+			"item": "mouse",
+			"quantity": 2
+		}],
+		"status": "pending pickup"
+	}
+]
