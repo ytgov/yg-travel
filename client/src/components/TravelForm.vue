@@ -39,11 +39,10 @@
       ></v-select>
 
       <v-text-field
-      label="Number of people going"
+      label="Number of travellers"
       v-model="travellers"
       type="number"
       :rules="requiredField"
-      single-line
       filled
       ></v-text-field>
 
@@ -89,9 +88,10 @@
       v-model="requireAssistance"
       ></v-checkbox>
 
-      <v-btn :disabled="!valid" color="#6f9d2a" dark @click="validate">Submit
+      <v-btn :disabled="!valid" color="#6f9d2a" class="white--text" @click="validate">Submit
       </v-btn>
     </v-form>
+
     <v-snackbar v-model="snackbar">
       {{ snackText }}
       <v-btn color="#ffa500" text @click="snackbar = false">
