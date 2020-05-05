@@ -2,13 +2,13 @@ version: '3'
 services:
 
   server:
-    build: ./server
+    build: ./api
     ports:
       - "3000:3000"
     links:
       - "dbpostgres"
   client:
-    build: ./client
+    build: ./web
     ports:
       - "4032:8080"
     links:
