@@ -10,7 +10,7 @@ services:
   client:
     build: ./client
     ports:
-      - "8080:8080"
+      - "4032:8080"
     links:
       - server
   dbpostgres:
@@ -21,3 +21,4 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "itsallgood"
       POSTGRES_DB: "travel"
+    
