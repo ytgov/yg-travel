@@ -148,7 +148,7 @@
 
 <script>
 import urls from '../urls'
-import { v4 as uuidv4 } from 'uuid';
+//import { v4 as uuidv4 } from 'uuid';
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
@@ -162,9 +162,30 @@ export default {
     travellers: '',
     readTerms: '',
     selectedCommunity: null,
-    communities: [],
+    communities: [
+      {"id":1, "name":"Whitehorse"},
+      {"id":3, "name":"Carmacks"},
+      {"id":2, "name":"Dawson City"},
+      {"id":4, "name":"Beaver Creek"},
+      {"id":5, "name":"Burwash Landing"},
+      {"id":6, "name":"Tagish"},
+      {"id":7, "name":"Carcross"},
+      {"id":8, "name":"Faro"},
+      {"id":9, "name":"Haines Junction"},
+      {"id":10, "name":"Mayo"},
+      {"id":11, "name":"Mount Lorne"},
+      {"id":12, "name":"Old Crow"},
+      {"id":13, "name":"Pelly Crossing"},
+      {"id":14, "name":"Ross River"},
+      {"id":15, "name":"Teslin"},
+      {"id":16, "name":"Watson Lake"}
+    ],
     selectedCommunityGroup: null,
-    communityGroups: [],
+    communityGroups: [
+      {"id":1, "name":"First Nations"},
+      {"id":3, "name":"Other"},
+      {"id":2, "name":"Municipality"}
+    ],
     arrivalDate: null,
     departureDate: null,
     contactedCommunity: false,
@@ -218,32 +239,34 @@ export default {
       })
     },
     submit(){
-      if(this.contactedCommunity) this.requireAssistance = false
-      else this.selectedCommunityGroup = 0
-      this.$api.post(urls.createNotice,{
-        name: this.name,
-        email: this.email,
-        phone: this.phone,
-        destination: this.selectedCommunity,
-        purpose: this.purpose,
-        travellers: this.travellers,
-        arrivalDate: this.date,
-        returnDate: this.date2,
-        contactedCommunity: this.selectedCommunityGroup,
-        requireAssistance: this.requireAssistance,
-        department: this.department,
-        code: uuidv4()
-      })
-      .then(response => {
-        this.snackText = "Form submitted successfully"
-        this.snackbar = true
-        console.log(response)
-      })
-      .catch(e => {
-        this.snackText = "Failed to submit form"
-        this.snackbar = true
-        console.log(e)
-      })
+      // if(this.contactedCommunity) this.requireAssistance = false
+      // else this.selectedCommunityGroup = 0
+      // this.$api.post(urls.createNotice,{
+      //   name: this.name,
+      //   email: this.email,
+      //   phone: this.phone,
+      //   destination: this.selectedCommunity,
+      //   purpose: this.purpose,
+      //   travellers: this.travellers,
+      //   arrivalDate: this.date,
+      //   returnDate: this.date2,
+      //   contactedCommunity: this.selectedCommunityGroup,
+      //   requireAssistance: this.requireAssistance,
+      //   department: this.department,
+      //   code: uuidv4()
+      // })
+      // .then(response => {
+      //   this.snackText = "Form submitted successfully"
+      //   this.snackbar = true
+      //   console.log(response)
+      // })
+      // .catch(e => {
+      //   this.snackText = "Failed to submit form"
+      //   this.snackbar = true
+      //   console.log(e)
+      // })
+      this.snackText = "Form submitted successfully"
+      this.snackbar = true
     },
     validate(){
       if (this.$refs.form.validate()) {
@@ -252,8 +275,8 @@ export default {
     }
   },
   mounted: function () {
-    this.$api.get(urls.communities).then(response => {this.communities = response.data})
-    this.$api.get(urls.communityGroups).then(response => {this.communityGroups = response.data})
+    //this.$api.get(urls.communities).then(response => {this.communities = response.data})
+    //this.$api.get(urls.communityGroups).then(response => {this.communityGroups = response.data})
     //this.recover('a0de1871-7565-4841-9f0d-935bdca9584f')
   }
 }
