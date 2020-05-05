@@ -1,0 +1,23 @@
+version: '3'
+services:
+
+  server:
+    build: ./server
+    ports:
+      - "3000:3000"
+  client:
+    build: ./client
+    ports:
+      - "8080:8080"
+    links:
+      - server
+  dbpostgres:
+    image: "postgres"
+    volumes:
+      - ./db/postgresql:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "itsallgood"
+      POSTGRES_DB: "travel"
