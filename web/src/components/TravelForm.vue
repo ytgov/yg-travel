@@ -3,9 +3,9 @@
     <v-row>
       <v-col md="6">
         <v-form v-model="valid" lazy-validation ref="form">
-
+          
           <v-card md="6">
-
+            
             <v-toolbar
               color="#DC4405"
               dark>
@@ -31,7 +31,7 @@
                   required
                   filled
                   ></v-text-field>
-
+                  
                   <v-text-field
                   label="Department"
                   v-model="department"
@@ -39,7 +39,7 @@
                   required
                   filled
                   ></v-text-field>
-
+                  
                   <v-text-field
                   label="Phone Number"
                   v-model="phone"
@@ -59,7 +59,7 @@
               dark>
               <v-toolbar-title>Travel Details</v-toolbar-title>
               </v-toolbar>
-              <v-card-text>
+              <v-card-text> 
                 <v-select
                   label="Travel Locations"
                   :items="communities"
@@ -69,7 +69,7 @@
                   v-model="selectedCommunity"
                   filled
                 ></v-select>
-
+                
                 <v-textarea :rules="requiredField" v-model="purpose" auto-grow label="Purpose for Travel" filled></v-textarea>
 
                 <v-text-field
@@ -79,6 +79,11 @@
                 :rules="requiredField"
                 filled
                 ></v-text-field>
+                <v-row>
+                    <v-col>
+                        <div class="body-1">When do you plan on arriving and departing the community? </div>
+                    </v-col>
+                </v-row>
                 <v-row>
                   <v-col>
                     <v-menu v-model="arrivalDate" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
@@ -109,15 +114,14 @@
       v-model="readTerms"
       :rules="requiredField"
       ></v-checkbox>
+        <v-switch 
+          label="I have contacted the community about my travel plans."
+          v-model="contactedCommunity"
+          />
 
-      <v-checkbox
-      label="I have contacted the community about my travel plans"
-      v-model="contactedCommunity"
-      ></v-checkbox>
-
-      <v-select
+      <v-select ml-3
       v-if="contactedCommunity"
-      label="Which Community?"
+      label="Who have you contacted in the community?"
       :items="communityGroups"
       item-text="name"
       item-value="id"
@@ -127,7 +131,7 @@
 
       <v-checkbox
       v-if="!contactedCommunity"
-      label="I require assistance connecting with the community"
+      label="I require assistance connecting with the community."
       v-model="requireAssistance"
       ></v-checkbox>
 
@@ -148,7 +152,7 @@
 
 <script>
 import urls from '../urls'
-//import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 export default {
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
@@ -162,30 +166,9 @@ export default {
     travellers: '',
     readTerms: '',
     selectedCommunity: null,
-    communities: [
-      {"id":1, "name":"Whitehorse"},
-      {"id":3, "name":"Carmacks"},
-      {"id":2, "name":"Dawson City"},
-      {"id":4, "name":"Beaver Creek"},
-      {"id":5, "name":"Burwash Landing"},
-      {"id":6, "name":"Tagish"},
-      {"id":7, "name":"Carcross"},
-      {"id":8, "name":"Faro"},
-      {"id":9, "name":"Haines Junction"},
-      {"id":10, "name":"Mayo"},
-      {"id":11, "name":"Mount Lorne"},
-      {"id":12, "name":"Old Crow"},
-      {"id":13, "name":"Pelly Crossing"},
-      {"id":14, "name":"Ross River"},
-      {"id":15, "name":"Teslin"},
-      {"id":16, "name":"Watson Lake"}
-    ],
+    communities: [],
     selectedCommunityGroup: null,
-    communityGroups: [
-      {"id":1, "name":"First Nations"},
-      {"id":3, "name":"Other"},
-      {"id":2, "name":"Municipality"}
-    ],
+    communityGroups: [],
     arrivalDate: null,
     departureDate: null,
     contactedCommunity: false,
@@ -233,40 +216,36 @@ export default {
           else this.contactedCommunity = true
           this.requireAssistance = response.data[0].requireAssistance
           this.code = response.data[0].code
-          this.department = response.data[0].department
           this.readTerms=true
         }
       })
     },
     submit(){
-      // if(this.contactedCommunity) this.requireAssistance = false
-      // else this.selectedCommunityGroup = 0
-      // this.$api.post(urls.createNotice,{
-      //   name: this.name,
-      //   email: this.email,
-      //   phone: this.phone,
-      //   destination: this.selectedCommunity,
-      //   purpose: this.purpose,
-      //   travellers: this.travellers,
-      //   arrivalDate: this.date,
-      //   returnDate: this.date2,
-      //   contactedCommunity: this.selectedCommunityGroup,
-      //   requireAssistance: this.requireAssistance,
-      //   department: this.department,
-      //   code: uuidv4()
-      // })
-      // .then(response => {
-      //   this.snackText = "Form submitted successfully"
-      //   this.snackbar = true
-      //   console.log(response)
-      // })
-      // .catch(e => {
-      //   this.snackText = "Failed to submit form"
-      //   this.snackbar = true
-      //   console.log(e)
-      // })
-      this.snackText = "Form submitted successfully"
-      this.snackbar = true
+      if(this.contactedCommunity) this.requireAssistance = false
+      else this.selectedCommunityGroup = 0
+      this.$api.post(urls.createNotice,{
+        name: this.name,
+        email: this.email,
+        phone: this.phone,
+        destination: this.selectedCommunity,
+        purpose: this.purpose,
+        travellers: this.travellers,
+        arrivalDate: this.date,
+        returnDate: this.date2,
+        contactedCommunity: this.selectedCommunityGroup,
+        requireAssistance: this.requireAssistance,
+        code: uuidv4()
+      })
+      .then(response => {
+        this.snackText = "Form submitted successfully"
+        this.snackbar = true
+        console.log(response)
+      })
+      .catch(e => {
+        this.snackText = "Failed to submit form"
+        this.snackbar = true
+        console.log(e)
+      })
     },
     validate(){
       if (this.$refs.form.validate()) {
@@ -275,8 +254,8 @@ export default {
     }
   },
   mounted: function () {
-    //this.$api.get(urls.communities).then(response => {this.communities = response.data})
-    //this.$api.get(urls.communityGroups).then(response => {this.communityGroups = response.data})
+    this.$api.get(urls.communities).then(response => {this.communities = response.data})
+    this.$api.get(urls.communityGroups).then(response => {this.communityGroups = response.data})
     //this.recover('a0de1871-7565-4841-9f0d-935bdca9584f')
   }
 }
