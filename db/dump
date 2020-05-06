@@ -1,209 +1,36 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 12.2
--- Dumped by pg_dump version 12.2
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- Name: travel; Type: SCHEMA; Schema: -; Owner: postgres
---
-
-CREATE SCHEMA travel;
-
-
-ALTER SCHEMA travel OWNER TO postgres;
-
-SET default_tablespace = '';
-
-SET default_table_access_method = heap;
-
---
--- Name: communities; Type: TABLE; Schema: travel; Owner: postgres
---
-
-CREATE TABLE travel.communities (
-    id integer NOT NULL,
-    name character varying
+CREATE TABLE communities(
+    id SERIAL,
+    name varchar(32)
 );
 
-
-ALTER TABLE travel.communities OWNER TO postgres;
-
---
--- Name: communityGroups; Type: TABLE; Schema: travel; Owner: postgres
---
-
-CREATE TABLE travel."communityGroups" (
-    id integer NOT NULL,
-    name character varying
+CREATE TABLE communityGroups(
+    id SERIAL,
+    name varchar(32)
 );
 
-
-ALTER TABLE travel."communityGroups" OWNER TO postgres;
-
---
--- Name: travelNotices; Type: TABLE; Schema: travel; Owner: postgres
---
-
-CREATE TABLE travel."travelNotices" (
-    name character varying,
-    destination integer,
-    travellers integer,
-    "arrivalDate" date,
-    "returnDate" date,
-    "requireAssistance" boolean,
-    "contactedCommunity" integer,
-    phone character varying,
-    email character varying,
-    purpose character varying,
-    id integer NOT NULL,
-    code character varying,
-    department character varying
+CREATE TABLE travelNotices(
+    id SERIAL,
+    name varchar(64),
+  	travellers integer,
+  	arivalDate date,
+  	returnDate date,
+  	requireAssistance boolean,
+  	contactedCommunity boolean,
+  	phone varchar(16),
+  	email varchar(64),
+  	purpose varchar(256),
+  	code varchar(32),
+  	department varchar(32),
+    fnContact boolean,
+    muContact boolean,
+    otherContact boolean,
+    other varchar(32)
 );
 
-
-ALTER TABLE travel."travelNotices" OWNER TO postgres;
-
---
--- Name: travelNotices_id_seq; Type: SEQUENCE; Schema: travel; Owner: postgres
---
-
-CREATE SEQUENCE travel."travelNotices_id_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+INSERT INTO communities (name) values
+('Whitehorse'),('Carmacks'),('Dawson City'),('Beaver Creek'),('Burwash Landing'),('Tagish'),('Carcross'),
+('Faro'),('Haines Junction'),('Mayo'),('Mount Lorne'),('Old Crow'),('Pelly Crossing'),('Ross River'),('Teslin'),('Watson Lake')
 
 
-ALTER TABLE travel."travelNotices_id_seq" OWNER TO postgres;
-
---
--- Name: travelNotices_id_seq; Type: SEQUENCE OWNED BY; Schema: travel; Owner: postgres
---
-
-ALTER SEQUENCE travel."travelNotices_id_seq" OWNED BY travel."travelNotices".id;
-
-
---
--- Name: travelNotices id; Type: DEFAULT; Schema: travel; Owner: postgres
---
-
-ALTER TABLE ONLY travel."travelNotices" ALTER COLUMN id SET DEFAULT nextval('travel."travelNotices_id_seq"'::regclass);
-
-
---
--- Data for Name: communities; Type: TABLE DATA; Schema: travel; Owner: postgres
---
-
-COPY travel.communities (id, name) FROM stdin;
-1	Whitehorse
-3	Carmacks
-2	Dawson City
-4	Beaver Creek
-5	Burwash Landing
-6	Tagish
-7	Carcross
-8	Faro
-9	Haines Junction
-10	Mayo
-11	Mount Lorne
-12	Old Crow
-13	Pelly Crossing
-14	Ross River
-15	Teslin
-16	Watson Lake
-\.
-
-
---
--- Data for Name: communityGroups; Type: TABLE DATA; Schema: travel; Owner: postgres
---
-
-COPY travel."communityGroups" (id, name) FROM stdin;
-1	First Nations
-3	Other
-2	Municipality
-\.
-
-
---
--- Data for Name: travelNotices; Type: TABLE DATA; Schema: travel; Owner: postgres
---
-
-COPY travel."travelNotices" (name, destination, travellers, "arrivalDate", "returnDate", "requireAssistance", "contactedCommunity", phone, email, purpose, id, code, department) FROM stdin;
-Maxime R Parker	4	8	2020-05-28	\N	f	2	+1 07788476298	maxrparker@gmail.com	sdgsdgsd	1	\N	\N
-Maxime R Parker	4	8	2020-05-28	\N	f	2	+1 07788476298	maxrparker@gmail.com	sdgsdgsd	2	\N	\N
-Maxime R Parker	4	8	2020-05-28	\N	f	2	+1 07788476298	maxrparker@gmail.com	sdgsdgsd	3	\N	\N
-James	3	123	2020-05-13	\N	f	1	+1 07788476298	maxrparker@gmail.com	Tkjhas;ldkjasTkjhas;ldkjasTkjhas;ldkjasTkjhas;ldkjasTkjhas;ldkjasTkjhas;ldkjasTkjhas;ldkjasTkjhas;ldkjasTkjhas;ldkjasTkjhas;ldkjasTkjhas;ldkjas	4	\N	\N
-Maxime	4	12	\N	\N	f	0	123	maxrparker@gmail.com	12312312	5	\N	\N
-Maxime	4	12	\N	\N	f	0	123	maxrparker@gmail.com	12312312	6	\N	\N
-Maxime R Parker	4	123	2020-05-04	\N	f	0	+1 07788476298	maxrparker@gmail.com	sdgsdga	7	\N	\N
-Maxime R Parker	4	123	2020-05-04	\N	f	0	+1 07788476298	maxrparker@gmail.com	sdgsdga	8	\N	\N
-Maxime R Parker	4	123	2020-05-04	\N	f	0	+1 07788476298	maxrparker@gmail.com	sdgsdga	9	\N	\N
-Maxime R Parker	4	123	2020-05-04	\N	f	0	+1 07788476298	maxrparker@gmail.com	sdgsdga	10	\N	\N
-Maxime Parker	4	12312	2020-05-14	\N	f	0	7788476298	maxrparker@gmail.com	123123123	11	\N	\N
-Max Parker	9	12	2020-05-20	\N	f	0	7788476298	maxrparker@gmail.com	qweqweqweqw	12	\N	\N
-Maxime R Parker	15	1231	2020-05-04	2020-05-22	f	0	+1 07788476298	maxrparker@gmail.com	qwdwaefwefawef	13	\N	\N
-Maxime R Parker	5	12	2020-05-05	2020-05-21	f	0	+1 07788476298	maxrparker@gmail.com	safAFS	14	\N	\N
-Maxime R Parker	5	12	2020-05-05	2020-05-21	f	0	+1 07788476298	maxrparker@gmail.com	safAFS	15	\N	\N
-Maxime R Parker	5	12	2020-05-05	2020-05-21	f	0	+1 07788476298	maxrparker@gmail.com	safAFS	16	\N	\N
-Maxime R Parker	5	12	2020-05-05	2020-05-21	f	0	+1 07788476298	maxrparker@gmail.com	safAFS	17	\N	\N
-Maxime R Parker	5	12	2020-05-05	2020-05-21	f	0	+1 07788476298	maxrparker@gmail.com	safAFS	18	\N	\N
-Maxime R Parker	5	12	2020-05-05	2020-05-21	f	0	+1 07788476298	maxrparker@gmail.com	safAFS	19	\N	\N
-Max	6	123	2020-05-04	2020-05-20	f	0	12312	maxrparker@gmail.com	123123	20	ec7a895b-834f-47d2-8b9c-da8bfa83294d	\N
-Maxime Parker	9	123	2020-05-04	2020-05-04	f	0	7788476298	maxrparker@gmail.com	asfasff	21	2319bd1d-c53c-488c-8012-f15a44a72290	\N
-Maxime Parker	9	123	2020-05-04	2020-05-04	f	0	7788476298	maxrparker@gmail.com	asfasff	22	d2f8746a-1535-4c32-9035-00ccf46f2608	\N
-Maxime Parker	9	123	2020-05-04	2020-05-04	f	0	7788476298	maxrparker@gmail.com	asfasff	23	bb69753f-efb9-4759-a9ca-98c8ce274078	\N
-Maxime Parker	9	123	2020-05-04	2020-05-04	f	0	7788476298	maxrparker@gmail.com	asfasff	24	57773672-dcb2-456d-9058-c01f5d2f19a6	\N
-Maxime Parker	9	123	2020-05-04	2020-05-04	f	0	7788476298	maxrparker@gmail.com	asfasff	25	be42ba47-476d-4b1e-b744-4d3dea26ad69	\N
-Maxime Parker	9	123	2020-05-04	2020-05-04	f	0	7788476298	maxrparker@gmail.com	asfasff	26	3c8bae18-a435-49ea-9b9a-62c77bcf61a9	\N
-Maxime Parker	9	123	2020-05-04	2020-05-04	f	0	7788476298	maxrparker@gmail.com	asfasff	27	23086fa6-d909-41d6-9f4b-849f6a3753f4	\N
-Maxime Parker	9	123	2020-05-04	2020-05-04	f	0	7788476298	maxrparker@gmail.com	asfasff	28	845e33f2-2334-4daf-896e-3d99dfaad947	\N
-Maxime Parker	9	123	2020-05-04	2020-05-04	f	0	7788476298	maxrparker@gmail.com	asfasff	29	c45b6d4a-0d2f-4acc-869d-eaecaa03242e	\N
-Max	1	12	2020-05-04	2020-05-04	f	0	123	maxrparker@gmail.com	adsfasdfasdf	30	a0de1871-7565-4841-9f0d-935bdca9584f	\N
-Maxime Parker	1	123	2020-05-06	2020-05-29	t	0	7788476298	maxrparker@gmail.com	I'm doing a thing	31	2f9c4394-354a-4e9a-8a73-94d04123b393	\N
-Maxime R Parker	3	12	2020-05-05	2020-05-08	t	0	+1 07788476298	maxrparker@gmail.com	I'm not sure....	32	985d8c52-c9fa-4652-85c5-ffe9dfc2b980	\N
-Maxime Parker	3	12	2020-05-06	2020-05-21	t	0	7788476298	maxrparker@gmail.com	Thing is happening	33	97969caf-bb44-48a6-90b9-15e2cd3e6fa0	HPW2
-\.
-
-
---
--- Name: travelNotices_id_seq; Type: SEQUENCE SET; Schema: travel; Owner: postgres
---
-
-SELECT pg_catalog.setval('travel."travelNotices_id_seq"', 33, true);
-
-
---
--- Name: communities communities_pkey; Type: CONSTRAINT; Schema: travel; Owner: postgres
---
-
-ALTER TABLE ONLY travel.communities
-    ADD CONSTRAINT communities_pkey PRIMARY KEY (id);
-
-
---
--- Name: communityGroups communityGroups_pkey; Type: CONSTRAINT; Schema: travel; Owner: postgres
---
-
-ALTER TABLE ONLY travel."communityGroups"
-    ADD CONSTRAINT "communityGroups_pkey" PRIMARY KEY (id);
-
-
---
--- PostgreSQL database dump complete
---
+INSERT INTO communityGroups (name) values
+('First Nations'),('Municipality'),('Other');
