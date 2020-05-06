@@ -2,23 +2,26 @@ version: '3'
 services:
 
   server:
+    container_name: travel_server
     build: ./api
     ports:
       - "3000:3000"
     links:
       - "dbpostgres"
   client:
+    container_name: travel_client
     build: ./web
     ports:
       - "4032:8080"
     links:
       - server
   dbpostgres:
+    container_name: travel_db
     image: "postgres"
     volumes:
       - ./db/postgresql:/var/lib/postgresql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "itsallgood"
-      POSTGRES_DB: "travel"
-    
+      POSTGRES_DB: "postgres"

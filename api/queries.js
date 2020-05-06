@@ -36,7 +36,7 @@ const getNotices = (request, response) => {
 }
 
 const getNotice = (request, response) => {
-  pool.query('SELECT * FROM "travelNotices" where code=\''+request.params.code+'\'', (error, results) => {
+  pool.query('SELECT * FROM travelnotices where code=\''+request.params.code+'\'', (error, results) => {
     if (error) {
       console.log(error)
     }
@@ -49,7 +49,7 @@ const createNotice = (request, response) => {
   const { name, email, phone, destination, department, purpose, travellers, arrivalDate, returnDate, requireAssistance, contactedCommunity, code } = request.body
   console.log(request.body)
   pool.query(
-    'insert into "travelNotices" (name, email, phone, destination, purpose, travellers, "returnDate", "arrivalDate", "requireAssistance", "contactedCommunity", code, department) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)',
+    'insert into travelnotices (name, email, phone, destination, purpose, travellers, returndate, arrivaldate, requireassistance, contactedcommunity, code, department) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)',
     [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, contactedCommunity, code, department],
     (error, results) => {
     if (error) {
