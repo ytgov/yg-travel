@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
-var express = require('express');  
-var history = require('connect-history-api-fallback');
+const express = require('express');  
+const history = require('connect-history-api-fallback');
+const api = require ('./api')
 
 require('dotenv').config()
 
