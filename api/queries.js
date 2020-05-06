@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer');
 const pool = new Pool({
   user: 'postgres',
   host: 'dbpostgres',
-  database: 'travel',
+  database: 'postgres',
   password: 'itsallgood',
   port: 5432,
 })
