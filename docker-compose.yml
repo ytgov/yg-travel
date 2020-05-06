@@ -17,8 +17,10 @@ services:
     image: "postgres"
     volumes:
       - ./db/postgresql:/var/lib/postgresql
+      - ./db/db-load.sh:~/db-load.sh
+      - ./db/init.sql:~/init.sql
+
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "itsallgood"
-      POSTGRES_DB: "travel"
-    
+      POSTGRES_DB: "postgres"
