@@ -1,8 +1,10 @@
 const API_BASE = '';
 export default {
-  communities: API_BASE + "/communities",
-  communityGroups: API_BASE + "/communityGroups",
+  communities: API_BASE + "/getCommunities",
+  communityGroups: API_BASE + "/getCommunityGroups",
+  departments: API_BASE + "/getDepartments",
   createNotice: API_BASE + "/createNotice",
   getNotices: API_BASE + "/getNotices",
-  getNotice: API_BASE + "/getNotice/"
+  getNotice: API_BASE + "/getNotice/",
+  getReport: API_BASE + "/reports/"
 }

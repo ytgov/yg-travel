@@ -3,9 +3,9 @@
     <v-row>
       <v-col md="6">
         <v-form v-model="valid" lazy-validation ref="form">
-          
+
           <v-card md="6">
-            
+
             <v-toolbar
               color="#DC4405"
               dark>
@@ -31,15 +31,18 @@
                   required
                   filled
                   ></v-text-field>
-                  
-                  <v-text-field
-                  label="Department"
-                  v-model="department"
-                  :rules="requiredField"
-                  required
-                  filled
-                  ></v-text-field>
-                  
+
+                  <v-select
+                    label="Department"
+                    :items="departments"
+                    item-text="name"
+                    item-value="id"
+                    :rules="requiredField"
+                    v-model="department"
+                    filled
+                  ></v-select>
+
+
                   <v-text-field
                   label="Phone Number"
                   v-model="phone"
@@ -59,7 +62,7 @@
               dark>
               <v-toolbar-title>Travel Details</v-toolbar-title>
               </v-toolbar>
-              <v-card-text> 
+              <v-card-text>
                 <v-select
                   label="Travel Locations"
                   :items="communities"
@@ -69,7 +72,7 @@
                   v-model="selectedCommunity"
                   filled
                 ></v-select>
-                
+
                 <v-textarea :rules="requiredField" v-model="purpose" auto-grow label="Purpose for Travel" filled></v-textarea>
 
                 <v-text-field
@@ -115,14 +118,14 @@
                   dark>
                   <v-toolbar-title>Travel Checklist</v-toolbar-title>
                 </v-toolbar>
-                <v-card-text> 
+                <v-card-text>
                   <a href="hss-covid-workplace-health-safety.pdf">Covid Workplace Health and Safety</a>
                   <v-checkbox
                     label="I have read the Safety Declerations"
                     v-model="readTerms"
                     :rules="requiredField"
                   ></v-checkbox>
-                  <v-switch 
+                  <v-switch
                     label="I have contacted the community about my travel plans."
                     v-model="contactedCommunity"
                   />
@@ -147,6 +150,13 @@
                   v-model="othercontact"
                   class="pl-5"
                   ></v-checkbox>
+                  <v-text-field
+                  v-if="othercontact"
+                  label="Which Community?"
+                  v-model="other"
+                  :rules="requiredField"
+                  filled
+                  ></v-text-field>
 
                   <v-checkbox
                   v-if="!contactedCommunity"
@@ -157,7 +167,7 @@
               </v-card>
             </v-col>
           </v-row>
-    
+
       <v-btn :disabled="!valid" color="#6f9d2a" class="white--text" @click="validate">Submit
       </v-btn>
     </v-form>
@@ -186,19 +196,21 @@ export default {
     phone: '',
     destination: '',
     department: '',
+    departments: [],
     purpose: '',
     travellers: '',
     readTerms: '',
     othercontact: false,
     mucontact: false,
     fncontact: false,
+    other: '',
+    contactedCommunity: false,
     selectedCommunity: null,
     communities: [],
     selectedCommunityGroup: null,
     communityGroups: [],
     arrivalDate: null,
     departureDate: null,
-    contactedCommunity: false,
     requireAssistance: false,
     valid: false,
     requiredField: [
@@ -233,17 +245,14 @@ export default {
           this.name = response.data[0].name
           this.email = response.data[0].email
           this.phone = response.data[0].phone
+          this.department = response.data[0].destination
           this.selectedCommunity = response.data[0].destination
           this.purpose = response.data[0].purpose
           this.travellers = response.data[0].travellers
           this.date = response.data[0].arrivalDate.substr(0, 10)
           this.date2 = response.data[0].returnDate.substr(0, 10)
-          this.selectedCommunityGroup = response.data[0].contactedCommunity
-          if(this.selectedCommunityGroup === 0) this.contactedCommunity = false
-          else this.contactedCommunity = true
           this.requireAssistance = response.data[0].requireAssistance
           this.code = response.data[0].code
-          this.readTerms=true
         }
       })
     },
@@ -255,12 +264,17 @@ export default {
         email: this.email,
         phone: this.phone,
         destination: this.selectedCommunity,
+        department: this.department,
         purpose: this.purpose,
         travellers: this.travellers,
         arrivalDate: this.date,
         returnDate: this.date2,
         contactedCommunity: this.selectedCommunityGroup,
         requireAssistance: this.requireAssistance,
+        contactedFN: this.fncontact,
+        contactedMuni: this.mucontact,
+        contactedOther: this.othercontact,
+        otherContact: this.other,
         code: uuidv4()
       })
       .then(response => {
@@ -283,6 +297,7 @@ export default {
   mounted: function () {
     this.$api.get(urls.communities).then(response => {this.communities = response.data})
     this.$api.get(urls.communityGroups).then(response => {this.communityGroups = response.data})
+    this.$api.get(urls.departments).then(response => {this.departments = response.data})
     //this.recover('a0de1871-7565-4841-9f0d-935bdca9584f')
   }
 }

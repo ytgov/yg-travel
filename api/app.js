@@ -17,13 +17,13 @@ app.use(function(req, res, next) {
   next();
 });
 
-
 app.get('/', (request, response) => {
   response.json({ info: 'Node.js, Express, and Postgres API' })
 })
 
-app.get('/communities', db.getCommunities)
-app.get('/communityGroups', db.getCommunityGroups)
+app.get('/getCommunities', db.getCommunities)
+app.get('/getCommunityGroups', db.getCommunityGroups)
+app.get('/getDepartments', db.getDepartments)
 app.get('/getNotices', db.getNotices)
 app.get('/getNotice/:code', db.getNotice)
 
