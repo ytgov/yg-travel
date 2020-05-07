@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{}}
     <v-data-table
     :headers="headers"
     :items="notices"
@@ -34,8 +33,8 @@ export default {
       { text: 'Travellers', value: 'travellers' },
       { text: 'Arrival', value: 'arrivaldate',align:"center",  width: "150" },
       { text: 'Departure', value: 'returndate',align:"center", width: "150"  },
-      { text: 'First Nation', value: 'fncontact', align:"center" },
-      { text: 'Municipality', value: 'mucontact', align:"center" },
+      { text: 'First Nation Contacted', value: 'fncontact', align:"center" },
+      { text: 'Municipality Contracted', value: 'mucontact', align:"center" },
       { text: 'Other', value: 'othercontact', align:"center" },
     ],
   }),
