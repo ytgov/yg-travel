@@ -17,10 +17,10 @@
           <v-tab-item>
             <TravelForm/>
           </v-tab-item>
-          <!-- <v-tab>Admin Tab</v-tab>
+          <v-tab>Admin Tab</v-tab>
           <v-tab-item>
             <AdminPage/>
-          </v-tab-item> -->
+          </v-tab-item>
         </v-tabs>
       </v-app>
     </v-container>
@@ -29,12 +29,12 @@
 
 <script>
 import TravelForm from './components/TravelForm'
-//import AdminPage from './components/AdminPage'
+import AdminPage from './components/AdminPage'
 export default {
   name: 'App',
   components: {
     TravelForm,
-//    AdminPage
+    AdminPage
   },
 
   data: () => ({

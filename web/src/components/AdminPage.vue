@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <v-data-table
     :headers="headers"
     :items="notices"
@@ -15,22 +16,19 @@ export default {
   data: () => ({
     notices: [],
     headers: [
-      {
-        text: 'Travel Notices',
-        align: 'start',
-        sortable: false,
-        value: 'name',
-      },
-      { text: 'Name', value: 'name' },
-      { text: 'Emal', value: 'email' },
+      { text: 'Department', value: 'departmnet', sortable: true },
+      { text: 'Program Manager', value: 'name' },
+     
+      { text: 'Email', value: 'email' },
       { text: 'Phone Number', value: 'phone' },
       { text: 'Destination', value: 'destination' },
-      { text: 'Reason for Travel', value: 'purpose' },
-      { text: 'Nbr of Travellers', value: 'travellers' },
-      { text: 'Arrival Date', value: 'arrivalDate' },
-      { text: 'Departure Date', value: 'returnDate' },
-      { text: 'Comunity Contacted', value: 'contactedCommunity' },
-      { text: 'Requires Assistance', value: 'requireAssistance' },
+      { text: 'Purpose', value: 'purpose', align:"center" },
+      { text: 'Travellers', value: 'travellers' },
+      { text: 'Arrival', value: 'arrivaldate',align:"center" },
+      { text: 'Departure', value: 'returndate',align:"center" },
+      { text: 'First Nation', value: 'fncontact', align:"center" },
+      { text: 'Municipality', value: 'mucontact', align:"center" },
+      { text: 'Other Contacted', value: 'othercontact', align:"center" },
     ],
   }),
   methods: {
