@@ -177,6 +177,7 @@
 import urls from '../urls'
 import { v4 as uuidv4 } from 'uuid';
 export default {
+  name: 'TravelForm',
   data: () => ({
     date: new Date().toISOString().substr(0, 10),
     date2: new Date().toISOString().substr(0, 10),

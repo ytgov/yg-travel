@@ -20,6 +20,7 @@
 <script>
 import urls from '../urls'
 export default {
+  name: 'AdminPage',
   data: () => ({
     notices: [],
     headers: [

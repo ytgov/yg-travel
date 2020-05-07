@@ -12,29 +12,16 @@
     </v-app-bar>
     <v-container style="padding: 56px 0px 0px;">
       <v-app>
-        <v-tabs>
-          <v-tab>Form</v-tab>
-          <v-tab-item>
-            <TravelForm/>
-          </v-tab-item>
-          <v-tab>Admin Tab</v-tab>
-          <v-tab-item>
-            <AdminPage/>
-          </v-tab-item>
-        </v-tabs>
+          <router-view></router-view>
       </v-app>
     </v-container>
   </v-app>
 </template>
 
 <script>
-import TravelForm from './components/TravelForm'
-import AdminPage from './components/AdminPage'
 export default {
   name: 'App',
   components: {
-    TravelForm,
-    AdminPage
   },
 
   data: () => ({
