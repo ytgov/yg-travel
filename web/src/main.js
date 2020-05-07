@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 Vue.use({
     install (Vue) {
     Vue.prototype.$api = axios.create({
-      baseURL: 'http://localhost:3000/'
+      baseURL: 'http://inf-docker-tst:3000'
     })
   }
 })
