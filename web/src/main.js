@@ -9,7 +9,8 @@ Vue.config.productionTip = false
 Vue.use({
     install (Vue) {
     Vue.prototype.$api = axios.create({
-      baseURL: '/api'
+      //baseURL: '/api'
+      baseURL: 'http://localhost:3000'
     })
   }
 })

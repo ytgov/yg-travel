@@ -2,7 +2,7 @@ const Pool = require('pg').Pool
 const nodemailer = require('nodemailer');
 const pool = new Pool({
   user: 'postgres',
-  host: 'dbpostgres',
+  host: 'localhost',
   database: 'postgres',
   password: 'itsallgood',
   port: 5432,
@@ -199,10 +199,10 @@ const getNotice = (request, response) => {
 }
 
 const createNotice = (request, response) => {
-  const { name, email, phone, destination, department, purpose, travellers, arrivalDate, returnDate, requireAssistance, contactedFN, contactedMuni, contactedOther, otherContact, code } = request.body
+  const { name, email, phone, destination, department, purpose, travellers, arrivalDate, returnDate, requireAssistance, fncontact, othercontact, otherContactInfo, code } = request.body
   pool.query(
-    'insert into travelnotices (name, email, phone, destination, purpose, travellers, returndate, arrivaldate, requireassistance, code, department, fnContact, muContact, otherContact, otherContactInfo) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)',
-    [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, code, department, contactedFN, contactedMuni, contactedOther, otherContact],
+    'insert into travelnotices (name, email, phone, destination, purpose, travellers, returndate, arrivaldate, requireassistance, code, department, fnContact, otherContact, otherContactInfo) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)',
+    [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, code, department, fncontact, othercontact, otherContactInfo],
     (error, results) => {
     if (error) {
       console.log(error)
