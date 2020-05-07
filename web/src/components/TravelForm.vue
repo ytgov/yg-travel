@@ -107,34 +107,57 @@
 
             </v-col>
           </v-row>
+          <v-row>
+            <v-col>
+              <v-card md="6">
+                <v-toolbar
+                  color="#F2A900"
+                  dark>
+                  <v-toolbar-title>Travel Checklist</v-toolbar-title>
+                </v-toolbar>
+                <v-card-text> 
+                  <a href="hss-covid-workplace-health-safety.pdf">Covid Workplace Health and Safety</a>
+                  <v-checkbox
+                    label="I have read the Safety Declerations"
+                    v-model="readTerms"
+                    :rules="requiredField"
+                  ></v-checkbox>
+                  <v-switch 
+                    label="I have contacted the community about my travel plans."
+                    v-model="contactedCommunity"
+                  />
+                  <div  v-if="contactedCommunity" class="body-1 pl-3">
+                    Who have you contacted?
+                  </div>
+                  <v-checkbox
+                    v-if="contactedCommunity"
+                    label="First Nation"
+                    v-model="fncontact"
+                    class="pl-5"
+                  ></v-checkbox>
+                  <v-checkbox
+                  v-if="contactedCommunity"
+                  label="Municipality"
+                  v-model="mucontact"
+                  class="pl-5"
+                  ></v-checkbox>
+                  <v-checkbox
+                  v-if="contactedCommunity"
+                  label="Other"
+                  v-model="othercontact"
+                  class="pl-5"
+                  ></v-checkbox>
 
-      <a href="hss-covid-workplace-health-safety.pdf">Covid Workplace Health and Safety</a>
-      <v-checkbox
-      label="I have read the Safety Declerations"
-      v-model="readTerms"
-      :rules="requiredField"
-      ></v-checkbox>
-        <v-switch 
-          label="I have contacted the community about my travel plans."
-          v-model="contactedCommunity"
-          />
-
-      <v-select ml-3
-      v-if="contactedCommunity"
-      label="Who have you contacted in the community?"
-      :items="communityGroups"
-      item-text="name"
-      item-value="id"
-      v-model="selectedCommunityGroup"
-      :rules="requiredField"
-      ></v-select>
-
-      <v-checkbox
-      v-if="!contactedCommunity"
-      label="I require assistance connecting with the community."
-      v-model="requireAssistance"
-      ></v-checkbox>
-
+                  <v-checkbox
+                  v-if="!contactedCommunity"
+                  label="I require assistance connecting with the community."
+                  v-model="requireAssistance"
+                  ></v-checkbox>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+    
       <v-btn :disabled="!valid" color="#6f9d2a" class="white--text" @click="validate">Submit
       </v-btn>
     </v-form>
@@ -165,6 +188,9 @@ export default {
     purpose: '',
     travellers: '',
     readTerms: '',
+    othercontact: false,
+    mucontact: false,
+    fncontact: false,
     selectedCommunity: null,
     communities: [],
     selectedCommunityGroup: null,

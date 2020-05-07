@@ -1,12 +1,19 @@
 <template>
   <div>
-    
+    {{}}
     <v-data-table
     :headers="headers"
     :items="notices"
     :items-per-page="5"
     class="elevation-1"
-    ></v-data-table>
+    >
+    <template v-slot:item.arrivaldate="{ item }">
+                  {{item.arrivaldate.substr(0, 10)}}
+    </template>
+     <template v-slot:item.returndate="{ item }">
+                  {{item.returndate.substr(0, 10)}}
+    </template>
+    </v-data-table>
   </div>
 </template>
 
@@ -24,11 +31,11 @@ export default {
       { text: 'Destination', value: 'destination' },
       { text: 'Purpose', value: 'purpose', align:"center" },
       { text: 'Travellers', value: 'travellers' },
-      { text: 'Arrival', value: 'arrivaldate',align:"center" },
-      { text: 'Departure', value: 'returndate',align:"center" },
+      { text: 'Arrival', value: 'arrivaldate',align:"center",  width: "150" },
+      { text: 'Departure', value: 'returndate',align:"center", width: "150"  },
       { text: 'First Nation', value: 'fncontact', align:"center" },
       { text: 'Municipality', value: 'mucontact', align:"center" },
-      { text: 'Other Contacted', value: 'othercontact', align:"center" },
+      { text: 'Other', value: 'othercontact', align:"center" },
     ],
   }),
   methods: {
