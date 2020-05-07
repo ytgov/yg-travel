@@ -27,6 +27,7 @@ CREATE TABLE travelNotices(
   	code varchar(64),
   	department varchar(32),
     fnContact boolean,
+    muContact boolean,
     otherContact boolean,
     otherContactInfo varchar(64)
 );

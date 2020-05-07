@@ -200,10 +200,10 @@ const getNotice = (request, response) => {
 }
 
 const createNotice = (request, response) => {
-  const { name, email, phone, destination, department, purpose, travellers, arrivalDate, returnDate, requireAssistance, fncontact, othercontact, otherContactInfo, code } = request.body
+  const { name, email, phone, destination, department, purpose, travellers, arrivalDate, returnDate, requireAssistance, mucontact, fncontact, othercontact, otherContactInfo, code } = request.body
   pool.query(
-    'insert into travelnotices (name, email, phone, destination, purpose, travellers, returndate, arrivaldate, requireassistance, code, department, fnContact, otherContact, otherContactInfo) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)',
-    [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, code, department, fncontact, othercontact, otherContactInfo],
+    'insert into travelnotices (name, email, phone, destination, purpose, travellers, returndate, arrivaldate, requireassistance, code, department, muContact, fnContact, otherContact, otherContactInfo) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)',
+    [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, code, department, mucontact, fncontact, othercontact, otherContactInfo],
     (error, results) => {
     if (error) {
       console.log(error)
@@ -213,10 +213,10 @@ const createNotice = (request, response) => {
 }
 
 const updateNotice = (request, response) => {
-  const { name, email, phone, destination, department, purpose, travellers, arrivalDate, returnDate, requireAssistance, fncontact, othercontact, otherContactInfo, code } = request.body
+  const { name, email, phone, destination, department, purpose, travellers, arrivalDate, returnDate, requireAssistance, mucontact, fncontact, othercontact, otherContactInfo, code } = request.body
   pool.query(
-    'update travelnotices  set (name, email, phone, destination, purpose, travellers, returndate, arrivaldate, requireassistance, department, fnContact, otherContact, otherContactInfo) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) where code=\''+request.params.code+'\'',
-    [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, department, fncontact, othercontact, otherContactInfo],
+    'update travelnotices  set (name, email, phone, destination, purpose, travellers, returndate, arrivaldate, requireassistance, department, mucontact, fnContact, otherContact, otherContactInfo) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) where code=\''+request.params.code+'\'',
+    [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, department, mucontact, fncontact, othercontact, otherContactInfo],
     (error, results) => {
     if (error) {
       console.log(error)
