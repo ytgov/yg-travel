@@ -35,12 +35,30 @@ app.use(
     res.json({ info: 'Node.js, Express, and Postgres API' })
   })
   
-  app.get('/api/communities', db.getCommunities)
-  app.get('/api/communityGroups', db.getCommunityGroups)
-  app.get('/api/getNotices', db.getNotices)
-  app.get('/api/getNotice/:code', db.getNotice)
-  
-  app.post('/api/createNotice', db.createNotice)
+app.get('/api/getCommunities', db.getCommunities)
+app.get('/api/getCommunityGroups', db.getCommunityGroups)
+app.get('/api/getDepartments', db.getDepartments)
+app.get('/api/getNotices', db.getNotices)
+app.get('/api/getNotice/:code', db.getNotice)
+
+app.get('/api/reports/whitehorse', db.getWhitehorse)
+app.get('/api/reports/carmacks', db.getCarmacks)
+app.get('/api/reports/dawson-city', db.getDawsonCity)
+app.get('/api/reports/beaver-creek', db.getBeaverCreek)
+app.get('/api/reports/burwash-landing', db.getBurwashLanding)
+app.get('/api/reports/tagish', db.getTagish)
+app.get('/api/reports/carcross', db.getCarcross)
+app.get('/api/reports/faro', db.getFaro)
+app.get('/api/reports/haines-junction', db.getHainesJunction)
+app.get('/api/reports/mayo', db.getMayo)
+app.get('/api/reports/mounte-lourne', db.getMounteLourne)
+app.get('/api/reports/old-crow', db.getOldCrow)
+app.get('/api/reports/pelly-crossing', db.getPellyCrossing)
+app.get('/api/reports/ross-river', db.getRossRiver)
+app.get('/api/reports/teslin', db.getTeslin)
+app.get('/api/reports/watson-lake', db.getWatsonLake)
+
+app.post('/api/createNotice', db.createNotice)
 
   app.use(history({
     verbose: true}));   

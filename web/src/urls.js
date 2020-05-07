@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:3000';
+const API_BASE = '';
 export default {
   communities: API_BASE + "/getCommunities",
   communityGroups: API_BASE + "/getCommunityGroups",
