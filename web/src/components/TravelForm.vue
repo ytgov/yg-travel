@@ -155,7 +155,7 @@
             ></v-checkbox>
             <v-text-field
             v-if="form.othercontact"
-            label="Which Community?"
+            label="Which community have you contacted?"
             v-model="form.otherContactInfo"
             :rules="requiredField"
             filled
