@@ -5,6 +5,7 @@ export default {
   departments: API_BASE + "/getDepartments",
   createNotice: API_BASE + "/createNotice",
   getNotices: API_BASE + "/getNotices",
+  updateNotice: API_BASE + "/updateNotice",
   getNotice: API_BASE + "/getNotice/",
   getReport: API_BASE + "/reports/"
 }

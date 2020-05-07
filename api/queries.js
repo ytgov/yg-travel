@@ -2,7 +2,8 @@ const Pool = require('pg').Pool
 const nodemailer = require('nodemailer');
 const pool = new Pool({
   user: 'postgres',
-  host: 'localhost',
+  //host: 'localhost',
+  host: 'dbpostgres',
   database: 'postgres',
   password: 'itsallgood',
   port: 5432,
@@ -211,11 +212,26 @@ const createNotice = (request, response) => {
   })
 }
 
+const updateNotice = (request, response) => {
+  const { name, email, phone, destination, department, purpose, travellers, arrivalDate, returnDate, requireAssistance, fncontact, othercontact, otherContactInfo, code } = request.body
+  pool.query(
+    'update travelnotices  set (name, email, phone, destination, purpose, travellers, returndate, arrivaldate, requireassistance, department, fnContact, otherContact, otherContactInfo) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) where code=\''+request.params.code+'\'',
+    [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, department, fncontact, othercontact, otherContactInfo],
+    (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).send(`Created notice`)
+  })
+}
+
+
 module.exports = {
   getCommunities,
   getCommunityGroups,
   getDepartments,
   createNotice,
+  updateNotice,
   getNotices,
   getNotice,
   getWhitehorse,

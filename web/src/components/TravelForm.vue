@@ -245,7 +245,6 @@ export default {
   methods: {
     recover(code){
       this.$api.get(urls.getNotice+code).then(response => {
-        console.log(response)
         if(Object.keys(response.data).length !== 0){
           this.resubmit = true;
 
@@ -265,27 +264,38 @@ export default {
           this.form.otherContactInfo = response.data[0].othercontactinfo
           this.form.code = response.data[0].code
 
-          if(this.othercontact || this.form.fncontact) this.contactedCommunity = true;
-          console.log(this.form)
+          if(this.othercontact || this.form.fncontact) this.contactedCommunity = true
+          this.readTerms = true;
         }
       })
     },
     submit(){
-      if(this.contactedCommunity) this.requireAssistance = false
-      else this.selectedCommunityGroup = 0
-      this.form.code=uuidv4()
-      console.log(this.form)
-      this.$api.post(urls.createNotice, this.form)
-      .then(response => {
-        this.snackText = "Form submitted successfully"
-        this.snackbar = true
-        console.log(response)
-      })
-      .catch(e => {
-        this.snackText = "Failed to submit form"
-        this.snackbar = true
-        console.log(e)
-      })
+      // if(this.contactedCommunity) this.requireAssistance = false
+      // else this.selectedCommunityGroup = 0
+      if(this.form.code){
+        this.$api.post(urls.updateNotice, this.form)
+        .then(() => {
+          this.snackText = "Form updated successfully"
+          this.snackbar = true
+        })
+        .catch(e => {
+          this.snackText = "Failed to update form"
+          this.snackbar = true
+          console.log(e)
+        })
+      } else {
+        this.form.code=uuidv4()
+        this.$api.post(urls.createNotice, this.form)
+        .then(() => {
+          this.snackText = "Form submitted successfully"
+          this.snackbar = true
+        })
+        .catch(e => {
+          this.snackText = "Failed to submit form"
+          this.snackbar = true
+          console.log(e)
+        })
+      }
     },
     validate(){
       if (this.$refs.form.validate()) {
@@ -297,7 +307,7 @@ export default {
     this.$api.get(urls.communities).then(response => {this.communities = response.data})
     this.$api.get(urls.communityGroups).then(response => {this.communityGroups = response.data})
     this.$api.get(urls.departments).then(response => {this.departments = response.data})
-    this.recover('ec6b5971-bd56-4d9b-8814-4c93fd077c25')
+    //this.recover('ec6b5971-bd56-4d9b-8814-4c93fd077c25')
   }
 }
 </script>

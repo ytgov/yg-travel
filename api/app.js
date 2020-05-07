@@ -45,6 +45,7 @@ app.get('/reports/teslin', db.getTeslin)
 app.get('/reports/watson-lake', db.getWatsonLake)
 
 app.post('/createNotice', db.createNotice)
+app.post('/updateNotice', db.updateNotice)
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
