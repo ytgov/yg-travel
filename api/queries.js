@@ -44,6 +44,151 @@ const getNotices = (request, response) => {
   })
 }
 
+const getWhitehorse = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Whitehorse\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getCarmacks = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Carmacks\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getDawsonCity = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Dawson City\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getBeaverCreek = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Beaver Creek\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getBurwashLanding = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Burwash Landing\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getTagish = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Tagish\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getCarcross = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Carcross\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getFaro = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Faro\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getHainesJunction = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Haines Junction\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getMayo = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Mayo\\', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getMounteLourne = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Mounte Lourne\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getOldCrow = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Old Crow\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getPellyCrossing = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Pelly Crossing\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getRossRiver = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Ross River\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getTeslin = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Teslin\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getWatsonLake = (request, response) => {
+  pool.query('SELECT * FROM travelnotices where destination=\'Watson Lake\'', (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+
 const getNotice = (request, response) => {
   pool.query('SELECT * FROM travelnotices where code=\''+request.params.code+'\'', (error, results) => {
     if (error) {
@@ -72,5 +217,21 @@ module.exports = {
   getDepartments,
   createNotice,
   getNotices,
-  getNotice
+  getNotice,
+  getWhitehorse,
+  getCarmacks,
+  getDawsonCity,
+  getBeaverCreek,
+  getBurwashLanding,
+  getTagish,
+  getCarcross,
+  getFaro,
+  getHainesJunction,
+  getMayo,
+  getMounteLourne,
+  getOldCrow,
+  getPellyCrossing,
+  getRossRiver,
+  getTeslin,
+  getWatsonLake
 }
