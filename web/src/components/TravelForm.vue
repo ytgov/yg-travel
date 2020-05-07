@@ -36,7 +36,6 @@
                     label="Department"
                     :items="departments"
                     item-text="name"
-                    item-value="id"
                     :rules="requiredField"
                     v-model="department"
                     filled
@@ -67,7 +66,6 @@
                   label="Travel Locations"
                   :items="communities"
                   item-text="name"
-                  item-value="id"
                   :rules="requiredField"
                   v-model="selectedCommunity"
                   filled
