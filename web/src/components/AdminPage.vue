@@ -71,6 +71,7 @@ export default {
     this.$api.get(urls.getNotices).then(response => {
       this.notices = response.data
     })
+    this.filterNoticesByDate()
   }
 }
 </script>
