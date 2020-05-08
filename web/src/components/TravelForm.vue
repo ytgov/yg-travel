@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    {{this.$route.params.code}}
     <v-row>
       <v-col md="6">
         <v-form v-model="valid" lazy-validation ref="form">
@@ -124,7 +125,7 @@
           <v-card-text>
             <a href="hss-covid-workplace-health-safety.pdf">Covid Workplace Health and Safety</a>
             <v-checkbox
-            label="I have read the Safety Declerations"
+            label="I have read the Safety Declarations"
             v-model="readTerms"
             :rules="requiredField"
             ></v-checkbox>
@@ -210,7 +211,7 @@ export default {
       otherContactInfo: '',
       arrivalDate: new Date().toISOString().substr(0, 10),
       returnDate: new Date().toISOString().substr(0, 10),
-      requireAssistance: false,
+      requireAssistance: false
     },
     departments: [],
     readTerms: '',
@@ -264,6 +265,8 @@ export default {
           this.form.otherContactInfo = response.data[0].othercontactinfo
           this.form.code = response.data[0].code
 
+          //remap this
+
           if(this.othercontact || this.form.fncontact) this.contactedCommunity = true
           this.readTerms = true;
         }
@@ -307,7 +310,7 @@ export default {
     this.$api.get(urls.communities).then(response => {this.communities = response.data})
     this.$api.get(urls.communityGroups).then(response => {this.communityGroups = response.data})
     this.$api.get(urls.departments).then(response => {this.departments = response.data})
-    //this.recover('ec6b5971-bd56-4d9b-8814-4c93fd077c25')
+    this.recover(this.$route.params.code)
   }
 }
 </script>

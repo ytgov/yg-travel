@@ -18,6 +18,12 @@ export default new Router({
             component: combo
         },
         {
+            path: '/:code',
+            name: 'Update',
+            title: 'Update - YG Travel Form',
+            component: combo
+        },
+        {
             path: '/reports/:community',
             name: 'Community Report',
             component: AdminPage
@@ -39,6 +45,6 @@ export default new Router({
             title: 'Admin Page',
             component: Admin
         },
-        
+
     ]
 })

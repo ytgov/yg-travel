@@ -1,31 +1,50 @@
 <template>
   <div>
+    <v-radio-group v-model="dateRange">
+      <v-row>
+        <v-col>
+          <v-radio
+          :label="'This Week'"
+          :value="'week'"
+          ></v-radio>
+        </v-col>
+        <v-col>
+          <v-radio
+          :label="'This Month'"
+          :value="'month'"
+          ></v-radio>
+        </v-col>
+        <v-col>
+          <v-radio
+          :label="'All'"
+          :value="'year'"
+          ></v-radio>
+        </v-col>
+      </v-row>
+    </v-radio-group>
+
     <v-data-table
     :headers="headers"
-    :items="notices"
+    :items="displayedNotices"
     :items-per-page="5"
     class="elevation-1"
-    >
-    <template v-slot:item.arrivaldate="{ item }">
-                  {{item.arrivaldate.substr(0, 10)}}
-    </template>
-     <template v-slot:item.returndate="{ item }">
-                  {{item.returndate.substr(0, 10)}}
-    </template>
-    </v-data-table>
+    ></v-data-table>
   </div>
 </template>
 
 <script>
 import urls from '../urls'
+import moment from 'moment'
 export default {
   name: 'AdminPage',
   data: () => ({
     notices: [],
+    displayedNotices: [],
+    dateRange: '',
     headers: [
-      { text: 'Department', value: 'departmnet', sortable: true },
+      { text: 'Department', value: 'department', sortable: true },
       { text: 'Program Manager', value: 'name' },
-     
+
       { text: 'Email', value: 'email' },
       { text: 'Phone Number', value: 'phone' },
       { text: 'Destination', value: 'destination' },
@@ -36,12 +55,21 @@ export default {
       { text: 'First Nation Contacted', value: 'fncontact', align:"center" },
       { text: 'Municipality Contracted', value: 'mucontact', align:"center" },
       { text: 'Other', value: 'othercontact', align:"center" },
+      { text: 'Group Name', value: 'othercontactinfo', align:"center" }
     ],
   }),
   methods: {
+    filterNoticesByDate(range){
+      var cutoffDate = moment()
+      cutoffDate.add(1, range).format('YYYY-MM-DD')
+      this.displayedNotices = this.notices.filter(notice => moment(notice.arrivaldate, 'YYYY-MM-DD').isBefore(cutoffDate))
+      console.log("hi")
+    }
   },
   mounted: function() {
-    this.$api.get(urls.getNotices).then(response => {this.notices = response.data})
+    this.$api.get(urls.getNotices).then(response => {
+      this.notices = response.data
+    })
   }
 }
 </script>
