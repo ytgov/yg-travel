@@ -1,28 +1,23 @@
 <template>
   <div>
-    <v-radio-group v-model="dateRange" v-on:change="filterNoticesByDate()">
-      <v-row>
-        <v-col>
-          <v-radio
-          :label="'This Week'"
-          :value="'week'"
-          ></v-radio>
-        </v-col>
-        <v-col>
-          <v-radio
-          :label="'This Month'"
-          :value="'month'"
-          ></v-radio>
-        </v-col>
-        <v-col>
-          <v-radio
-          :label="'All'"
-          :value="'year'"
-          ></v-radio>
-        </v-col>
-      </v-row>
-    </v-radio-group>
-
+    <v-row>
+      <v-btn-toggle
+      v-model="dateRange"
+      v-on:change="filterNoticesByDate()"
+      color="deep- purple accent-3"
+      group
+      >
+        <v-btn value="week">
+            Week
+        </v-btn>
+        <v-btn value="month">
+            Month
+        </v-btn>
+        <v-btn value="year">
+            Year
+        </v-btn>
+      </v-btn-toggle>
+    </v-row>
     <v-data-table
     :headers="headers"
     :items="displayedNotices"
@@ -61,8 +56,8 @@ export default {
   methods: {
     filterNoticesByDate(){
       var cutoffDate = moment()
-      if(this.dateRange='week') cutoffDate.add(1,'week')
-      else if(this.dateRange='month') cutoffDate.add(1, 'month')
+      if(this.dateRange=='week') cutoffDate.add(1,'week')
+      else if(this.dateRange=='month') cutoffDate.add(1, 'month')
       else cutoffDate.add(1, 'year')
       this.displayedNotices = this.notices.filter(notice => moment(notice.arrivaldate, 'YYYY-MM-DD').isBefore(cutoffDate))
     }
@@ -70,8 +65,8 @@ export default {
   mounted: function() {
     this.$api.get(urls.getNotices).then(response => {
       this.notices = response.data
+      this.filterNoticesByDate()
     })
-    this.filterNoticesByDate()
   }
 }
 </script>
