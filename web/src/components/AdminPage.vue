@@ -40,7 +40,7 @@ export default {
   data: () => ({
     notices: [],
     displayedNotices: [],
-    dateRange: '',
+    dateRange: 'week',
     headers: [
       { text: 'Department', value: 'department', sortable: true },
       { text: 'Program Manager', value: 'name' },
@@ -61,9 +61,9 @@ export default {
   methods: {
     filterNoticesByDate(){
       var cutoffDate = moment()
-      if(this.dateRange='day') cutoffDate.add('day', 1)
-      else if(this.dateRange='week') cutoffDate.add('week', 1)
-      else cutoffDate.add('year', 1)
+      if(this.dateRange='week') cutoffDate.add(1,'week')
+      else if(this.dateRange='month') cutoffDate.add(1, 'month')
+      else cutoffDate.add(1, 'year')
       this.displayedNotices = this.notices.filter(notice => moment(notice.arrivaldate, 'YYYY-MM-DD').isBefore(cutoffDate))
     }
   },
