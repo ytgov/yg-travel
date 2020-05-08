@@ -211,7 +211,6 @@ export default {
       returnDate: new Date().toISOString().substr(0, 10),
       requireAssistance: false
     },
-    formDefault : {},
     departments: [],
     readTerms: false,
     contactedCommunity: false,
@@ -244,7 +243,7 @@ export default {
   }),
   methods: {
     createCode(){
-      return [...Array(8)].map(~~(Math.random()*36)).toString(36).join('')
+      Math.random().toString(36).slice(2)
     },
     initialState(){
       this.$refs.form.resetValidation()
@@ -297,8 +296,6 @@ export default {
       })
     },
     submit(){
-      // if(this.contactedCommunity) this.requireAssistance = false
-      // else this.selectedCommunityGroup = 0
       if(this.form.code && this.form.code.length > 0){
         this.$api.post(urls.updateNotice, this.form)
         .then(() => {

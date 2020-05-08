@@ -188,7 +188,6 @@ const getWatsonLake = (request, response) => {
   })
 }
 
-
 const getNotice = (request, response) => {
   pool.query('SELECT * FROM travelnotices where code=\''+request.params.code+'\'', (error, results) => {
     if (error) {
