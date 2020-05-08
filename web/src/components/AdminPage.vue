@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-radio-group v-model="dateRange">
+    <v-radio-group v-model="dateRange" v-on:change="filterNoticesByDate()">
       <v-row>
         <v-col>
           <v-radio
@@ -59,10 +59,10 @@ export default {
     ],
   }),
   methods: {
-    filterNoticesByDate(range){
+    filterNoticesByDate(){
       var cutoffDate = moment()
-      if(range='day') cutoffDate.add('day', 1)
-      else if(range='week') cutoffDate.add('week', 1)
+      if(this.dateRange='day') cutoffDate.add('day', 1)
+      else if(this.dateRange='week') cutoffDate.add('week', 1)
       else cutoffDate.add('year', 1)
       this.displayedNotices = this.notices.filter(notice => moment(notice.arrivaldate, 'YYYY-MM-DD').isBefore(cutoffDate))
     }
