@@ -1,8 +1,9 @@
 const Pool = require('pg').Pool
-//const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 const pool = new Pool({
   user: 'postgres',
-  host: 'dbpostgres',
+  host: 'localhost',
+  //host: 'dbpostgres',
   database: 'postgres',
   password: 'itsallgood',
   port: 5432,
@@ -188,6 +189,7 @@ const getWatsonLake = (request, response) => {
   })
 }
 
+
 const getNotice = (request, response) => {
   pool.query('SELECT * FROM travelnotices where code=\''+request.params.code+'\'', (error, results) => {
     if (error) {
@@ -198,10 +200,23 @@ const getNotice = (request, response) => {
 }
 
 const createNotice = (request, response) => {
-  const { name, email, phone, destination, department, purpose, travellers, arrivalDate, returnDate, requireAssistance, contactedFN, contactedMuni, contactedOther, otherContact, code } = request.body
+  const { name, email, phone, destination, department, purpose, travellers, arrivalDate, returnDate, requireAssistance, mucontact, fncontact, othercontact, otherContactInfo, code } = request.body
   pool.query(
-    'insert into travelnotices (name, email, phone, destination, purpose, travellers, returndate, arrivaldate, requireassistance, code, department, fnContact, muContact, otherContact, otherContactInfo) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)',
-    [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, code, department, contactedFN, contactedMuni, contactedOther, otherContact],
+    'insert into travelnotices (name, email, phone, destination, purpose, travellers, returndate, arrivaldate, requireassistance, code, department, muContact, fnContact, otherContact, otherContactInfo) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)',
+    [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, code, department, mucontact, fncontact, othercontact, otherContactInfo],
+    (error, results) => {
+    if (error) {
+      console.log(error)
+    }
+    response.status(200).send(`Created notice`)
+  })
+}
+
+const updateNotice = (request, response) => {
+  const { name, email, phone, destination, department, purpose, travellers, arrivalDate, returnDate, requireAssistance, mucontact, fncontact, othercontact, otherContactInfo, code } = request.body
+  pool.query(
+    'update travelnotices  set (name, email, phone, destination, purpose, travellers, returndate, arrivaldate, requireassistance, department, mucontact, fnContact, otherContact, otherContactInfo) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) where code=\''+request.params.code+'\'',
+    [name, email, phone, destination, purpose, travellers, returnDate, arrivalDate, requireAssistance, department, mucontact, fncontact, othercontact, otherContactInfo],
     (error, results) => {
     if (error) {
       console.log(error)
@@ -215,6 +230,7 @@ module.exports = {
   getCommunityGroups,
   getDepartments,
   createNotice,
+  updateNotice,
   getNotices,
   getNotice,
   getWhitehorse,
