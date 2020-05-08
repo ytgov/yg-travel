@@ -188,7 +188,6 @@
 
 <script>
 import urls from '../urls'
-import { v4 as uuidv4 } from 'uuid';
 export default {
   name: 'TravelForm',
   data: () => ({
@@ -245,7 +244,7 @@ export default {
   }),
   methods: {
     createCode(){
-      return [...Array(8)].map(i=>(~~(Math.random()*36)).toString(36)).join('')
+      return [...Array(8)].map(~~(Math.random()*36)).toString(36).join('')
     },
     initialState(){
       this.$refs.form.resetValidation()
