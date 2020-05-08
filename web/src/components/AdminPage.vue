@@ -61,9 +61,10 @@ export default {
   methods: {
     filterNoticesByDate(range){
       var cutoffDate = moment()
-      cutoffDate.add(1, range).format('YYYY-MM-DD')
+      if(range='day') cutoffDate.add('day', 1)
+      else if(range='week') cutoffDate.add('week', 1)
+      else cutoffDate.add('year', 1)
       this.displayedNotices = this.notices.filter(notice => moment(notice.arrivaldate, 'YYYY-MM-DD').isBefore(cutoffDate))
-      console.log("hi")
     }
   },
   mounted: function() {

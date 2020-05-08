@@ -2,8 +2,8 @@ const Pool = require('pg').Pool
 const nodemailer = require('nodemailer');
 const pool = new Pool({
   user: 'postgres',
-  //host: 'localhost',
-  host: 'dbpostgres',
+  host: 'localhost',
+  //host: 'dbpostgres',
   database: 'postgres',
   password: 'itsallgood',
   port: 5432,
@@ -224,7 +224,6 @@ const updateNotice = (request, response) => {
     response.status(200).send(`Created notice`)
   })
 }
-
 
 module.exports = {
   getCommunities,
