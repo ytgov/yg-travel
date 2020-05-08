@@ -1,8 +1,14 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const history = require('connect-history-api-fallback');
 const app = express()
 const port = 3000
 const db = require('./queries')
+
+require('dotenv').config()
+
+var port = process.env.PORT || 8080;
+var app = express();
 
 app.use(bodyParser.json())
 app.use(
@@ -17,9 +23,12 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/', (request, response) => {
-  response.json({ info: 'Node.js, Express, and Postgres API' })
+
+app.get('/api', function (req, res) {
+  console.log ('API is up')
+  res.json({ info: 'Node.js, Express, and Postgres API' })
 })
+
 
 app.get('/getCommunities', db.getCommunities)
 app.get('/getCommunityGroups', db.getCommunityGroups)
@@ -47,6 +56,10 @@ app.get('/reports/watson-lake', db.getWatsonLake)
 app.post('/createNotice', db.createNotice)
 app.post('/updateNotice', db.updateNotice)
 
-app.listen(port, () => {
-  console.log(`App running on port ${port}.`)
-})
+app.use(history({
+  verbose: true}));
+
+app.use('',express.static('dist'))
+
+app.listen(port);
+console.log(`Travel Portal App listening on internal port ${port}`)
