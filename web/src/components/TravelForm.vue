@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    {{this.$route.params.code}}
     <v-row>
       <v-col md="6">
         <v-form v-model="valid" lazy-validation ref="form">
@@ -213,8 +212,9 @@ export default {
       returnDate: new Date().toISOString().substr(0, 10),
       requireAssistance: false
     },
+    formDefault : {},
     departments: [],
-    readTerms: '',
+    readTerms: false,
     contactedCommunity: false,
     communities: [],
     communityGroups: [],
@@ -244,6 +244,29 @@ export default {
     snackText: ''
   }),
   methods: {
+    createCode(){
+      return [...Array(8)].map(i=>(~~(Math.random()*36)).toString(36)).join('')
+    },
+    initialState(){
+      this.$refs.form.resetValidation()
+      this.readTerms = false
+      return {
+        name: '',
+        email: '',
+        phone: '',
+        destination: '',
+        department: '',
+        purpose: '',
+        travellers: '',
+        othercontact: false,
+        mucontact: false,
+        fncontact: false,
+        otherContactInfo: '',
+        arrivalDate: new Date().toISOString().substr(0, 10),
+        returnDate: new Date().toISOString().substr(0, 10),
+        requireAssistance: false
+      }
+    },
     recover(code){
       this.$api.get(urls.getNotice+code).then(response => {
         if(Object.keys(response.data).length !== 0){
@@ -269,17 +292,20 @@ export default {
 
           if(this.othercontact || this.form.fncontact) this.contactedCommunity = true
           this.readTerms = true;
+        } else {
+          return ''
         }
       })
     },
     submit(){
       // if(this.contactedCommunity) this.requireAssistance = false
       // else this.selectedCommunityGroup = 0
-      if(this.form.code){
+      if(this.form.code && this.form.code.length > 0){
         this.$api.post(urls.updateNotice, this.form)
         .then(() => {
           this.snackText = "Form updated successfully"
           this.snackbar = true
+          this.form = this.initialState()
         })
         .catch(e => {
           this.snackText = "Failed to update form"
@@ -287,11 +313,12 @@ export default {
           console.log(e)
         })
       } else {
-        this.form.code=uuidv4()
+        this.form.code=this.createCode()
         this.$api.post(urls.createNotice, this.form)
         .then(() => {
           this.snackText = "Form submitted successfully"
           this.snackbar = true
+          this.form = this.initialState()
         })
         .catch(e => {
           this.snackText = "Failed to submit form"
