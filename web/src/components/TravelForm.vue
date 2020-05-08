@@ -247,6 +247,7 @@ export default {
     },
     initialState(){
       this.$refs.form.resetValidation()
+      this.contactedCommunity = false
       this.readTerms = false
       return {
         name: '',
