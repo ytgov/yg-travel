@@ -3,11 +3,12 @@
     <v-row>
       <v-btn-toggle
       v-model="dateRange"
-      v-on:change="filterNoticesByDate()"
       color="deep- purple accent-3"
       group
       >
-        <v-btn value="week">
+        <v-btn 
+
+        value="week">
             Week
         </v-btn>
         <v-btn value="month">
@@ -27,13 +28,15 @@
 </template>
 
 <script>
-import urls from '../urls'
+//import urls from '../urls'
 import moment from 'moment'
 export default {
+  props: {
+    notices: Array
+  },
   name: 'AdminPage',
   data: () => ({
-    notices: [],
-    displayedNotices: [],
+    //displayedNotices: [],
     dateRange: 'week',
     headers: [
       { text: 'Department', value: 'department', sortable: true },
@@ -52,20 +55,31 @@ export default {
       { text: 'Group Name', value: 'othercontactinfo', align:"center" }
     ],
   }),
+
+  computed: {
+    displayedNotices () {
+        var cutoffDate = moment()
+        if(this.dateRange=='week') cutoffDate.add(1,'week')
+          else if(this.dateRange=='month') cutoffDate.add(1, 'month')
+          else cutoffDate.add(1, 'year')
+       return this.notices.filter(notice => moment(notice.arrivaldate, 'YYYY-MM-DD').isBefore(cutoffDate))
+    }  
+  },
+
   methods: {
-    filterNoticesByDate(){
+   /* filterNoticesByDate(){
       var cutoffDate = moment()
       if(this.dateRange=='week') cutoffDate.add(1,'week')
       else if(this.dateRange=='month') cutoffDate.add(1, 'month')
       else cutoffDate.add(1, 'year')
       this.displayedNotices = this.notices.filter(notice => moment(notice.arrivaldate, 'YYYY-MM-DD').isBefore(cutoffDate))
-    }
+    }*/
   },
   mounted: function() {
-    this.$api.get(urls.getNotices).then(response => {
-      this.notices = response.data
-      this.filterNoticesByDate()
-    })
+    //this.$api.get(urls.getNotices).then(response => {
+    //  this.notices = response.data
+    //  this.filterNoticesByDate()
+    //})
   }
 }
 </script>
