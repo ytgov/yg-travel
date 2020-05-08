@@ -5,12 +5,10 @@ import vuetify from './plugins/vuetify'
 import axios from 'axios'
 
 Vue.config.productionTip = false
-
 Vue.use({
     install (Vue) {
     Vue.prototype.$api = axios.create({
-      //baseURL: '/api'
-      baseURL: 'http://localhost:3000'
+      baseURL: process.env.VUE_APP_BASE
     })
   }
 })
