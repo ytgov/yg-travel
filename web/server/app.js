@@ -51,8 +51,8 @@ app.get('/api/reports/ross-river', db.getRossRiver)
 app.get('/api/reports/teslin', db.getTeslin)
 app.get('/api/reports/watson-lake', db.getWatsonLake)
 
-app.post('/createNotice', db.createNotice)
-app.post('/updateNotice', db.updateNotice)
+app.post('/api/createNotice', db.createNotice)
+app.post('/api/updateNotice', db.updateNotice)
 
 app.use(history({
   verbose: true}));
