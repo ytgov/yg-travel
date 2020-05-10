@@ -1,4 +1,5 @@
 const Pool = require('pg').Pool
+const knex = require('knex')(config);
 const pool = new Pool({
   user: 'postgres',
   //host: 'localhost',
