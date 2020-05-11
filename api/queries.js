@@ -76,10 +76,7 @@ exports.getReport = function(req, res){
 exports.createNotice = function(req, res) {
   knex('travelNotices').
   insert(req.body)
-  .then(sqlResults => {
-    res.send(sqlResults)
-    console.log(sqlResults)
-  })
+  .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
     res.sendStatus(404).send('Not found');
     console.log(e);

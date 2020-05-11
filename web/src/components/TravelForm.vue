@@ -56,7 +56,6 @@
                             :rules="requiredField"
                             v-model="form.destination"
                             filled></v-select>
-
                   <v-textarea :rules="requiredField"
                               v-model="form.purpose"
                               auto-grow
