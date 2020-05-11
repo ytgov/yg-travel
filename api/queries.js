@@ -73,7 +73,6 @@ exports.getNotice = function(req, res) {
 }
 
 exports.getReport = function(req, res){
-  console.log("hey")
   console.log(req.params.community.replace('-', ' ').toProperCase())
   knex('travelNotices')
   .select('*')
