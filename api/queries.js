@@ -11,7 +11,6 @@ exports.getCommunities = function(req, res) {
     console.log(e);
   })
 }
-
 exports.getCommunityGroups = function(req, res) {
   knex('communitygroups')
   .select('name')
@@ -52,8 +51,36 @@ exports.getReports = function(req, res) {
   })
 }
 
+exports.getCommunityGroups = function(req, res) {
+  knex('communitygroups')
+  .select('name')
+  .then(sqlResults => res.send(sqlResults))
+  .catch(function(e){
+    res.status(404).send('Not found');
+    console.log(e);
+  })
+}
 
-//
+exports.createNotice = function(req, res) {
+  console.log(req)
+  knex('travelNotices').insert(req.body)
+  .then(sqlResults => res.send(sqlResults))
+  .catch(function(e){
+    res.status(404).send('Not found');
+    console.log(e);
+  })
+}
+
+exports.updateNotice = function(req, res) {
+  knex('travelNotices').update(request.body)
+  .where('code','=',request.body.code)
+  .then(sqlResults => res.send(sqlResults))
+  .catch(function(e){
+    res.status(404).send('Not found');
+    console.log(e);
+  })
+}
+
 // const getWhitehorse = (request, response) => {
 //   pool.query('SELECT * FROM travelnotices where destination=\'Whitehorse\'', (error, results) => {
 //     if (error) {
@@ -232,30 +259,4 @@ exports.getReports = function(req, res) {
 //     }
 //     response.status(200).send(`Created notice`)
 //   })
-// }
-//
-// module.exports = {
-//   getCommunities,
-//   getCommunityGroups,
-//   getDepartments,
-//   createNotice,
-//   updateNotice,
-//   getNotices,
-//   getNotice,
-//   getWhitehorse,
-//   getCarmacks,
-//   getDawsonCity,
-//   getBeaverCreek,
-//   getBurwashLanding,
-//   getTagish,
-//   getCarcross,
-//   getFaro,
-//   getHainesJunction,
-//   getMayo,
-//   getMounteLourne,
-//   getOldCrow,
-//   getPellyCrossing,
-//   getRossRiver,
-//   getTeslin,
-//   getWatsonLake
 // }

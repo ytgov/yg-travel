@@ -7,6 +7,7 @@ const app = express()
 const port = 3090
 >>>>>>> knex changes
 const db = require('./queries')
+var cors = require('cors');
 
 require('dotenv').config()
 
@@ -20,11 +21,7 @@ app.use(
   })
 )
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+app.use(cors());
 
 
 <<<<<<< HEAD
@@ -36,6 +33,9 @@ app.get('/getCommunities', db.getCommunities)
 app.get('/getCommunityGroups', db.getCommunityGroups)
 app.get('/getDepartments', db.getDepartments)
 app.get('/getNotices', db.getNotices)
+app.get('/createNotices', db.createNotice)
+app.get('/updateNotice', db.updateNotice)
+
 // app.get('/getNotices', db.getNotices)
 // app.get('/getNotice/:code', db.getNotice)
 //
@@ -56,7 +56,7 @@ app.get('/getNotices', db.getNotices)
 // app.get('/reports/teslin', db.getTeslin)
 // app.get('/reports/watson-lake', db.getWatsonLake)
 //
-// app.post('/createNotice', db.createNotice)
+
 // app.post('/updateNotice', db.updateNotice)
 
 
