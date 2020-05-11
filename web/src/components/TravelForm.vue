@@ -265,6 +265,7 @@
             .then(() => {
               this.snackText = 'Form updated successfully'
               this.snackbar = true
+              this.$router.push('/')
               this.form = this.initialState()
             })
             .catch(e => {
