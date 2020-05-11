@@ -175,16 +175,70 @@
 </template>
 
 <script>
-
-  import urls from '../urls'
-  export default {
-    name: 'TravelForm',
-    data: () => ({
-      date1: null,
-      date2: null,
-      valid: false,
-      resubmit: false,
-      form: {
+import urls from '../urls'
+import moment from 'moment'
+export default {
+  name: 'TravelForm',
+  data: () => ({
+    date1: null,
+    date2: null,
+    valid: false,
+    resubmit: false,
+    form: {
+      name: '',
+      email: '',
+      phone: '',
+      destination: '',
+      department: '',
+      purpose: '',
+      travellers: '',
+      contactedOtherGroup: false,
+      contactedMunicipality: false,
+      contactedFirstNations: false,
+      otherGroupInfo: '',
+      arrivalDate: moment().format('YYYY-MM-DD'),
+      returnDate: moment().format('YYYY-MM-DD'),
+      requireAssistance: false
+    },
+    departments: [],
+    readTerms: false,
+    contactedCommunity: false,
+    communities: [],
+    communityGroups: [],
+    requiredField: [
+      v => !!v || 'This field is required'
+    ],
+    nameRules: [
+      v => !!v || 'Name is required'
+    ],
+    emailRules: [
+      v => !!v || 'E-mail is required',
+      v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+    ],
+    travellerRules: [
+      v => !!v || 'This field is required'
+    ],
+    phoneRules: [
+      //v => /^[2-9]\d{2}-\d{3}-\d{4}$/.test(v) || 'Phone Number must be valid'
+    ],
+    arrivalRules: [
+      v => v <= this.date2 || 'This date must be before the return date'
+    ],
+    returnRules: [
+      v => v >= this.date1 || 'This date must be after the return date'
+    ],
+    snackbar: false,
+    snackText: ''
+  }),
+  methods: {
+    createCode(){
+      Math.random().toString(36).slice(2)
+    },
+    initialState(){
+      this.$refs.form.resetValidation()
+      this.contactedCommunity = false
+      this.readTerms = false
+      return {
         name: '',
         email: '',
         phone: '',
@@ -192,102 +246,22 @@
         department: '',
         purpose: '',
         travellers: '',
-        othercontact: false,
-        mucontact: false,
-        fncontact: false,
-        otherContactInfo: '',
-        arrivalDate: new Date().toISOString().substr(0, 10),
-        returnDate: new Date().toISOString().substr(0, 10),
+        contactedOtherGroup: false,
+        contactedMunicipality: false,
+        contactedFirstNation: false,
+        otherGroupInfo: '',
+        arrivalDate: moment().format('YYYY-MM-DD'),
+        returnDate: moment().format('YYYY-MM-DD'),
         requireAssistance: false
-      },
-      departments: [],
-      readTerms: false,
-      contactedCommunity: false,
-      communities: [],
-      communityGroups: [],
-      requiredField: [v => !!v || 'This field is required'],
-      nameRules: [v => !!v || 'Name is required'],
-      emailRules: [v => !!v || 'E-mail is required', v => /.+@.+\..+/.test(v) || 'E-mail must be valid'],
-      travellerRules: [v => !!v || 'This field is required'],
-      phoneRules: [
-        //v => /^[2-9]\d{2}-\d{3}-\d{4}$/.test(v) || 'Phone Number must be valid'
-      ],
-      arrivalRules: [v => v <= this.date2 || 'This date must be before the return date'],
-      returnRules: [v => v >= this.date1 || 'This date must be after the return date'],
-      snackbar: false,
-      snackText: ''
-    }),
-    methods: {
-      createCode() {
-        Math.random()
-          .toString(36)
-          .slice(2)
-      },
-      initialState() {
-        this.$refs.form.resetValidation()
-        this.contactedCommunity = false
-        this.readTerms = false
-        return {
-          name: '',
-          email: '',
-          phone: '',
-          destination: '',
-          department: '',
-          purpose: '',
-          travellers: '',
-          othercontact: false,
-          mucontact: false,
-          fncontact: false,
-          otherContactInfo: '',
-          arrivalDate: new Date().toISOString().substr(0, 10),
-          returnDate: new Date().toISOString().substr(0, 10),
-          requireAssistance: false
-        }
-      },
-      recover(code) {
-        this.$api.get(urls.getNotice + code).then(response => {
-          if (Object.keys(response.data).length !== 0) {
-            this.resubmit = true
-
-            this.form.name = response.data[0].name
-            this.form.email = response.data[0].email
-            this.form.phone = response.data[0].phone
-            this.form.department = response.data[0].department
-            this.form.destination = response.data[0].destination
-            this.form.purpose = response.data[0].purpose
-            this.form.travellers = response.data[0].travellers
-            this.form.arrivalDate = response.data[0].arrivaldate.substr(0, 10)
-            this.form.returnDate = response.data[0].returndate.substr(0, 10)
-            this.form.requireAssistance = response.data[0].requireassistance
-            this.form.othercontact = response.data[0].othercontact
-            this.form.mucontact = response.data[0].mucontact
-            this.form.fncontact = response.data[0].fncontact
-            this.form.otherContactInfo = response.data[0].othercontactinfo
-            this.form.code = response.data[0].code
-
-            //remap this
-
-            if (this.othercontact || this.form.fncontact) this.contactedCommunity = true
-            this.readTerms = true
-          } else {
-            return ''
-          }
-        })
-      },
-      submit() {
-        if (this.form.code && this.form.code.length > 0) {
-          this.$api
-            .post(urls.updateNotice, this.form)
-            .then(() => {
-              this.snackText = 'Form updated successfully'
-              this.snackbar = true
-              this.form = this.initialState()
-            })
-            .catch(e => {
-              this.snackText = 'Failed to update form'
-              this.snackbar = true
-              console.log(e)
-            })
+      }
+    },
+    recover(code){
+      this.$api.get(urls.getNotice+code).then(response => {
+        if(Object.keys(response.data).length !== 0){
+          this.resubmit = true;
+          this.form = response.data
+          if(this.contactedMunicipality || this.form.contactedFirstNation || this.contactedOtherGroup) this.contactedCommunity = true
+          this.readTerms = true;
         } else {
           this.form.code = this.createCode()
           this.$api
@@ -308,6 +282,35 @@
         if (this.$refs.form.validate()) {
           this.submit()
         }
+      })
+    },
+    submit(){
+      console.log(this.form)
+      if(this.form.code && this.form.code.length > 0){
+        this.$api.post(urls.updateNotice, this.form)
+        .then(() => {
+          this.snackText = "Form updated successfully"
+          this.snackbar = true
+          this.form = this.initialState()
+        })
+        .catch(e => {
+          this.snackText = "Failed to update form"
+          this.snackbar = true
+          console.log(e)
+        })
+      } else {
+        this.form.code=this.createCode()
+        this.$api.post(urls.createNotice, this.form)
+        .then(() => {
+          this.snackText = "Form submitted successfully"
+          this.snackbar = true
+          this.form = this.initialState()
+        })
+        .catch(e => {
+          this.snackText = "Failed to submit form"
+          this.snackbar = true
+          console.log(e)
+        })
       }
     },
     mounted: function() {
