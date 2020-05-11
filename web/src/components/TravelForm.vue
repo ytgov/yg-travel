@@ -221,6 +221,7 @@
         return Math.random()
           .toString(36)
           .slice(2)
+          .substr(1,9)
       },
       initialState() {
         this.$refs.form.resetValidation()
