@@ -259,7 +259,8 @@ export default {
         if(Object.keys(response.data).length !== 0){
           this.resubmit = true;
           this.form = response.data[0]
-          if(this.contactedMunicipality || this.form.contactedFirstNation || this.contactedOtherGroup) this.contactedCommunity = true
+          if(this.contactedMunicipality || this.form.contactedFirstNations || this.contactedOtherGroup) this.contactedCommunity = true
+
           this.readTerms = true;
         } else {
           this.form.code = this.createCode()

@@ -73,7 +73,8 @@ exports.getNotice = function(req, res) {
 }
 
 exports.createNotice = function(req, res) {
-  knex('travelNotices').insert(req.body)
+  knex('travelNotices').
+  insert(req.body)
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
     res.sendStatus(404).send('Not found');
@@ -85,7 +86,6 @@ exports.updateNotice = function(req, res) {
   knex('travelNotices')
   .where('code','=',req.body.code)
   .update(req.body)
-  .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
     res.sendStatus(404).send('Not found');
     console.log(e);
