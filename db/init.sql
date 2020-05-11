@@ -13,25 +13,6 @@ CREATE TABLE departments(
     name varchar(64)
 );
 
-<<<<<<< HEAD
-CREATE TABLE travelnotices(
-    id SERIAL,
-    name varchar(64),
-  	travellers integer,
-  	arrivalDate date,
-  	returnDate date,
-  	requireAssistance boolean,
-    destination varchar(32),
-  	phone varchar(16),
-  	email varchar(64),
-  	purpose varchar(256),
-  	code varchar(64),
-  	department varchar(32),
-    fnContact boolean,
-    muContact boolean,
-    otherContact boolean,
-    otherContactInfo varchar(64)
-=======
 CREATE TABLE travelNotices(
     "id" SERIAL,
     "name" varchar(64),
@@ -49,7 +30,6 @@ CREATE TABLE travelNotices(
     "contactedMunicipality" boolean,
     "contactedOtherGroup" boolean,
     "otherGroupInfo" varchar(64)
->>>>>>> optimization
 );
 
 INSERT INTO communities (name) values

@@ -204,7 +204,6 @@ export default {
     readTerms: false,
     contactedCommunity: false,
     communities: [],
-    communityGroups: [],
     requiredField: [
       v => !!v || 'This field is required'
     ],
@@ -232,7 +231,7 @@ export default {
   }),
   methods: {
     createCode(){
-      Math.random().toString(36).slice(2)
+      return Math.random().toString(36).slice(2)
     },
     initialState(){
       this.$refs.form.resetValidation()
@@ -248,7 +247,7 @@ export default {
         travellers: '',
         contactedOtherGroup: false,
         contactedMunicipality: false,
-        contactedFirstNation: false,
+        contactedFirstNations: false,
         otherGroupInfo: '',
         arrivalDate: moment().format('YYYY-MM-DD'),
         returnDate: moment().format('YYYY-MM-DD'),
@@ -259,7 +258,7 @@ export default {
       this.$api.get(urls.getNotice+code).then(response => {
         if(Object.keys(response.data).length !== 0){
           this.resubmit = true;
-          this.form = response.data
+          this.form = response.data[0]
           if(this.contactedMunicipality || this.form.contactedFirstNation || this.contactedOtherGroup) this.contactedCommunity = true
           this.readTerms = true;
         } else {
@@ -285,7 +284,6 @@ export default {
       })
     },
     submit(){
-      console.log(this.form)
       if(this.form.code && this.form.code.length > 0){
         this.$api.post(urls.updateNotice, this.form)
         .then(() => {
@@ -325,6 +323,14 @@ export default {
       })
       this.recover(this.$route.params.code)
     }
+<<<<<<< HEAD
+=======
+  },
+  mounted: function () {
+    this.$api.get(urls.communities).then(response => {this.communities = response.data})
+    this.$api.get(urls.departments).then(response => {this.departments = response.data})
+    this.recover(this.$route.params.code)
+>>>>>>> knex works. DB is cleaner. Requires remaking db though. Salck test.
   }
 
 </script>

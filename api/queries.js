@@ -61,8 +61,18 @@ exports.getCommunityGroups = function(req, res) {
   })
 }
 
+exports.getNotice = function(req, res) {
+  knex('travelNotices')
+  .select('*')
+  .where('code','=',req.params.code)
+  .then(sqlResults => res.send(sqlResults))
+  .catch(function(e){
+    res.status(404).send('Not found');
+    console.log(e);
+  })
+}
+
 exports.createNotice = function(req, res) {
-  console.log(req)
   knex('travelNotices').insert(req.body)
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
