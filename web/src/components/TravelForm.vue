@@ -113,17 +113,17 @@
                   </div>
                   <v-checkbox v-if="contactedCommunity"
                               label="First Nation"
-                              v-model="form.fncontact"
+                              v-model="form.contactedFirstNations"
                               class="pl-5"></v-checkbox>
                   <v-checkbox v-if="contactedCommunity"
                               label="Municipality"
-                              v-model="form.mucontact"
+                              v-model="form.contactedMunicipality"
                               class="pl-5"></v-checkbox>
                   <v-checkbox v-if="contactedCommunity"
                               label="Other"
-                              v-model="form.othercontact"
+                              v-model="form.contactedOtherGroup"
                               class="pl-5"></v-checkbox>
-                  <v-text-field v-if="form.othercontact"
+                  <v-text-field v-if="form.contactedOtherGroup"
                                 label="Who have you contacted?"
                                 v-model="form.otherContactInfo"
                                 :rules="requiredField"
@@ -175,69 +175,17 @@
 </template>
 
 <script>
-import urls from '../urls'
-import moment from 'moment'
-export default {
-  name: 'TravelForm',
-  data: () => ({
-    date1: null,
-    date2: null,
-    valid: false,
-    resubmit: false,
-    form: {
-      name: '',
-      email: '',
-      phone: '',
-      destination: '',
-      department: '',
-      purpose: '',
-      travellers: '',
-      contactedOtherGroup: false,
-      contactedMunicipality: false,
-      contactedFirstNations: false,
-      otherGroupInfo: '',
-      arrivalDate: moment().format('YYYY-MM-DD'),
-      returnDate: moment().format('YYYY-MM-DD'),
-      requireAssistance: false
-    },
-    departments: [],
-    readTerms: false,
-    contactedCommunity: false,
-    communities: [],
-    requiredField: [
-      v => !!v || 'This field is required'
-    ],
-    nameRules: [
-      v => !!v || 'Name is required'
-    ],
-    emailRules: [
-      v => !!v || 'E-mail is required',
-      v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-    ],
-    travellerRules: [
-      v => !!v || 'This field is required'
-    ],
-    phoneRules: [
-      //v => /^[2-9]\d{2}-\d{3}-\d{4}$/.test(v) || 'Phone Number must be valid'
-    ],
-    arrivalRules: [
-      v => v <= this.date2 || 'This date must be before the return date'
-    ],
-    returnRules: [
-      v => v >= this.date1 || 'This date must be after the return date'
-    ],
-    snackbar: false,
-    snackText: ''
-  }),
-  methods: {
-    createCode(){
-      return Math.random().toString(36).slice(2)
-    },
-    initialState(){
-      this.$refs.form.resetValidation()
-      this.contactedCommunity = false
-      this.readTerms = false
-      return {
+
+  import urls from '../urls'
+  import moment from 'moment'
+  export default {
+    name: 'TravelForm',
+    data: () => ({
+      date1: null,
+      date2: null,
+      valid: false,
+      resubmit: false,
+      form: {
         name: '',
         email: '',
         phone: '',
@@ -252,16 +200,78 @@ export default {
         arrivalDate: moment().format('YYYY-MM-DD'),
         returnDate: moment().format('YYYY-MM-DD'),
         requireAssistance: false
-      }
-    },
-    recover(code){
-      this.$api.get(urls.getNotice+code).then(response => {
-        if(Object.keys(response.data).length !== 0){
-          this.resubmit = true;
-          this.form = response.data[0]
-          if(this.contactedMunicipality || this.form.contactedFirstNations || this.contactedOtherGroup) this.contactedCommunity = true
+      },
+      departments: [],
+      readTerms: false,
+      contactedCommunity: false,
+      communities: [],
+      requiredField: [v => !!v || 'This field is required'],
+      nameRules: [v => !!v || 'Name is required'],
+      emailRules: [v => !!v || 'E-mail is required', v => /.+@.+\..+/.test(v) || 'E-mail must be valid'],
+      travellerRules: [v => !!v || 'This field is required'],
+      phoneRules: [
+        //v => /^[2-9]\d{2}-\d{3}-\d{4}$/.test(v) || 'Phone Number must be valid'
+      ],
+      arrivalRules: [v => v <= this.date2 || 'This date must be before the return date'],
+      returnRules: [v => v >= this.date1 || 'This date must be after the return date'],
+      snackbar: false,
+      snackText: ''
+    }),
+    methods: {
+      createCode() {
+        return Math.random()
+          .toString(36)
+          .slice(2)
+      },
+      initialState() {
+        this.$refs.form.resetValidation()
+        this.contactedCommunity = false
+        this.readTerms = false
+        return {
+          name: '',
+          email: '',
+          phone: '',
+          destination: '',
+          department: '',
+          purpose: '',
+          travellers: '',
+          contactedOtherGroup: false,
+          contactedMunicipality: false,
+          contactedFirstNations: false,
+          otherGroupInfo: '',
+          arrivalDate: moment().format('YYYY-MM-DD'),
+          returnDate: moment().format('YYYY-MM-DD'),
+          requireAssistance: false
+        }
+      },
+      recover(code) {
+        this.$api.get(urls.getNotice + code).then(response => {
+          if (Object.keys(response.data).length !== 0) {
+            this.resubmit = true
+            this.form = response.data[0]
+            if (this.contactedMunicipality || this.form.contactedFirstNations || this.contactedOtherGroup)
+              this.contactedCommunity = true
 
-          this.readTerms = true;
+            this.readTerms = true
+          } else {
+            return ''
+          }
+        })
+      },
+      submit() {
+        if (this.form.code && this.form.code.length > 0) {
+          this.$api
+            .post(urls.updateNotice, this.form)
+            .then(() => {
+              this.snackText = 'Form updated successfully'
+              this.snackbar = true
+              this.form = this.initialState()
+            })
+            .catch(e => {
+              this.snackText = 'Failed to update form'
+              this.snackbar = true
+              console.log(e)
+            })
         } else {
           this.form.code = this.createCode()
           this.$api
@@ -282,34 +292,6 @@ export default {
         if (this.$refs.form.validate()) {
           this.submit()
         }
-      })
-    },
-    submit(){
-      if(this.form.code && this.form.code.length > 0){
-        this.$api.post(urls.updateNotice, this.form)
-        .then(() => {
-          this.snackText = "Form updated successfully"
-          this.snackbar = true
-          this.form = this.initialState()
-        })
-        .catch(e => {
-          this.snackText = "Failed to update form"
-          this.snackbar = true
-          console.log(e)
-        })
-      } else {
-        this.form.code=this.createCode()
-        this.$api.post(urls.createNotice, this.form)
-        .then(() => {
-          this.snackText = "Form submitted successfully"
-          this.snackbar = true
-          this.form = this.initialState()
-        })
-        .catch(e => {
-          this.snackText = "Failed to submit form"
-          this.snackbar = true
-          console.log(e)
-        })
       }
     },
     mounted: function() {
@@ -324,11 +306,6 @@ export default {
       })
       this.recover(this.$route.params.code)
     }
-  },
-  mounted: function () {
-    this.$api.get(urls.communities).then(response => {this.communities = response.data})
-    this.$api.get(urls.departments).then(response => {this.departments = response.data})
-    this.recover(this.$route.params.code)
   }
 
 </script>
