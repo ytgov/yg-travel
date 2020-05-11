@@ -7,7 +7,7 @@ exports.getCommunities = function(req, res) {
   .select('name')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.status(404).send('Not found');
+    res.sendStatus(404).send('Not found');
     console.log(e);
   })
 }
@@ -16,7 +16,7 @@ exports.getCommunityGroups = function(req, res) {
   .select('name')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.status(404).send('Not found');
+    res.sendStatus(404).send('Not found');
     console.log(e);
   })
 }
@@ -26,7 +26,7 @@ exports.getDepartments = function(req, res) {
   .select('name')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.status(404).send('Not found');
+    res.sendStatus(404).send('Not found');
     console.log(e);
   })
 }
@@ -36,7 +36,7 @@ exports.getNotices = function(req, res) {
   .select('*')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.status(404).send('Not found');
+    res.sendStatus(404).send('Not found');
     console.log(e);
   })
 }
@@ -46,7 +46,7 @@ exports.getReports = function(req, res) {
   .select('*')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.status(404).send('Not found');
+    res.sendStatus(404).send('Not found');
     console.log(e);
   })
 }
@@ -56,7 +56,7 @@ exports.getCommunityGroups = function(req, res) {
   .select('name')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.status(404).send('Not found');
+    res.sendStatus(404).send('Not found');
     console.log(e);
   })
 }
@@ -67,7 +67,7 @@ exports.getNotice = function(req, res) {
   .where('code','=',req.params.code)
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.status(404).send('Not found');
+    res.sendStatus(404).send('Not found');
     console.log(e);
   })
 }
@@ -76,27 +76,33 @@ exports.createNotice = function(req, res) {
   knex('travelNotices').insert(req.body)
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.status(404).send('Not found');
+    res.sendStatus(404).send('Not found');
     console.log(e);
   })
 }
 
 exports.updateNotice = function(req, res) {
-  knex('travelNotices').update(request.body)
-  .where('code','=',request.body.code)
+  knex('travelNotices')
+  .where('code','=',req.body.code)
+  .update(req.body)
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.status(404).send('Not found');
+    res.sendStatus(404).send('Not found');
     console.log(e);
   })
 }
+
+
+
+
+
 
 // const getWhitehorse = (request, response) => {
 //   pool.query('SELECT * FROM travelnotices where destination=\'Whitehorse\'', (error, results) => {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -105,7 +111,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -114,7 +120,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -123,7 +129,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -132,7 +138,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -141,7 +147,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -150,7 +156,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -159,7 +165,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -168,7 +174,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -177,7 +183,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -186,7 +192,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -195,7 +201,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -204,7 +210,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -213,7 +219,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -222,7 +228,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -231,7 +237,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -241,7 +247,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).json(results.rows)
+//     response.sendStatus(200).json(results.rows)
 //   })
 // }
 //
@@ -254,7 +260,7 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).send(`Created notice`)
+//     response.sendStatus(200).send(`Created notice`)
 //   })
 // }
 //
@@ -267,6 +273,6 @@ exports.updateNotice = function(req, res) {
 //     if (error) {
 //       console.log(error)
 //     }
-//     response.status(200).send(`Created notice`)
+//     response.sendStatus(200).send(`Created notice`)
 //   })
 // }

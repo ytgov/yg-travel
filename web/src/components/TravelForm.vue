@@ -323,14 +323,11 @@ export default {
       })
       this.recover(this.$route.params.code)
     }
-<<<<<<< HEAD
-=======
   },
   mounted: function () {
     this.$api.get(urls.communities).then(response => {this.communities = response.data})
     this.$api.get(urls.departments).then(response => {this.departments = response.data})
     this.recover(this.$route.params.code)
->>>>>>> knex works. DB is cleaner. Requires remaking db though. Salck test.
   }
 
 </script>
