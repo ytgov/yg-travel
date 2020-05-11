@@ -12,7 +12,7 @@ exports.getCommunities = function(req, res) {
   })
 }
 exports.getCommunityGroups = function(req, res) {
-  knex('communitygroups')
+  knex('communityGroups')
   .select('name')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
@@ -32,7 +32,7 @@ exports.getDepartments = function(req, res) {
 }
 
 exports.getNotices = function(req, res) {
-  knex('travelnotices')
+  knex('travelNotices')
   .select('*')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
@@ -42,18 +42,8 @@ exports.getNotices = function(req, res) {
 }
 
 exports.getReports = function(req, res) {
-  knex('travelnotices')
+  knex('travelNotices')
   .select('*')
-  .then(sqlResults => res.send(sqlResults))
-  .catch(function(e){
-    res.sendStatus(404).send('Not found');
-    console.log(e);
-  })
-}
-
-exports.getCommunityGroups = function(req, res) {
-  knex('communitygroups')
-  .select('name')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
     res.sendStatus(404).send('Not found');
@@ -73,7 +63,6 @@ exports.getNotice = function(req, res) {
 }
 
 exports.getReport = function(req, res){
-  console.log(req.params.community.replace('-', ' ').toProperCase())
   knex('travelNotices')
   .select('*')
   .where('destination','=',req.params.community.replace('-', ' ').toProperCase())
