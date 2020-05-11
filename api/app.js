@@ -34,6 +34,7 @@ app.get('/getCommunityGroups', db.getCommunityGroups)
 app.get('/getDepartments', db.getDepartments)
 app.get('/getNotices', db.getNotices)
 app.get('/getNotice/:code', db.getNotice)
+app.get('/report/:community', db.getReport)
 
 app.post('/createNotice', db.createNotice)
 app.post('/updateNotice', db.updateNotice)
