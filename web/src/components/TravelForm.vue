@@ -1,5 +1,4 @@
 <template>
-
   <v-container>
     <v-row>
       <v-col md="6">
@@ -74,19 +73,19 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                      <v-menu v-model="form.date" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
+                      <v-menu v-model="date" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
                         <template v-slot:activator="{ on }">
                         <v-text-field filled v-model="form.arrivalDate" label="Arival Date" readonly v-on="on"></v-text-field>
                       </template>
-                        <v-date-picker v-model="form.arrivalDate" @input="form.date = false" color="#4a263c"></v-date-picker>
+                        <v-date-picker v-model="form.arrivalDate" @input="date = false" color="#4a263c"></v-date-picker>
                       </v-menu>
                     </v-col>
                     <v-col>
-                      <v-menu v-model="form.date2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
+                      <v-menu v-model="date2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
                         <template v-slot:activator="{ on }">
                         <v-text-field filled v-model="form.returnDate" label="Return Date" readonly v-on="on"></v-text-field>
                       </template>
-                        <v-date-picker v-model="form.returnDate" @input="form.date2 = false" color="#4a263c"></v-date-picker>
+                        <v-date-picker v-model="form.returnDate" @input="date2 = false" color="#4a263c"></v-date-picker>
                       </v-menu>
                     </v-col>
                   </v-row>
@@ -198,7 +197,8 @@
         otherGroupInfo: '',
         arrivalDate: moment().format('YYYY-MM-DD'),
         returnDate: moment().format('YYYY-MM-DD'),
-        requireAssistance: false
+        requireAssistance: false,
+        code: ''
       },
       departments: [],
       readTerms: false,
@@ -221,7 +221,6 @@
         return Math.random()
           .toString(36)
           .slice(2)
-          .substr(1,9)
       },
       initialState() {
         this.$refs.form.resetValidation()
@@ -241,7 +240,8 @@
           otherGroupInfo: '',
           arrivalDate: moment().format('YYYY-MM-DD'),
           returnDate: moment().format('YYYY-MM-DD'),
-          requireAssistance: false
+          requireAssistance: false,
+          code: ''
         }
       },
       recover(code) {
@@ -249,11 +249,14 @@
           if (Object.keys(response.data).length !== 0) {
             this.resubmit = true
             this.form = response.data[0]
+            this.form.arrivalDate = moment().format('YYYY-MM-DD')
+            this.form.returnDate = moment().format('YYYY-MM-DD')
             if (this.contactedMunicipality || this.form.contactedFirstNations || this.contactedOtherGroup)
               this.contactedCommunity = true
 
             this.readTerms = true
           } else {
+            this.$router.push('/')
             return ''
           }
         })
@@ -281,10 +284,12 @@
               this.snackText = 'Form submitted successfully'
               this.snackbar = true
               this.form = this.initialState()
+              this.form.code = null
             })
             .catch(e => {
               this.snackText = 'Failed to submit form'
               this.snackbar = true
+              this.form.code = null
               console.log(e)
             })
         }
@@ -293,6 +298,11 @@
         if (this.$refs.form.validate()) {
           this.submit()
         }
+      }
+    },
+    filters: {
+      formatDate: function(date) {
+        return moment(date).format('MMMM Do YYYY')
       }
     },
     mounted: function() {

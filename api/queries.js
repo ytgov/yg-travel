@@ -1,5 +1,5 @@
-var environment = process.env.NODE_ENV || 'staging';
-var config = require('./config/knexfile.js')[environment];
+var environment = process.env.NODE_ENV || 'staging'
+var config = require('./config/knexfile.js')[environment]
 const knex = require('knex')(config)
 
 exports.getCommunities = function(req, res) {
@@ -7,8 +7,8 @@ exports.getCommunities = function(req, res) {
   .select('name')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found');
-    console.log(e);
+    res.sendStatus(404).send('Not found')
+    console.log(e)
   })
 }
 exports.getCommunityGroups = function(req, res) {
@@ -16,8 +16,8 @@ exports.getCommunityGroups = function(req, res) {
   .select('name')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found');
-    console.log(e);
+    res.sendStatus(404).send('Not found')
+    console.log(e)
   })
 }
 
@@ -26,8 +26,8 @@ exports.getDepartments = function(req, res) {
   .select('name')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found');
-    console.log(e);
+    res.sendStatus(404).send('Not found')
+    console.log(e)
   })
 }
 
@@ -36,8 +36,8 @@ exports.getNotices = function(req, res) {
   .select('*')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found');
-    console.log(e);
+    res.sendStatus(404).send('Not found')
+    console.log(e)
   })
 }
 
@@ -46,8 +46,8 @@ exports.getReports = function(req, res) {
   .select('*')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found');
-    console.log(e);
+    res.sendStatus(404).send('Not found')
+    console.log(e)
   })
 }
 
@@ -57,8 +57,8 @@ exports.getNotice = function(req, res) {
   .where('code','=',req.params.code)
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found');
-    console.log(e);
+    res.sendStatus(404).send('Not found')
+    console.log(e)
   })
 }
 
@@ -68,18 +68,18 @@ exports.getReport = function(req, res){
   .where('destination','=',req.params.community.replace('-', ' ').toProperCase())
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found');
-    console.log(e);
+    res.sendStatus(404).send('Not found')
+    console.log(e)
   })
 }
 
 exports.createNotice = function(req, res) {
-  knex('travelNotices').
-  insert(req.body)
+  knex('travelNotices')
+  .insert(req.body)
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found');
-    console.log(e);
+    res.sendStatus(404).send('Not found')
+    console.log(e)
   })
 }
 
@@ -90,11 +90,11 @@ exports.updateNotice = function(req, res) {
   .returning('*')
   .then(sqlResults =>res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found');
-    console.log(e);
+    res.sendStatus(404).send('Not found')
+    console.log(e)
   })
 }
 
 String.prototype.toProperCase = function () {
-    return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-};
+    return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()})
+}

@@ -16,13 +16,13 @@
 
 <script>
 import TravelForm from '../components/TravelForm'
-import AdminPage from '../components/AdminPage'
+import TravelReport from '../components/TravelReport'
 import urls from '../urls'
 export default {
   name: 'App',
   components: {
     TravelForm,
-    AdminPage
+    TravelReport
   },
 
   data: () => ({
