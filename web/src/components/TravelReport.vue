@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <v-row>
       <v-btn-toggle v-model="dateRange"
@@ -20,19 +19,16 @@
                   :items="displayedNotices"
                   class="elevation-1"></v-data-table>
   </div>
-
 </template>
 
 <script>
-
-  //import urls from '../urls'
   import moment from 'moment'
   export default {
     props: {
       notices: Array,
       publicView: Boolean
     },
-    name: 'AdminPage',
+    name: 'TravelReport',
     data: () => ({
       dateRange: 'week',
       headers: [

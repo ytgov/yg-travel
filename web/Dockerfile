@@ -19,5 +19,9 @@ COPY . .
 # build app for production with minification
 RUN npm run build
 
+<<<<<<< HEAD
 # CMD [ "http-server", "dist" ]
 CMD [ "node", "./server/app.js" ]
+=======
+CMD ["npm", "run", "serve"]
+>>>>>>> deployable

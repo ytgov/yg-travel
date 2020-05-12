@@ -11,6 +11,7 @@ exports.getCommunities = function(req, res) {
     console.log(e)
   })
 }
+
 exports.getCommunityGroups = function(req, res) {
   knex('communityGroups')
   .select('name')

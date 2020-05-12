@@ -73,11 +73,11 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                      <v-menu v-model="date" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
+                      <v-menu v-model="date1" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
                         <template v-slot:activator="{ on }">
                         <v-text-field filled v-model="form.arrivalDate" label="Arival Date" readonly v-on="on"></v-text-field>
                       </template>
-                        <v-date-picker v-model="form.arrivalDate" @input="date = false" color="#4a263c"></v-date-picker>
+                        <v-date-picker v-model="form.arrivalDate" @input="date1 = false" color="#4a263c"></v-date-picker>
                       </v-menu>
                     </v-col>
                     <v-col>
