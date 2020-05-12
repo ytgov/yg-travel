@@ -30,7 +30,6 @@
     </v-dialog>
     </v-app-bar>
     <v-container style="padding: 56px 0px 0px;">
-
       <v-app>
           <router-view></router-view>
       </v-app>
