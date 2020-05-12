@@ -4,11 +4,13 @@ import router from './router'
 import vuetify from './plugins/vuetify'
 import axios from 'axios'
 
+
+console.log(`API Base: ${process.env.VUE_APP_API_BASE}`)
 Vue.config.productionTip = false
 Vue.use({
     install (Vue) {
     Vue.prototype.$api = axios.create({
-      baseURL: 'http://localhost:3090'
+      baseURL: process.env.VUE_APP_API_BASE
     })
   }
 })
