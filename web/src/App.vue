@@ -9,8 +9,28 @@
         />
         YG Travel Form
       </div>
+      <v-spacer />
+
+       <v-dialog
+      v-model="showFAQ">
+      <template v-slot:activator="{ on }">
+        <v-btn
+         icon
+          v-on="on"
+        >
+          <v-icon>
+          mdi-help-circle-outline
+      </v-icon>
+        </v-btn>
+      </template>
+      <v-row justify="center" md-3>
+      <faq
+        @close="showFAQ=false" />
+        </v-row>
+    </v-dialog>
     </v-app-bar>
     <v-container style="padding: 56px 0px 0px;">
+
       <v-app>
           <router-view></router-view>
       </v-app>
@@ -19,13 +39,16 @@
 </template>
 
 <script>
+import faq from "./components/faq"
 export default {
   name: 'App',
   components: {
+      faq
   },
-
   data: () => ({
+    showFAQ: false
     //
   }),
 };
 </script>
+© 2020 GitHub, Inc.

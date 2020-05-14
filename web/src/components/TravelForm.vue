@@ -122,7 +122,7 @@
             <v-toolbar-title>Travel Checklist</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <a href="eco-guidelines-delivery-critical-essential-other-services-covid-19-may-8-2020-final.pdf">Covid Workplace Health and Safety</a>
+            <a href="eco-guidelines-delivery-critical-essential-other-services-covid-19-may-8-2020-final.pdf"> Guidelines for the Delivery of Critical, Essential and Other Services</a>
             <v-checkbox
             label="I have read the Safety Declarations"
             v-model="readTerms"
