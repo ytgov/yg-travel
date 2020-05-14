@@ -1,5 +1,6 @@
 <template>
   <div>
+    <VisitGraph :notices="displayedNotices"/>
     <v-row>
       <v-btn-toggle v-model="dateRange"
                     color="deep- purple accent-3"
@@ -22,11 +23,15 @@
 </template>
 
 <script>
+  import VisitGraph from '../components/VisitGraph'
   import moment from 'moment'
   export default {
     props: {
       notices: Array,
       publicView: Boolean
+    },
+    components: {
+      VisitGraph
     },
     name: 'TravelReport',
     data: () => ({

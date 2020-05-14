@@ -256,7 +256,7 @@
 
             this.readTerms = true
           } else {
-            this.$router.push('/')
+            //this.$router.push('/')
             return ''
           }
         })
