@@ -13,7 +13,7 @@ CREATE TABLE departments(
     name varchar(64)
 );
 
-CREATE TABLE travelNotices(
+CREATE TABLE travelnotices(
     id SERIAL,
     name varchar(64),
   	travellers integer,
