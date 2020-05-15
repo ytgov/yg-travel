@@ -8,7 +8,7 @@
           <v-tab @click="loadNotices">Reports</v-tab>
           <v-tab-item>
             <AdminPage
-                :notices="notices"/>
+                :notices="notices" :publicView="true"/>
           </v-tab-item>
         </v-tabs>
       </v-app>

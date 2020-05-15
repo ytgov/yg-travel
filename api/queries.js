@@ -1,9 +1,8 @@
 const Pool = require('pg').Pool
-const nodemailer = require('nodemailer');
 const pool = new Pool({
   user: 'postgres',
-  host: 'localhost',
-  //host: 'dbpostgres',
+  //host: 'localhost',
+  host: 'dbpostgres',
   database: 'postgres',
   password: 'itsallgood',
   port: 5432,
