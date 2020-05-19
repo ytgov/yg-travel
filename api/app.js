@@ -1,15 +1,11 @@
+require('dotenv').config()
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const port = 3090
 const db = require('./queries')
 const cors = require('cors');
-require('dotenv').config()
-
-require('dotenv').config()
-
-var port = process.env.PORT || 3000;
-var app = express();
 
 app.use(bodyParser.json())
 app.use(
@@ -30,12 +26,6 @@ app.get('/report/:community', db.getReport)
 app.post('/createNotice', db.createNotice)
 app.post('/updateNotice', db.updateNotice)
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> Dates work. Cleanup
 app.listen(port, () => {
   console.log(`Travel Portal App listening on internal port ${port}`)
 })

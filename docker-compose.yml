@@ -4,7 +4,7 @@ services:
     container_name: travel_server
     build: ./api
     ports:
-      - "3000:3000"
+      - "4033:3090"
     links:
       - "dbpostgres"
   client:
