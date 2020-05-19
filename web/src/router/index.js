@@ -18,7 +18,7 @@ export default new Router({
             component: combo
         },
         {
-            path: '/:code',
+            path: '/recover/:code',
             name: 'Update',
             title: 'Update - YG Travel Form',
             component: combo

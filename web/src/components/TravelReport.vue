@@ -1,6 +1,5 @@
 <template>
   <div>
-    <VisitGraph :notices="displayedNotices"/>
     <v-row>
       <v-btn-toggle v-model="dateRange"
                     color="deep- purple accent-3"
@@ -23,7 +22,6 @@
 </template>
 
 <script>
-  import VisitGraph from '../components/VisitGraph'
   import moment from 'moment'
   export default {
     props: {
@@ -31,7 +29,6 @@
       publicView: Boolean
     },
     components: {
-      VisitGraph
     },
     name: 'TravelReport',
     data: () => ({
@@ -44,12 +41,12 @@
         { text: 'Destination', value: 'destination' },
         { text: 'Purpose', value: 'purpose', align: 'center' },
         { text: 'Travellers', value: 'travellers' },
-        { text: 'Arrival', value: 'arrivaldate', align: 'center', width: '150' },
-        { text: 'Departure', value: 'returndate', align: 'center', width: '150' },
-        { text: 'First Nation Contacted', value: 'fncontact', align: 'center' },
-        { text: 'Municipality Contracted', value: 'mucontact', align: 'center' },
-        { text: 'Other', value: 'othercontact', align: 'center' },
-        { text: 'Group Name', value: 'othercontactinfo', align: 'center' }
+        { text: 'Arrival', value: 'arrivalDate', align: 'center', width: '150' },
+        { text: 'Departure', value: 'returnDate', align: 'center', width: '150' },
+        { text: 'First Nation Contacted', value: 'contactedFirstNations', align: 'center' },
+        { text: 'Municipality Contracted', value: 'contactedMunicipality', align: 'center' },
+        { text: 'Other', value: 'contactedOtherGroup', align: 'center' },
+        { text: 'Group Name', value: 'otherContactInfo', align: 'center' }
       ]
     }),
 
@@ -59,7 +56,7 @@
         if (this.dateRange == 'week') cutoffDate.add(1, 'week')
         else if (this.dateRange == 'month') cutoffDate.add(1, 'month')
         else cutoffDate.add(1, 'year')
-        return this.notices.filter(notice => moment(notice.arrivaldate, 'YYYY-MM-DD').isBefore(cutoffDate))
+        return this.notices.filter(notice => moment(notice.arrivalDate, 'YYYY-MM-DD').isBefore(cutoffDate))
       },
       computedHeaders() {
         if(this.publicView)

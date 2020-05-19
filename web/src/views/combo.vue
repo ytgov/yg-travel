@@ -31,9 +31,7 @@ export default {
   }),
   methods: {
     loadNotices: function () {
-      console.log("Is loading")
       this.$api.get(urls.getNotices).then(response => {
-        console.log(response.data)
         this.notices = response.data
       })
     }
