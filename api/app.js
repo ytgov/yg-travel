@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
-const port = 3090
+const port = 4033
 const db = require('./queries')
 const cors = require('cors');
 
@@ -21,7 +21,8 @@ app.get('/getCommunityGroups', db.getCommunityGroups)
 app.get('/getDepartments', db.getDepartments)
 app.get('/getNotices', db.getNotices)
 app.get('/getNotice/:code', db.getNotice)
-app.get('/report/:community', db.getReport)
+app.get('/report/byCommunity/:community', db.getReportByCommunity)
+app.get('/report/byDepartment/:department', db.getReportByDepartment)
 
 app.post('/createNotice', db.createNotice)
 app.post('/updateNotice', db.updateNotice)

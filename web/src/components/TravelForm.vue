@@ -1,10 +1,11 @@
 <template>
+
   <v-container>
     <v-row>
-      <v-col md="6">
+      <v-col md="8">
         <v-form v-model="valid" lazy-validation ref="form">
 
-          <v-card md="6">
+          <v-card md="8">
 
             <v-toolbar color="#DC4405" dark>
               <v-toolbar-title>Program Manager</v-toolbar-title>
@@ -49,12 +50,12 @@
                   <v-toolbar-title>Travel Details</v-toolbar-title>
                 </v-toolbar>
                 <v-card-text>
-                  <v-select label="Travel Locations"
-                            :items="communities"
-                            item-text="name"
-                            :rules="requiredField"
-                            v-model="form.destination"
-                            filled></v-select>
+                  <v-combobox v-model="form.destination"
+                              :items="communities"
+                              label="Travel Locations"
+                              filled
+                              multiple></v-combobox>
+
                   <v-textarea :rules="requiredField"
                               v-model="form.purpose"
                               auto-grow
@@ -75,16 +76,16 @@
                     <v-col>
                       <v-menu v-model="date1" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
                         <template v-slot:activator="{ on }">
-                        <v-text-field filled v-model="form.arrivalDate" label="Arival Date" readonly v-on="on"></v-text-field>
-                      </template>
+                          <v-text-field filled v-model="form.arrivalDate" label="Arival Date" readonly v-on="on"></v-text-field>
+                        </template>
                         <v-date-picker v-model="form.arrivalDate" @input="date1 = false" color="#4a263c"></v-date-picker>
                       </v-menu>
                     </v-col>
                     <v-col>
                       <v-menu v-model="date2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="290px">
                         <template v-slot:activator="{ on }">
-                        <v-text-field filled v-model="form.returnDate" label="Return Date" readonly v-on="on"></v-text-field>
-                      </template>
+                          <v-text-field filled v-model="form.returnDate" label="Return Date" readonly v-on="on"></v-text-field>
+                        </template>
                         <v-date-picker v-model="form.returnDate" @input="date2 = false" color="#4a263c"></v-date-picker>
                       </v-menu>
                     </v-col>
@@ -104,8 +105,7 @@
                   <v-checkbox label="I have read the Safety Declarations"
                               v-model="readTerms"
                               :rules="requiredField"></v-checkbox>
-                  <v-switch label="I have contacted the community about my travel plans."
-                            v-model="contactedCommunity" />
+                  <v-switch label="I have contacted the community about my travel plans." v-model="contactedCommunity" />
                   <div v-if="contactedCommunity" class="body-1 pl-3">
                     Who have you contacted?
                   </div>
@@ -307,7 +307,7 @@
     },
     mounted: function() {
       this.$api.get(urls.communities).then(response => {
-        this.communities = response.data
+        this.communities = response.data.map(community => {return community.name})
       })
       this.$api.get(urls.communityGroups).then(response => {
         this.communityGroups = response.data

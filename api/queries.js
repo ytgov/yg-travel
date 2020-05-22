@@ -63,10 +63,21 @@ exports.getNotice = function(req, res) {
   })
 }
 
-exports.getReport = function(req, res){
+exports.getReportByCommunity = function(req, res){
   knex('travelNotices')
   .select('*')
-  .where('destination','=',req.params.community.replace('-', ' ').toProperCase())
+  .whereRaw('replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\') = ?', [req.params.community.toLowerCase()])
+  .then(sqlResults => res.send(sqlResults))
+  .catch(function(e){
+    res.sendStatus(404).send('Not found')
+    console.log(e)
+  })
+}
+
+exports.getReportByDepartment = function(req, res){
+  knex('travelNotices')
+  .select('*')
+  .whereRaw('replace(replace(replace(lower(department), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\') = ?', [req.params.department.toLowerCase()])
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
     res.sendStatus(404).send('Not found')
