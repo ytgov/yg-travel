@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
-const port = 4033
+const port = 3000
 const db = require('./queries')
 const cors = require('cors');
 
@@ -15,6 +15,10 @@ app.use(
 )
 
 app.use(cors());
+
+app.get('/api/status', function (req, res) {
+    res.send('The API Service is running');
+});
 
 app.get('/getCommunities', db.getCommunities)
 app.get('/getCommunityGroups', db.getCommunityGroups)
