@@ -102,7 +102,7 @@
                 </v-toolbar>
                 <v-card-text>
                   <a href="eco-guidelines-delivery-critical-essential-other-services-covid-19-may-8-2020-final.pdf"> Guidelines for the Delivery of Critical, Essential and Other Services</a>
-                  <v-checkbox label="I have read the Safety Declarations"
+                  <v-checkbox label="I have read the guidelines for delivering services"
                               v-model="readTerms"
                               :rules="requiredField"></v-checkbox>
                   <v-switch label="I have contacted the community about my travel plans." v-model="contactedCommunity" />
