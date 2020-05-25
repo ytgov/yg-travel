@@ -25,7 +25,7 @@ CREATE TABLE "travelNotices"(
   	"email" varchar(64),
   	"purpose" varchar(256),
   	"code" varchar(64),
-  	"department" varchar(32),
+  	"department" varchar(64),
     "contactedFirstNation" boolean,
     "contactedMunicipality" boolean,
     "contactedOtherGroup" boolean,
