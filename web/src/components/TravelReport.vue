@@ -43,7 +43,7 @@
         { text: 'Travellers', value: 'travellers' },
         { text: 'Arrival', value: 'arrivalDate', align: 'center', width: '150' },
         { text: 'Departure', value: 'returnDate', align: 'center', width: '150' },
-        { text: 'First Nation Contacted', value: 'contactedFirstNations', align: 'center' },
+        { text: 'First Nation Contacted', value: 'contactedFirstNation', align: 'center' },
         { text: 'Municipality Contracted', value: 'contactedMunicipality', align: 'center' },
         { text: 'Other', value: 'contactedOtherGroup', align: 'center' },
         { text: 'Group Name', value: 'otherContactInfo', align: 'center' }

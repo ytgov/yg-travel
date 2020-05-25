@@ -111,7 +111,7 @@
                   </div>
                   <v-checkbox v-if="contactedCommunity"
                               label="First Nation"
-                              v-model="form.contactedFirstNations"
+                              v-model="form.contactedFirstNation"
                               class="pl-5"></v-checkbox>
                   <v-checkbox v-if="contactedCommunity"
                               label="Municipality"
@@ -193,7 +193,7 @@
         travellers: '',
         contactedOtherGroup: false,
         contactedMunicipality: false,
-        contactedFirstNations: false,
+        contactedFirstNation: false,
         otherGroupInfo: '',
         arrivalDate: moment().format('YYYY-MM-DD'),
         returnDate: moment().format('YYYY-MM-DD'),
@@ -236,7 +236,7 @@
           travellers: '',
           contactedOtherGroup: false,
           contactedMunicipality: false,
-          contactedFirstNations: false,
+          contactedFirstNation: false,
           otherGroupInfo: '',
           arrivalDate: moment().format('YYYY-MM-DD'),
           returnDate: moment().format('YYYY-MM-DD'),
@@ -251,7 +251,7 @@
             this.form = response.data[0]
             this.form.arrivalDate = moment().format('YYYY-MM-DD')
             this.form.returnDate = moment().format('YYYY-MM-DD')
-            if (this.contactedMunicipality || this.form.contactedFirstNations || this.contactedOtherGroup)
+            if (this.contactedMunicipality || this.form.contactedFirstNation || this.contactedOtherGroup)
               this.contactedCommunity = true
 
             this.readTerms = true
