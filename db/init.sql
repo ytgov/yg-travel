@@ -20,7 +20,7 @@ CREATE TABLE travelNotices(
   	"arrivalDate" date,
   	"returnDate" date,
   	"requireAssistance" boolean,
-    "destination" varchar(32),
+    "destination" varchar(1024),
   	"phone" varchar(16),
   	"email" varchar(64),
   	"purpose" varchar(256),

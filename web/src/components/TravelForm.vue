@@ -187,7 +187,7 @@
         name: '',
         email: '',
         phone: '',
-        destination: '',
+        destination: [],
         department: '',
         purpose: '',
         travellers: '',
@@ -230,7 +230,7 @@
           name: '',
           email: '',
           phone: '',
-          destination: '',
+          destination: [],
           department: '',
           purpose: '',
           travellers: '',
@@ -248,6 +248,7 @@
         this.$api.get(urls.getNotice + code).then(response => {
           if (Object.keys(response.data).length !== 0) {
             this.resubmit = true
+            response.data[0].destination = JSON.parse(response.data[0].destination)
             this.form = response.data[0]
             this.form.arrivalDate = moment().format('YYYY-MM-DD')
             this.form.returnDate = moment().format('YYYY-MM-DD')
@@ -262,6 +263,7 @@
         })
       },
       submit() {
+        this.form.destination = this.toArrayString(this.form.destination)
         if (this.form.code && this.form.code.length > 0) {
           this.$api
             .post(urls.updateNotice, this.form)
@@ -298,6 +300,15 @@
         if (this.$refs.form.validate()) {
           this.submit()
         }
+      },
+      toArrayString(arr) {
+        //this is really stupid, but it's because knex converts an array to an object and then puts that as a string in the db, which can't be parsed, so I'm just beeting it to it.
+        var result = '['
+        arr.forEach(slice => {
+          result += '"'+slice+'",'
+        })
+        result = result.slice(0, -1)+"]"
+        return result
       }
     },
     filters: {
