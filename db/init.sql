@@ -48,4 +48,4 @@ INSERT INTO "departments" (name) values
 ('French Language Services Directorate'),('Health and Social Services'),('Highways and Public Works'),('Justice'),
 ('Legislative Assembly'),('Lotteries Yukon'),('Public Service Commission'),('Tourism and Culture'),('Women''s Directorate'),
 ('Workers'' Compensation Health & Safety Board'),('Yukon Development Corporation'),('Yukon Energy Corporation'),
-('Yukon Housing Corporation'),('Yukon Liquor Corporation'),('Yukon Youth & Child Advocate Office')
+('Yukon Housing Corporation'),('Yukon Liquor Corporation'),('Yukon Youth & Child Advocate Office');
