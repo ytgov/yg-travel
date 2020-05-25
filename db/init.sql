@@ -45,4 +45,7 @@ INSERT INTO "communities" (name) values
 
 INSERT INTO "departments" (name) values
 ('Community Services'),('Economic Development'),('Education'),('Energy, Mines and Resources'),('Environment'),('Executive Council Office'),('Finance'),
-('French Language Services Directorate'),('Health and Social Services'),('Highways and Public Works'),('Justice'),('Public Service Commission'),('Tourism and Culture'),('Women''s Directorate');
+('French Language Services Directorate'),('Health and Social Services'),('Highways and Public Works'),('Justice'),
+('Legislative Assembly'),('Lotteries Yukon'),('Public Service Commission'),('Tourism and Culture'),('Women''s Directorate'),
+('Workers'' Compensation Health & Safety Board'),('Yukon Development Corporation'),('Yukon Energy Corporation'),
+('Yukon Housing Corporation'),('Yukon Liquor Corporation'),('Yukon Youth & Child Advocate Office')

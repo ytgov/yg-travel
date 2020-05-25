@@ -302,7 +302,8 @@
         }
       },
       toArrayString(arr) {
-        //this is really stupid, but it's because knex converts an array to an object and then puts that as a string in the db, which can't be parsed, so I'm just beeting it to it.
+        //this is really stupid, but it's because knex converts an array to an object and then puts that as a string in the db,
+        //which can't be parsed, so I'm just beeting it to it.
         var result = '['
         arr.forEach(slice => {
           result += '"'+slice+'",'
