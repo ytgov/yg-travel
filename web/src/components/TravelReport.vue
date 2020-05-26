@@ -64,12 +64,6 @@
             return header.value != 'purpose'
           })
         return this.headers
-      },
-      formattedArrivalDate() {
-
-      },
-      formattedReturnDate() {
-
       }
     },
     methods: {
