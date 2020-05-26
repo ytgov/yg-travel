@@ -55,18 +55,13 @@
         var data = []
         //var clean = []
         this.notices.map(notice => {
-          console.log(notice.destination)
           if(!data[notice.destination]) data[notice.destination] = []
           if(!data[notice.destination][notice.arrivalDate]) data[notice.destination][notice.arrivalDate] = 1
           else data[notice.destination][notice.arrivalDate]++
         })
-        data.map(location => {
-          console.log(location)
-        })
 
         var cutoffDate = moment()
         if (this.dateRange == 'week') cutoffDate.add(1, 'week')
-        console.log(data)
       }
     },
     mounted: function() {

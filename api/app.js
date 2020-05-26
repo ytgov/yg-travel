@@ -7,8 +7,6 @@ const port = process.env.PORT || 3000
 const db = require('./queries')
 const cors = require('cors')
 
-console.log(process.env)
-
 app.use(bodyParser.json())
 app.use(
   bodyParser.urlencoded({
@@ -20,18 +18,18 @@ app.use(cors());
 
 app.get('/api/status', function (req, res) {
     res.send('The API Service is running');
-});
+})
 
-app.get('/getCommunities', db.getCommunities)
-app.get('/getCommunityGroups', db.getCommunityGroups)
-app.get('/getDepartments', db.getDepartments)
-app.get('/getNotices', db.getNotices)
-app.get('/getNotice/:code', db.getNotice)
-app.get('/report/byCommunity/:community', db.getReportByCommunity)
-app.get('/report/byDepartment/:department', db.getReportByDepartment)
+app.get('/api/v1/getCommunities', db.getCommunities)
+app.get('/api/v1/getCommunityGroups', db.getCommunityGroups)
+app.get('/api/v1/getDepartments', db.getDepartments)
+app.get('/api/v1/getNotices', db.getNotices)
+app.get('/api/v1/getNotice/:code', db.getNotice)
+app.get('/api/v1/reports/byCommunity/:community', db.getReportByCommunity)
+app.get('/api/v1/reports/byDepartment/:department', db.getReportByDepartment)
 
-app.post('/createNotice', db.createNotice)
-app.post('/updateNotice', db.updateNotice)
+app.post('/api/v1/createNotice', db.createNotice)
+app.post('/api/v1/updateNotice', db.updateNotice)
 
 app.listen(port, () => {
   console.log(`Travel Portal App listening on internal port ${port}`)

@@ -39,10 +39,6 @@ INSERT INTO "communities" (name) values
 INSERT INTO "communityGroups" (name) values
 ('First Nation'),('Municipality'),('Other');
 
-INSERT INTO "communities" (name) values
-('Whitehorse'),('Carmacks'),('Dawson City'),('Beaver Creek'),('Burwash Landing'),('Tagish'),('Carcross'),
-('Faro'),('Haines Junction'),('Mayo'),('Mount Lorne'),('Old Crow'),('Pelly Crossing'),('Ross River'),('Teslin'),('Watson Lake');
-
 INSERT INTO "departments" (name) values
 ('Community Services'),('Economic Development'),('Education'),('Energy, Mines and Resources'),('Environment'),('Executive Council Office'),('Finance'),
 ('French Language Services Directorate'),('Health and Social Services'),('Highways and Public Works'),('Justice'),
