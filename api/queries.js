@@ -154,7 +154,7 @@ exports.createEmail = function(req, res){
   })
 }
 
-exports.createEmail = function(req, res){
+exports.updateEmail = function(req, res){
   knex('emails')
   .where('email','=',req.body.email)
   .update(req.body)
