@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
-var express = require('express');  
+var express = require('express');
 var history = require('connect-history-api-fallback');
 
 require('dotenv').config()
 
 var port = process.env.PORT || 8080;
-var app = express();  
+var app = express();
 
 app.use(history({
     verbose: true}));

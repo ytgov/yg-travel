@@ -5,6 +5,7 @@ import Admin from '@/views/Admin'
 
 import TravelReport from '@/components/TravelReport'
 import TravelForm from '@/components/TravelForm'
+import CommunityReport from '@/components/CommunityReport'
 
 Vue.use(Router)
 
@@ -26,10 +27,10 @@ export default new Router({
         {
             path: '/reports/:community',
             name: 'Community Report',
-            component: TravelReport
+            component: CommunityReport
         },
         {
-            path: '/reports/',
+            path: '/reports',
             name: 'Community Reports',
             component: TravelReport
         },
