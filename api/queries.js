@@ -166,6 +166,18 @@ exports.updateEmail = function(req, res){
   })
 }
 
+exports.deleteEmail = function(req, res){
+  knex('emails')
+  .where('email','=',req.body.email)
+  .del()
+  .returning('*')
+  .then(sqlResults =>res.send(sqlResults))
+  .catch(function(e){
+    res.sendStatus(404).send('Not found')
+    console.log(e)
+  })
+}
+
 function toArrayString(arr) {
   //this is really stupid, but it's because knex converts an array to an object and then puts that as a string in the db,
   //which can't be parsed, so I'm just beeting it to it.

@@ -36,6 +36,7 @@ app.get('/api/v1/getEmailsByCommunity/:community', db.getEmailsByCommunity)
 
 app.post('/api/v1/createEmail', db.createEmail)
 app.post('/api/v1/updateEmail', db.updateEmail)
+app.post('/api/v1/deleteEmail', db.deleteEmail)
 
 app.listen(port, () => {
   console.log(`Travel Portal App listening on internal port ${port}`)
