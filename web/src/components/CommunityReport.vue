@@ -1,6 +1,6 @@
 <template>
+
   <div>
-    <EmailManager :community="'Whitehorse'"/>
     <v-row>
       <v-btn-toggle v-model="dateRange"
                     color="deep- purple accent-3"
@@ -19,10 +19,13 @@
     <v-data-table :headers="computedHeaders"
                   :items="displayedNotices"
                   class="elevation-1"></v-data-table>
+    <EmailManager :community="'Whitehorse'" />
   </div>
+
 </template>
 
 <script>
+
   import moment from 'moment'
   import EmailManager from './EmailManager.vue'
   export default {
@@ -35,8 +38,8 @@
     },
     name: 'TravelReport',
     data: () => ({
-      notices : [],
-      publicView : false,
+      notices: [],
+      publicView: false,
       dateRange: 'week',
       headers: [
         { text: 'Department', value: 'department', sortable: true },
@@ -64,15 +67,14 @@
         return this.notices.filter(notice => moment(notice.arrivalDate, 'YYYY-MM-DD').isBefore(cutoffDate))
       },
       computedHeaders() {
-        if(this.publicView)
+        if (this.publicView)
           return this.headers.filter(header => {
             return header.value != 'purpose'
           })
         return this.headers
       }
     },
-    methods: {
-    }
+    methods: {}
   }
 
 </script>
