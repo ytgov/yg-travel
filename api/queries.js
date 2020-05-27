@@ -31,6 +31,44 @@ exports.getDepartments = function(req, res) {
   })
 }
 
+exports.createNotice = function(req, res) {
+  req.body.destination = toArrayString(req.body.destination)
+  knex('travelNotices')
+  .insert(req.body)
+  .then(sqlResults => res.send(sqlResults))
+  .catch(function(e){
+    res.sendStatus(404).send('Not found')
+    console.log(e)
+  })
+}
+
+exports.updateNotice = function(req, res) {
+  req.body.destination = toArrayString(req.body.destination)
+  knex('travelNotices')
+  .where('code','=',req.body.code)
+  .update(req.body)
+  .returning('*')
+  .then(sqlResults =>res.send(sqlResults))
+  .catch(function(e){
+    res.sendStatus(404).send('Not found')
+    console.log(e)
+  })
+}
+
+exports.getNotice = function(req, res) {
+  knex('travelNotices')
+  .select('*')
+  .where('code','=',req.params.code)
+  .then(sqlResults => {
+    sqlResults.map(result => {return parseDestination(result)})
+    res.send(sqlResults)
+  })
+  .catch(function(e){
+    console.log(e)
+    res.sendStatus(404).send('Not found')
+  })
+}
+
 exports.getNotices = function(req, res) {
   knex('travelNotices')
   .select('*')
@@ -47,20 +85,6 @@ exports.getNotices = function(req, res) {
 exports.getReports = function(req, res) {
   knex('travelNotices')
   .select('*')
-  .then(sqlResults => {
-    sqlResults.map(result => {return parseDestination(result)})
-    res.send(sqlResults)
-  })
-  .catch(function(e){
-    console.log(e)
-    res.sendStatus(404).send('Not found')
-  })
-}
-
-exports.getNotice = function(req, res) {
-  knex('travelNotices')
-  .select('*')
-  .where('code','=',req.params.code)
   .then(sqlResults => {
     sqlResults.map(result => {return parseDestination(result)})
     res.send(sqlResults)
@@ -99,9 +123,29 @@ exports.getReportByDepartment = function(req, res){
   })
 }
 
-exports.createNotice = function(req, res) {
-  req.body.destination = toArrayString(req.body.destination)
-  knex('travelNotices')
+exports.getEmails = function(req, res){
+  knex('emails')
+  .select('*')
+  .then(sqlResults => {res.send(sqlResults)})
+  .catch(function(e){
+    res.sendStatus(404).send('Not found')
+    console.log(e)
+  })
+}
+
+exports.getEmailsByCommunity = function(req, res){
+  knex('emails')
+  .select('*')
+  .whereRaw('replace(replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', ['%"'+req.params.community.toLowerCase()+'"%'])
+  .then(sqlResults => {res.send(sqlResults)})
+  .catch(function(e){
+    res.sendStatus(404).send('Not found')
+    console.log(e)
+  })
+}
+
+exports.createEmail = function(req, res){
+  knex('emails')
   .insert(req.body)
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
@@ -110,10 +154,9 @@ exports.createNotice = function(req, res) {
   })
 }
 
-exports.updateNotice = function(req, res) {
-  req.body.destination = toArrayString(req.body.destination)
-  knex('travelNotices')
-  .where('code','=',req.body.code)
+exports.createEmail = function(req, res){
+  knex('emails')
+  .where('email','=',req.body.email)
   .update(req.body)
   .returning('*')
   .then(sqlResults =>res.send(sqlResults))
@@ -121,10 +164,6 @@ exports.updateNotice = function(req, res) {
     console.log(e)
     res.sendStatus(404).send('Not found')
   })
-}
-
-String.prototype.toProperCase = function () {
-    return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()})
 }
 
 function toArrayString(arr) {

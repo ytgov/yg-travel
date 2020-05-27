@@ -13,6 +13,12 @@ CREATE TABLE "departments"(
     name varchar(64)
 );
 
+CREATE TABLE "emails"(
+    id SERIAL,
+    email varchar(64),
+    community varchar(32)
+);
+
 CREATE TABLE "travelNotices"(
     "id" SERIAL,
     "name" varchar(64),
