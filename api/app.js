@@ -32,7 +32,7 @@ app.post('/api/v1/createNotice', db.createNotice)
 app.post('/api/v1/updateNotice', db.updateNotice)
 
 app.get('/api/v1/getEmails', db.getEmails)
-app.get('/api/v1/getEmailsByCommunity', db.getEmailsByCommunity)
+app.get('/api/v1/getEmailsByCommunity/:community', db.getEmailsByCommunity)
 
 app.post('/api/v1/createEmail', db.createEmail)
 app.post('/api/v1/updateEmail', db.updateEmail)

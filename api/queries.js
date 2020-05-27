@@ -136,7 +136,7 @@ exports.getEmails = function(req, res){
 exports.getEmailsByCommunity = function(req, res){
   knex('emails')
   .select('*')
-  .whereRaw('replace(replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', ['%"'+req.params.community.toLowerCase()+'"%'])
+  .whereRaw('replace(replace(replace(replace(lower(community), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', ['%'+req.params.community.toLowerCase()+'%'])
   .then(sqlResults => {res.send(sqlResults)})
   .catch(function(e){
     res.sendStatus(404).send('Not found')
