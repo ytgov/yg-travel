@@ -168,7 +168,7 @@ exports.updateEmail = function(req, res){
 
 exports.deleteEmail = function(req, res){
   knex('emails')
-  .where('email','=',req.body.email)
+  .where('id','=',req.body.id)
   .del()
   .returning('*')
   .then(sqlResults =>res.send(sqlResults))

@@ -1,5 +1,4 @@
 <template>
-
   <v-container>
     {{community}}
     <v-simple-table>
@@ -15,7 +14,7 @@
           <tr v-for="entry in entries" :key="entry.id">
             <td>{{ entry.email }}</td>
             <td>{{ entry.frequency }}</td>
-            <v-btn icon color="red">
+            <v-btn icon color="red" v-on:click="deleteEmail(entry)">
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </tr>
@@ -65,6 +64,9 @@
       addEmail() {
         this.subscribe.community = this.community
         this.$api.post(urls.createEmail, this.subscribe).then(() => {this.getEmails()})
+      },
+      deleteEmail(entry) {
+        this.$api.post(urls.deleteEmail, entry).then(() => {this.getEmails()})
       }
     },
     filters: {},
