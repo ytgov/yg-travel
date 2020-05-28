@@ -123,7 +123,7 @@
                               class="pl-5"></v-checkbox>
                   <v-text-field v-if="form.contactedOtherGroup"
                                 label="Who have you contacted?"
-                                v-model="form.otherContactInfo"
+                                v-model="form.otherGroupInfo"
                                 :rules="requiredField"
                                 filled></v-text-field>
 
