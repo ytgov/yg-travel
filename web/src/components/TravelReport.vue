@@ -46,7 +46,7 @@
         { text: 'First Nation Contacted', value: 'contactedFirstNation', align: 'center' },
         { text: 'Municipality Contracted', value: 'contactedMunicipality', align: 'center' },
         { text: 'Other', value: 'contactedOtherGroup', align: 'center' },
-        { text: 'Group Name', value: 'otherContactInfo', align: 'center' }
+        { text: 'Group Name', value: 'otherGroupInfo', align: 'center' }
       ]
     }),
 
