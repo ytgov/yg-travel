@@ -81,7 +81,7 @@ exports.getReportByCommunity = function(req, res){
     res.send(sqlResults)
   })
   .catch(function(e){
-    //res.sendStatus(404).send('Not found')
+    res.sendStatus(404).send('Not found')
     console.log(e)
   })
 }
