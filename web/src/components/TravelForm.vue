@@ -50,11 +50,11 @@
                   <v-toolbar-title>Travel Details</v-toolbar-title>
                 </v-toolbar>
                 <v-card-text>
-                  <v-combobox v-model="form.destination"
+                  <v-select v-model="form.destination"
                               :items="communities"
                               label="Travel Locations"
                               filled
-                              multiple></v-combobox>
+                              multiple></v-select>
 
                   <v-textarea :rules="requiredField"
                               v-model="form.purpose"
