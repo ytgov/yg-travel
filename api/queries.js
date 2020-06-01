@@ -7,8 +7,8 @@ exports.getCommunities = function(req, res) {
   .select('name')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
     console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 
@@ -17,8 +17,7 @@ exports.getCommunityGroups = function(req, res) {
   .select('name')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
-    console.log(e)
+
   })
 }
 
@@ -27,8 +26,8 @@ exports.getDepartments = function(req, res) {
   .select('name')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
     console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 
@@ -40,8 +39,8 @@ exports.getNotices = function(req, res) {
     res.send(sqlResults)
   })
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
     console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 
@@ -53,8 +52,8 @@ exports.getReports = function(req, res) {
     res.send(sqlResults)
   })
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
     console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 
@@ -67,8 +66,8 @@ exports.getNotice = function(req, res) {
     res.send(sqlResults)
   })
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
     console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 
@@ -81,8 +80,8 @@ exports.getReportByCommunity = function(req, res){
     res.send(sqlResults)
   })
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
     console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 
@@ -95,8 +94,8 @@ exports.getReportByDepartment = function(req, res){
     res.send(sqlResults)
   })
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
     console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 
@@ -106,8 +105,8 @@ exports.createNotice = function(req, res) {
   .insert(req.body)
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
     console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 
@@ -119,8 +118,8 @@ exports.updateNotice = function(req, res) {
   .returning('*')
   .then(sqlResults =>res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
     console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 

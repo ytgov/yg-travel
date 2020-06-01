@@ -23,7 +23,7 @@ CREATE TABLE "travelNotices"(
     "destination" varchar(1024),
   	"phone" varchar(16),
   	"email" varchar(64),
-  	"purpose" varchar(256),
+  	"purpose" varchar(2048),
   	"code" varchar(64),
   	"department" varchar(64),
     "contactedFirstNation" boolean,
