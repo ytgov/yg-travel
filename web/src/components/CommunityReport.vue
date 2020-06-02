@@ -6,22 +6,11 @@
                     color="deep- purple accent-3"
                     group
                     mandatory>
-        <v-btn value="week">
-          Week
-        </v-btn>
-        <v-btn value="month">
-          Month
-        </v-btn>
-        <v-btn value="year">
-          Year
-        </v-btn>
-        <v-btn value="current">
-          Current Trips
-        </v-btn>
-        <v-btn value="past">
-          Past Trips
-        </v-btn>
-
+        <v-btn value="week">Week</v-btn>
+        <v-btn value="month">Month</v-btn>
+        <v-btn value="year">Year</v-btn>
+        <v-btn value="current">Current Trips</v-btn>
+        <v-btn value="past">Past Trips</v-btn>
       </v-btn-toggle>
     </v-row>
 
@@ -31,7 +20,8 @@
                   item-key="name"
                   show-expand
                   show-select
-                  class="elevation-1">
+                  class="elevation-1"
+                  v-model="selected">
       <template v-slot:top>
              <v-toolbar flat>
                <v-toolbar-title>Travel Notices</v-toolbar-title>
@@ -48,7 +38,7 @@
              </td>
            </template>
     </v-data-table>
-    <v-btn value="remove">
+    <v-btn value="remove" @click='deleteNotices'>
       Remove Selected Requets
     </v-btn>
   </v-container>
@@ -70,7 +60,7 @@
       expanded: [],
       singleExpand: false,
       dateRange: 'week',
-
+      selected: [],
       headers: [
         { text: 'Department', value: 'department', sortable: true },
         { text: 'Program Manager', value: 'name' },
@@ -124,10 +114,13 @@
       }
     },
     methods: {
-      deleteNotice(entry) {
-        this.$api.post(urls.deleteNotice, entry).then(() => {
-          this.$api.get(urls.getNoticesByCommunity + this.community).then(response => {
-            this.notices = response.data
+      deleteNotices() {
+        console.log('hi')
+        this.selected.forEach( entry => {
+          this.$api.post(urls.deleteNotice, entry).then(() => {
+            this.$api.get(urls.getNoticesByCommunity + this.community).then(response => {
+              this.notices = response.data
+            })
           })
         })
       }

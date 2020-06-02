@@ -17,7 +17,8 @@ exports.getCommunityGroups = function(req, res) {
   .select('name')
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-
+    console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 
@@ -37,8 +38,8 @@ exports.createNotice = function(req, res) {
   .insert(req.body)
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
     console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 
@@ -50,21 +51,20 @@ exports.updateNotice = function(req, res) {
   .returning('*')
   .then(sqlResults =>res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
     console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 
 exports.deleteNotice = function(req, res) {
-  console.log(req)
   knex('travelNotices')
   .where('id','=',req.body.id)
   .del()
   .returning('*')
   .then(sqlResults =>res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
     console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 
