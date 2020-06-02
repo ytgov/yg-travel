@@ -1,6 +1,7 @@
 <template>
 
   <v-container>
+   <v-toolbar-title>Travel Notices</v-toolbar-title>
     <v-row style="padding: 0px 5px;">
       <v-btn-toggle v-model="dateRange"
                     color="accent-3"
@@ -22,11 +23,6 @@
                   show-select
                   class="elevation-1"
                   v-model="selected">
-      <template v-slot:top>
-             <v-toolbar flat>
-               <v-toolbar-title>Travel Notices</v-toolbar-title>
-             </v-toolbar>
-           </template>
       <template v-slot:expanded-item="{ headers, item }">
              <td :colspan="headers.length">
                <v-row>

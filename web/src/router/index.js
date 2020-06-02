@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import combo from '@/views/combo'
 import Admin from '@/views/Admin'
 import CommunityPage from '@/views/CommunityPage'
 
@@ -16,13 +15,13 @@ export default new Router({
             path: '/',
             name: 'Combo',
             title: 'YG Travel Form',
-            component: combo
+            component: TravelForm
         },
         {
             path: '/recover/:code',
             name: 'Update',
             title: 'Update - YG Travel Form',
-            component: combo
+            component: TravelForm
         },
         {
             path: '/reports/:community',
