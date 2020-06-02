@@ -133,11 +133,10 @@ exports.getEmails = function(req, res){
   })
 }
 
-//something weird here with email filters. Can get dawson from just d.
 exports.getEmailsByCommunity = function(req, res){
   knex('emails')
   .select('*')
-  .whereRaw('replace(replace(replace(replace(lower(community), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', ['%'+req.params.community.toLowerCase()+'%'])
+  .whereRaw('replace(replace(replace(replace(lower(community), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', [req.params.community.toLowerCase()])
   .then(sqlResults => {res.send(sqlResults)})
   .catch(function(e){
     res.sendStatus(404).send('Not found')

@@ -1,9 +1,9 @@
 <template>
 
   <v-container>
-    <v-row>
+    <v-row style="padding: 0px 5px;">
       <v-btn-toggle v-model="dateRange"
-                    color="deep- purple accent-3"
+                    color="accent-3"
                     group
                     mandatory>
         <v-btn value="week">Week</v-btn>
@@ -29,12 +29,19 @@
            </template>
       <template v-slot:expanded-item="{ headers, item }">
              <td :colspan="headers.length">
-               Purpose: {{item.purpose}}<br>
-               Contacted First Nation: {{item.contactedFirstNation}}<br>
-               Contacted Municipality: {{item.contactedMunicipality}}<br>
-               Contacted Other Group: {{item.contactedOtherGroup}}<br>
-               Other Group Contact Info: {{item.otherContactInfo}}<br>
-               Requries Assistance: {{item.requireAssistance}}
+               <v-row>
+                 <v-col>
+                   Purpose: {{item.purpose}}
+                 </v-col>
+                 <v-col>
+                   Contacted First Nation: {{item.contactedFirstNation}}<br>
+                   Contacted Municipality: {{item.contactedMunicipality}}<br>
+                   Contacted Other Group: {{item.contactedOtherGroup}}<br>
+                   Other Group Contact Info: {{item.otherContactInfo}}<br>
+                   Requries Assistance: {{item.requireAssistance}}
+                 </v-col>
+               </v-row>
+               <br>
              </td>
            </template>
     </v-data-table>
