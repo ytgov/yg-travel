@@ -16,12 +16,6 @@
         </v-btn>
       </v-btn-toggle>
     </v-row>
-    <!-- <v-data-table :headers="computedHeaders"
-                    :items="displayedNotices"
-                    class="elevation-1"
-                    show-select
-                    show-expand>
-      </v-data-table> -->
 
     <v-data-table :headers="headers"
                   :items="displayedNotices"
@@ -31,14 +25,17 @@
                   class="elevation-1">
       <template v-slot:top>
            <v-toolbar flat>
-             <v-toolbar-title>Expandable Table</v-toolbar-title>
-             <v-spacer></v-spacer>
-             <v-switch v-model="singleExpand" label="Single expand" class="mt-2"></v-switch>
+             <v-toolbar-title>{{community}}</v-toolbar-title>
            </v-toolbar>
          </template>
       <template v-slot:expanded-item="{ headers, item }">
            <td :colspan="headers.length">
-             Purpose: {{item.purpose}}
+             Purpose: {{item.purpose}}<br>
+             Contacted First Nation: {{item.contactedFirstNation}}<br>
+             Contacted Municipality: {{item.contactedMunicipality}}<br>
+             Contacted Other Group: {{item.contactedOtherGroup}}<br>
+             Other Group Contact Info: {{item.otherContactInfo}}<br>
+             Requries Assistance: {{item.requireAssistance}}
            </td>
          </template>
     </v-data-table>
@@ -63,15 +60,6 @@
       singleExpand: false,
       dateRange: 'week',
 
-      // { text: 'Destination', value: 'destination' },
-      // { text: 'Purpose', value: 'purpose', align: 'center' },
-      // { text: 'Travellers', value: 'travellers' },
-      // { text: 'Arrival', value: 'arrivalDate', align: 'center', width: '150' },
-      // { text: 'Departure', value: 'returnDate', align: 'center', width: '150' },
-      // { text: 'First Nation Contacted', value: 'contactedFirstNation', align: 'center' },
-      // { text: 'Municipality Contracted', value: 'contactedMunicipality', align: 'center' },
-      // { text: 'Other', value: 'contactedOtherGroup', align: 'center' },
-      // { text: 'Group Name', value: 'otherContactInfo', align: 'center' }
       headers: [
         { text: 'Department', value: 'department', sortable: true },
         { text: 'Program Manager', value: 'name' },
