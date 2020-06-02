@@ -23,6 +23,7 @@ app.get('/api/status', function (req, res) {
 app.get('/api/v1/getCommunities', db.getCommunities)
 app.get('/api/v1/getCommunityGroups', db.getCommunityGroups)
 app.get('/api/v1/getDepartments', db.getDepartments)
+
 app.get('/api/v1/getNotices', db.getNotices)
 app.get('/api/v1/getNotice/:code', db.getNotice)
 app.get('/api/v1/getNotices/byCommunity/:community', db.getNoticesByCommunity)

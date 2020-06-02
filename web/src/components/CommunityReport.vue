@@ -38,9 +38,11 @@
              </td>
            </template>
     </v-data-table>
-    <v-btn value="remove" @click='deleteNotices'>
-      Remove Selected Requets
-    </v-btn>
+    <div class="text-right" style="padding: 5px 0px;">
+      <v-btn value="remove" @click='deleteNotices' class="white--text" color='#dc4404'>
+        Remove Selected Requets
+      </v-btn>
+    </div>
   </v-container>
 
 </template>

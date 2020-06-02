@@ -1,11 +1,11 @@
 <template>
 
   <v-app>
-    <v-card style="padding: 15px;">
+    <v-card style="padding: 5px 0px;">
       <CommunityReport :community="this.$route.params.community"/>
     </v-card>
     <br />
-    <v-card style="padding: 15px;">
+    <v-card style="padding: 5px 0px;">
       <EmailManager :community="this.$route.params.community" />
     </v-card>
 

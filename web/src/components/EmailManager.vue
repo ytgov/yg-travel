@@ -8,26 +8,29 @@
               <tr>
                 <th class="text-left">Email</th>
                 <th class="text-left">Frequency</th>
-                <th class="text-left">Remove</th>
+                <th class="text-right">Remove</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="entry in entries" :key="entry.id">
                 <td>{{ entry.email }}</td>
                 <td>{{ entry.frequency }}</td>
+                <td class="text-right">
                 <v-btn icon color="red" v-on:click="deleteEmail(entry)">
                   <v-icon>mdi-close</v-icon>
                 </v-btn>
+                </td>
               </tr>
             </tbody>
           </template>
     </v-simple-table>
+    <v-divider></v-divider>
+    <br>
     <v-row>
       <v-col>
         <v-text-field label="Email"
                       required
                       filled
-                      md="2"
                       v-model="subscribe.email"
                       :rules="emailRules"></v-text-field>
       </v-col>
@@ -37,7 +40,7 @@
                   v-model="subscribe.frequency"
                   filled></v-select>
       </v-col>
-      <v-col>
+      <v-col cols="1">
         <v-btn color="#ffa500" class="white--text" @click="addEmail">Add
         </v-btn>
       </v-col>
