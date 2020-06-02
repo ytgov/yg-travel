@@ -17,7 +17,7 @@
     <v-data-table :headers="headers"
                   :items="displayedNotices"
                   :expanded.sync="expanded"
-                  item-key="name"
+                  item-key="id"
                   show-expand
                   show-select
                   class="elevation-1"
@@ -50,13 +50,12 @@
   import moment from 'moment'
   export default {
     props: {
-      notices: Array,
-      publicView: Boolean,
       community: String
     },
     components: {},
     name: 'TravelReport',
     data: () => ({
+      notices: [],
       expanded: [],
       singleExpand: false,
       dateRange: 'week',
@@ -70,7 +69,6 @@
         { text: 'Departure', value: 'returnDateDisplay', align: 'center', width: '150' }
       ]
     }),
-
     computed: {
       displayedNotices() {
         var formattedNotices = []
@@ -81,26 +79,24 @@
         formattedNotices = this.notices.map(notice => {
           notice.arrivalDateDisplay = moment(notice.arrivalDate).format('LL')
           notice.returnDateDisplay = moment(notice.returnDate).format('LL')
-          notice.destination = notice.destination
-            .toString()
-            .split(',')
-            .join(', ')
+          notice.destination = notice.destination.toString().split(',').join(', ')
           return notice
         })
         return formattedNotices.filter(notice => {
           if( this.dateRange == 'past') {
+            //this needs to be a bit reworked
             return (
-              moment(notice.returnDate, 'YYYY-MM-DD').isBefore(moment())
+              moment(notice.returnDate, 'YYYY-MM-DD').isBefore(moment().subtract(1, "days"))
             )
           } else if( this.dateRange.trim() == 'current') {
             return (
               moment(notice.arrivalDate, 'YYYY-MM-DD').isSameOrBefore(moment()) &&
-              moment(notice.returnDate, 'YYYY-MM-DD').isSameOrAfter(moment())
+              moment(notice.returnDate, 'YYYY-MM-DD').isSameOrAfter(moment().subtract(1, "days"))
             )
           } else {
             return (
               moment(notice.arrivalDate, 'YYYY-MM-DD').isBefore(cutoffDate) &&
-              moment(notice.returnDate, 'YYYY-MM-DD').isAfter(moment())
+              moment(notice.returnDate, 'YYYY-MM-DD').isAfter(moment().subtract(1, "days"))
             )
           }
         })
@@ -115,15 +111,18 @@
     },
     methods: {
       deleteNotices() {
-        console.log('hi')
         this.selected.forEach( entry => {
-          this.$api.post(urls.deleteNotice, entry).then(() => {
-            this.$api.get(urls.getNoticesByCommunity + this.community).then(response => {
-              this.notices = response.data
-            })
-          })
+          this.$api.post(urls.deleteNotice, entry).then(this.getNotices())
+        })
+      },
+      getNotices() {
+        this.$api.get(urls.getNoticesByCommunity + this.community).then(response => {
+          this.notices = response.data
         })
       }
+    },
+    mounted: function(){
+      this.getNotices()
     }
   }
 
