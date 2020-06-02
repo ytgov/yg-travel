@@ -1,6 +1,6 @@
 <template>
 
-  <div>
+  <v-container>
     <v-row>
       <v-btn-toggle v-model="dateRange"
                     color="deep- purple accent-3"
@@ -14,6 +14,13 @@
         <v-btn value="year">
           Year
         </v-btn>
+        <v-btn value="current">
+          Current Trips
+        </v-btn>
+        <v-btn value="past">
+          Past Trips
+        </v-btn>
+
       </v-btn-toggle>
     </v-row>
 
@@ -22,25 +29,28 @@
                   :expanded.sync="expanded"
                   item-key="name"
                   show-expand
+                  show-select
                   class="elevation-1">
       <template v-slot:top>
-           <v-toolbar flat>
-             <v-toolbar-title>{{community}}</v-toolbar-title>
-           </v-toolbar>
-         </template>
+             <v-toolbar flat>
+               <v-toolbar-title>Travel Notices</v-toolbar-title>
+             </v-toolbar>
+           </template>
       <template v-slot:expanded-item="{ headers, item }">
-           <td :colspan="headers.length">
-             Purpose: {{item.purpose}}<br>
-             Contacted First Nation: {{item.contactedFirstNation}}<br>
-             Contacted Municipality: {{item.contactedMunicipality}}<br>
-             Contacted Other Group: {{item.contactedOtherGroup}}<br>
-             Other Group Contact Info: {{item.otherContactInfo}}<br>
-             Requries Assistance: {{item.requireAssistance}}
-           </td>
-         </template>
+             <td :colspan="headers.length">
+               Purpose: {{item.purpose}}<br>
+               Contacted First Nation: {{item.contactedFirstNation}}<br>
+               Contacted Municipality: {{item.contactedMunicipality}}<br>
+               Contacted Other Group: {{item.contactedOtherGroup}}<br>
+               Other Group Contact Info: {{item.otherContactInfo}}<br>
+               Requries Assistance: {{item.requireAssistance}}
+             </td>
+           </template>
     </v-data-table>
-
-  </div>
+    <v-btn value="remove">
+      Remove Selected Requets
+    </v-btn>
+  </v-container>
 
 </template>
 
@@ -66,7 +76,7 @@
         { text: 'Destination', value: 'destination' },
         { text: 'Travellers', value: 'travellers' },
         { text: 'Arrival', value: 'arrivalDateDisplay', align: 'center', width: '150' },
-        { text: 'Departure', value: 'returnDateDisplay', align: 'center', width: '150' },
+        { text: 'Departure', value: 'returnDateDisplay', align: 'center', width: '150' }
       ]
     }),
 
@@ -77,12 +87,35 @@
         if (this.dateRange == 'week') cutoffDate.add(1, 'week')
         else if (this.dateRange == 'month') cutoffDate.add(1, 'month')
         else cutoffDate.add(1, 'year')
-        formattedNotices = this.notices.map( notice => {
+        formattedNotices = this.notices.map(notice => {
           notice.arrivalDateDisplay = moment(notice.arrivalDate).format('LL')
           notice.returnDateDisplay = moment(notice.returnDate).format('LL')
+          notice.destination = notice.destination
+            .toString()
+            .split(',')
+            .join(', ')
           return notice
         })
-        return formattedNotices.filter(notice => moment(notice.arrivalDate, 'YYYY-MM-DD').isBefore(cutoffDate))
+        return formattedNotices.filter(notice => {
+          console.log(moment(notice.returnDate, 'YYYY-MM-DD'))
+          console.log(moment())
+          if( this.dataRange == 'past') {
+            return (
+              moment(notice.arrivalDate, 'YYYY-MM-DD').isBefore(cutoffDate) &&
+              moment(notice.returnDate, 'YYYY-MM-DD').isAfter(moment())
+            )
+          } else if( this.dataRange == 'current') {
+            return (
+              moment(notice.arrivalDate, 'YYYY-MM-DD').isBefore(cutoffDate) &&
+              moment(notice.returnDate, 'YYYY-MM-DD').isAfter(moment())
+            )
+          } else {
+            return (
+              moment(notice.arrivalDate, 'YYYY-MM-DD').isBefore(cutoffDate) &&
+              moment(notice.returnDate, 'YYYY-MM-DD').isAfter(moment())
+            )
+          }
+        })
       },
       computedHeaders() {
         if (this.publicView)

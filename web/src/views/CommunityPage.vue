@@ -1,8 +1,14 @@
 <template>
 
   <v-app>
-    <CommunityReport :notices="notices" :community="this.$route.params.community" :publicView="false" />
-    <EmailManager :community="this.$route.params.community" />
+    <v-card style="padding: 15px;">
+      <CommunityReport :notices="notices" :community="this.$route.params.community" :publicView="false" />
+    </v-card>
+    <br />
+    <v-card style="padding: 15px;">
+      <EmailManager :community="this.$route.params.community" />
+    </v-card>
+
   </v-app>
 
 </template>
@@ -25,7 +31,7 @@
     }),
     mounted: function() {
       this.community = this.$route.params.community
-      this.$api.get(urls.getNoticesByCommunity+this.community).then(response => {
+      this.$api.get(urls.getNoticesByCommunity + this.community).then(response => {
         this.notices = response.data
       })
     }

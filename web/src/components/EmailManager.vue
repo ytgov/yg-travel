@@ -1,7 +1,6 @@
 <template>
   <v-container>
-    <v-card style="padding: 15px;">
-      Email Notifications
+      <v-toolbar-title>Email Notifications</v-toolbar-title>
       <v-simple-table>
         <template v-slot:default>
           <thead>
@@ -38,7 +37,6 @@
           </v-btn>
         </v-col>
       </v-row>
-    </v-card>
 
   </v-container>
 
