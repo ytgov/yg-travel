@@ -4,7 +4,8 @@
     <v-row>
       <v-btn-toggle v-model="dateRange"
                     color="deep- purple accent-3"
-                    group>
+                    group
+                    mandatory>
         <v-btn value="week">
           Week
         </v-btn>
@@ -55,7 +56,7 @@
 </template>
 
 <script>
-
+  import urls from '../urls'
   import moment from 'moment'
   export default {
     props: {
@@ -97,17 +98,14 @@
           return notice
         })
         return formattedNotices.filter(notice => {
-          console.log(moment(notice.returnDate, 'YYYY-MM-DD'))
-          console.log(moment())
-          if( this.dataRange == 'past') {
+          if( this.dateRange == 'past') {
             return (
-              moment(notice.arrivalDate, 'YYYY-MM-DD').isBefore(cutoffDate) &&
-              moment(notice.returnDate, 'YYYY-MM-DD').isAfter(moment())
+              moment(notice.returnDate, 'YYYY-MM-DD').isBefore(moment())
             )
-          } else if( this.dataRange == 'current') {
+          } else if( this.dateRange.trim() == 'current') {
             return (
-              moment(notice.arrivalDate, 'YYYY-MM-DD').isBefore(cutoffDate) &&
-              moment(notice.returnDate, 'YYYY-MM-DD').isAfter(moment())
+              moment(notice.arrivalDate, 'YYYY-MM-DD').isSameOrBefore(moment()) &&
+              moment(notice.returnDate, 'YYYY-MM-DD').isSameOrAfter(moment())
             )
           } else {
             return (
@@ -125,7 +123,15 @@
         return this.headers
       }
     },
-    methods: {}
+    methods: {
+      deleteNotice(entry) {
+        this.$api.post(urls.deleteNotice, entry).then(() => {
+          this.$api.get(urls.getNoticesByCommunity + this.community).then(response => {
+            this.notices = response.data
+          })
+        })
+      }
+    }
   }
 
 </script>

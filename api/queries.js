@@ -55,6 +55,19 @@ exports.updateNotice = function(req, res) {
   })
 }
 
+exports.deleteNotice = function(req, res) {
+  console.log(req)
+  knex('travelNotices')
+  .where('id','=',req.body.id)
+  .del()
+  .returning('*')
+  .then(sqlResults =>res.send(sqlResults))
+  .catch(function(e){
+    res.sendStatus(404).send('Not found')
+    console.log(e)
+  })
+}
+
 exports.getNotice = function(req, res) {
   knex('travelNotices')
   .select('*')
@@ -82,20 +95,7 @@ exports.getNotices = function(req, res) {
   })
 }
 
-exports.getReports = function(req, res) {
-  knex('travelNotices')
-  .select('*')
-  .then(sqlResults => {
-    sqlResults.map(result => {return parseDestination(result)})
-    res.send(sqlResults)
-  })
-  .catch(function(e){
-    console.log(e)
-    res.sendStatus(404).send('Not found')
-  })
-}
-
-exports.getReportByCommunity = function(req, res){
+exports.getNoticesByCommunity = function(req, res){
   knex('travelNotices')
   .select('*')
   .whereRaw('replace(replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', ['%"'+req.params.community.toLowerCase()+'"%'])
@@ -109,7 +109,7 @@ exports.getReportByCommunity = function(req, res){
   })
 }
 
-exports.getReportByDepartment = function(req, res){
+exports.getNoticesByDepartment = function(req, res){
   knex('travelNotices')
   .select('*')
   .whereRaw('replace(replace(replace(replace(lower(department), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', ['%'+req.params.department.toLowerCase()+'%'])
