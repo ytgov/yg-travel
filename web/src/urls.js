@@ -6,6 +6,7 @@ export default {
   getNotices: "/getNotices",
   updateNotice: "/updateNotice",
   getNotice: "/getNotice/",
+  getNoticesByCommunity: "/reports/byCommunity/",
   getReport: "/reports/",
   getEmails: "/getEmails",
   getEmailsByCommunity: "/getEmailsByCommunity/",

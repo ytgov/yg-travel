@@ -2,10 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import combo from '@/views/combo'
 import Admin from '@/views/Admin'
+import CommunityPage from '@/views/CommunityPage'
 
 import TravelReport from '@/components/TravelReport'
 import TravelForm from '@/components/TravelForm'
-import CommunityReport from '@/components/CommunityReport'
 
 Vue.use(Router)
 
@@ -27,7 +27,7 @@ export default new Router({
         {
             path: '/reports/:community',
             name: 'Community Report',
-            component: CommunityReport
+            component: CommunityPage
         },
         {
             path: '/reports',

@@ -1,6 +1,7 @@
 <template>
 
   <div>
+    {{community}}
     <v-row>
       <v-btn-toggle v-model="dateRange"
                     color="deep- purple accent-3"
@@ -19,27 +20,22 @@
     <v-data-table :headers="computedHeaders"
                   :items="displayedNotices"
                   class="elevation-1"></v-data-table>
-    <EmailManager :community="'Whitehorse'" />
   </div>
 
 </template>
 
 <script>
-
   import moment from 'moment'
-  import EmailManager from './EmailManager.vue'
   export default {
-    // props: {
-    //   notices: Array,
-    //   publicView: Boolean
-    // },
+    props: {
+      notices: Array,
+      publicView: Boolean,
+      community: String
+    },
     components: {
-      EmailManager
     },
     name: 'TravelReport',
     data: () => ({
-      notices: [],
-      publicView: false,
       dateRange: 'week',
       headers: [
         { text: 'Department', value: 'department', sortable: true },

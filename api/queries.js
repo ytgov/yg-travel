@@ -133,6 +133,7 @@ exports.getEmails = function(req, res){
   })
 }
 
+//something weird here with email filters. Can get dawson from just d.
 exports.getEmailsByCommunity = function(req, res){
   knex('emails')
   .select('*')
