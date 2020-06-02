@@ -40,12 +40,11 @@
                   v-model="subscribe.frequency"
                   filled></v-select>
       </v-col>
-      <v-col cols="1">
-        <v-btn color="#ffa500" class="white--text" @click="addEmail">Add
-        </v-btn>
-      </v-col>
     </v-row>
-
+    <div class="text-right">
+      <v-btn color="#ffa500" class="white--text" @click="addEmail">Add
+      </v-btn>
+    </div>
   </v-container>
 
 </template>

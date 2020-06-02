@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="#4a263c" dark hide-on-scroll>
+    <v-app-bar app color="#4a263c" dark>
       <div class="d-flex align-center title">
         <v-img
         contain
@@ -29,7 +29,7 @@
         </v-row>
     </v-dialog>
     </v-app-bar>
-    <v-container style="padding: 56px 0px 0px;">
+    <v-container style="padding: 75px 0px 0px;">
       <v-app>
           <router-view></router-view>
       </v-app>
