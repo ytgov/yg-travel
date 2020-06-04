@@ -1,7 +1,7 @@
 <template>
 
   <v-container>
-   <v-toolbar-title>Travel Notices</v-toolbar-title>
+    <v-toolbar-title>Travel Notices</v-toolbar-title>
     <v-row style="padding: 0px 5px;">
       <v-btn-toggle v-model="dateRange"
                     color="accent-3"
@@ -24,25 +24,25 @@
                   class="elevation-1"
                   v-model="selected">
       <template v-slot:expanded-item="{ headers, item }">
-             <td :colspan="headers.length">
-               <v-row>
-                 <v-col>
-                   Purpose: {{item.purpose}}
-                 </v-col>
-                 <v-col>
-                   Contacted First Nation: {{item.contactedFirstNation}}<br>
-                   Contacted Municipality: {{item.contactedMunicipality}}<br>
-                   Contacted Other Group: {{item.contactedOtherGroup}}<br>
-                   Other Group Contact Info: {{item.otherContactInfo}}<br>
-                   Requries Assistance: {{item.requireAssistance}}
-                 </v-col>
-               </v-row>
-               <br>
-             </td>
-           </template>
+       <td :colspan="headers.length">
+         <v-row>
+           <v-col>
+             Purpose: {{item.purpose}}
+           </v-col>
+           <v-col>
+             Contacted First Nation: {{item.contactedFirstNation}}<br>
+             Contacted Municipality: {{item.contactedMunicipality}}<br>
+             Contacted Other Group: {{item.contactedOtherGroup}}<br>
+             Other Group Contact Info: {{item.otherContactInfo}}<br>
+             Requries Assistance: {{item.requireAssistance}}
+           </v-col>
+         </v-row>
+         <br>
+       </td>
+      </template>
     </v-data-table>
     <div class="text-right" style="padding: 5px 0px;">
-      <v-btn value="toggle" @click='toggleNotices' class="white--text" color='#ffa500'>
+      <v-btn value="toggle" @click='toggleNoticeFlags' class="white--text" color='#ffa500'>
         Toggle Flag
       </v-btn>
       <v-btn value="remove" @click='deleteNotices' class="white--text" color='#dc4404'>
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+
   import urls from '../urls'
   import moment from 'moment'
   export default {
@@ -87,24 +88,25 @@
         formattedNotices = this.notices.map(notice => {
           notice.arrivalDateDisplay = moment(notice.arrivalDate).format('LL')
           notice.returnDateDisplay = moment(notice.returnDate).format('LL')
-          notice.destination = notice.destination.toString().split(',').join(', ')
+          notice.destination = notice.destination
+            .toString()
+            .split(',')
+            .join(', ')
           return notice
         })
         return formattedNotices.filter(notice => {
-          if( this.dateRange == 'past') {
+          if (this.dateRange == 'past') {
             //this needs to be a bit reworked
-            return (
-              moment(notice.returnDate, 'YYYY-MM-DD').isBefore(moment().subtract(1, "days"))
-            )
-          } else if( this.dateRange.trim() == 'current') {
+            return moment(notice.returnDate, 'YYYY-MM-DD').isBefore(moment().subtract(1, 'days'))
+          } else if (this.dateRange.trim() == 'current') {
             return (
               moment(notice.arrivalDate, 'YYYY-MM-DD').isSameOrBefore(moment()) &&
-              moment(notice.returnDate, 'YYYY-MM-DD').isSameOrAfter(moment().subtract(1, "days"))
+              moment(notice.returnDate, 'YYYY-MM-DD').isSameOrAfter(moment().subtract(1, 'days'))
             )
           } else {
             return (
               moment(notice.arrivalDate, 'YYYY-MM-DD').isBefore(cutoffDate) &&
-              moment(notice.returnDate, 'YYYY-MM-DD').isAfter(moment().subtract(1, "days"))
+              moment(notice.returnDate, 'YYYY-MM-DD').isAfter(moment().subtract(1, 'days'))
             )
           }
         })
@@ -119,12 +121,15 @@
     },
     methods: {
       deleteNotices() {
-        this.selected.forEach( entry => {
+        this.selected.forEach(entry => {
           this.$api.post(urls.deleteNotice, entry).then(this.getNotices())
         })
       },
-      flagNotices() {
-        this.selected.forEach( entry => {
+      toggleNoticeFlags() {
+        console.log(this.selected)
+        this.selected.forEach(entry => {
+          console.log(!entry.requireAssistance)
+          entry.requireAssistance = !entry.requireAssistance
           this.$api.post(urls.flagNotice, entry).then(this.getNotices())
         })
       },
@@ -134,7 +139,7 @@
         })
       }
     },
-    mounted: function(){
+    mounted: function() {
       this.getNotices()
     }
   }

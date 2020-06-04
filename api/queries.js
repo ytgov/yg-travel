@@ -69,11 +69,10 @@ exports.deleteNotice = function(req, res) {
 }
 
 exports.flagNotice = function(req, res) {
-  req.body.destination = toArrayString(req.body.destination)
   knex('travelNotices')
   .where('id','=',req.body.id)
   .update({
-    requireAssistance: req.body.flagValue,
+    requireAssistance: req.body.requireAssistance,
   })
   .returning('*')
   .then(sqlResults =>res.send(sqlResults))
