@@ -68,6 +68,21 @@ exports.deleteNotice = function(req, res) {
   })
 }
 
+exports.flagNotice = function(req, res) {
+  req.body.destination = toArrayString(req.body.destination)
+  knex('travelNotices')
+  .where('id','=',req.body.id)
+  .update({
+    requireAssistance: req.body.flagValue,
+  })
+  .returning('*')
+  .then(sqlResults =>res.send(sqlResults))
+  .catch(function(e){
+    console.log(e)
+    res.sendStatus(404).send('Not found')
+  })
+}
+
 exports.getNotice = function(req, res) {
   knex('travelNotices')
   .select('*')

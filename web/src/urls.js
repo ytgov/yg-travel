@@ -5,6 +5,7 @@ export default {
   createNotice: "/createNotice",
   updateNotice: "/updateNotice",
   deleteNotice: "/deleteNotice",
+  flagNotice: "/flagNotice",
   getNotices: "/getNotices",
   getNotice: "/getNotice/",
   getNoticesByCommunity: "/getNotices/byCommunity/",

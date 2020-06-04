@@ -42,6 +42,9 @@
            </template>
     </v-data-table>
     <div class="text-right" style="padding: 5px 0px;">
+      <v-btn value="toggle" @click='toggleNotices' class="white--text" color='#ffa500'>
+        Toggle Flag
+      </v-btn>
       <v-btn value="remove" @click='deleteNotices' class="white--text" color='#dc4404'>
         Remove Selected Requets
       </v-btn>
@@ -118,6 +121,11 @@
       deleteNotices() {
         this.selected.forEach( entry => {
           this.$api.post(urls.deleteNotice, entry).then(this.getNotices())
+        })
+      },
+      flagNotices() {
+        this.selected.forEach( entry => {
+          this.$api.post(urls.flagNotice, entry).then(this.getNotices())
         })
       },
       getNotices() {

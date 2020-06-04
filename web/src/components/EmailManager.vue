@@ -42,7 +42,7 @@
       </v-col>
     </v-row>
     <div class="text-right">
-      <v-btn color="#ffa500" class="white--text" @click="addEmail">Add
+      <v-btn color="#6f9d2a" class="white--text" @click="addEmail">Add
       </v-btn>
     </div>
   </v-container>

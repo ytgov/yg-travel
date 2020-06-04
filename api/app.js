@@ -32,6 +32,7 @@ app.get('/api/v1/getNotices/byDepartment/:department', db.getNoticesByDepartment
 app.post('/api/v1/createNotice', db.createNotice)
 app.post('/api/v1/updateNotice', db.updateNotice)
 app.post('/api/v1/deleteNotice', db.deleteNotice)
+app.post('/api/v1/flagNotice', db.flagNotice)
 
 app.get('/api/v1/getEmails', db.getEmails)
 app.get('/api/v1/getEmailsByCommunity/:community', db.getEmailsByCommunity)
