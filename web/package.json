@@ -16,6 +16,7 @@
     "uuid": "^8.0.0",
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.5.3",
+    "vue-html-to-paper": "^1.3.1",
     "vue-moment": "^4.1.0",
     "vue-router": "^3.1.6",
     "vuelidate": "^0.7.5",

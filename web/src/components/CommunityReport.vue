@@ -42,6 +42,9 @@
       </template>
     </v-data-table>
     <div class="text-right" style="padding: 5px 0px;">
+      <v-btn value="print" @click='printSection' class="white--text" color='#244c58'>
+        Print Selected
+      </v-btn>
       <v-btn value="toggle" @click='toggleNoticeFlags' class="white--text" color='#ffa500'>
         Toggle Flag
       </v-btn>
@@ -49,12 +52,31 @@
         Remove Selected Requets
       </v-btn>
     </div>
+    <div id="printSection" v-show="true">
+      <v-row v-for="entry in selected" :key="entry.id">
+        <v-col>
+          Name: {{entry.name}}
+          Department: {{entry.department}}<br>
+          Destination: {{entry.destination}}<br>
+          # of Travellers: {{entry.travellers}}<br>
+          Arrival Date: {{entry.arrivalDate}}<br>
+          Return Date: {{entry.returnDate}}<br>
+          Contacted First Nation: {{entry.contactedFirstNation}}<br>
+          Contacted Municipality: {{entry.contactedMunicipality}}<br>
+          Contacted Other Group: {{entry.contactedOtherGroup}}<br>
+          Other Group Contact Info: {{entry.otherContactInfo}}<br>
+          Requries Assistance: {{entry.requireAssistance}}
+        </v-col>
+        <v-col>
+          Purpose: {{entry.purpose}}
+        </v-col>
+      </v-row>
+    </div>
   </v-container>
 
 </template>
 
 <script>
-
   import urls from '../urls'
   import moment from 'moment'
   export default {
@@ -73,7 +95,7 @@
         { text: 'Department', value: 'department', sortable: true },
         { text: 'Program Manager', value: 'name' },
         { text: 'Destination', value: 'destination' },
-        { text: 'Travellers', value: 'travellers' },
+        { text: '# of Travellers', value: 'travellers' },
         { text: 'Arrival', value: 'arrivalDateDisplay', align: 'center', width: '150' },
         { text: 'Departure', value: 'returnDateDisplay', align: 'center', width: '150' }
       ]
@@ -137,6 +159,9 @@
         this.$api.get(urls.getNoticesByCommunity + this.community).then(response => {
           this.notices = response.data
         })
+      },
+      printSection() {
+        this.$htmlToPaper("printSection");
       }
     },
     mounted: function() {
