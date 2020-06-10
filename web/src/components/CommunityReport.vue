@@ -1,5 +1,4 @@
 <template>
-
   <v-container>
     <v-toolbar-title>Travel Notices</v-toolbar-title>
     <v-row style="padding: 0px 5px;">
@@ -24,22 +23,22 @@
                   class="elevation-1"
                   v-model="selected">
       <template v-slot:expanded-item="{ headers, item }">
-       <td :colspan="headers.length">
-         <v-row>
-           <v-col>
-             Purpose: {{item.purpose}}
-           </v-col>
-           <v-col>
-             Contacted First Nation: {{item.contactedFirstNation}}<br>
-             Contacted Municipality: {{item.contactedMunicipality}}<br>
-             Contacted Other Group: {{item.contactedOtherGroup}}<br>
-             Other Group Contact Info: {{item.otherContactInfo}}<br>
-             Requries Assistance: {{item.requireAssistance}}
-           </v-col>
-         </v-row>
-         <br>
-       </td>
-      </template>
+         <td :colspan="headers.length">
+           <v-row>
+             <v-col>
+               Purpose: {{item.purpose}}
+             </v-col>
+             <v-col>
+               Contacted First Nation: {{item.contactedFirstNation}}<br>
+               Contacted Municipality: {{item.contactedMunicipality}}<br>
+               Contacted Other Group: {{item.contactedOtherGroup}}<br>
+               Other Group Contact Info: {{item.otherContactInfo}}<br>
+               Requries Assistance: {{item.requireAssistance}}
+             </v-col>
+           </v-row>
+           <br>
+         </td>
+        </template>
     </v-data-table>
     <div class="text-right" style="padding: 5px 0px;">
       <v-btn value="print" @click='printSection' class="white--text" color='#244c58'>
@@ -52,13 +51,16 @@
         Remove Selected Requets
       </v-btn>
     </div>
+
     <div id="printSection" v-show="true">
-      <v-row v-for="entry in selected" :key="entry.id">
-        <v-col>
-          Name: {{entry.name}}
+      <h2>Travel Notices for {{CommunityName}}</h2>
+      <div style="display: block; margin-before: 0.5em; margin-after: 0.5em; margin-start: auto; margin-end: auto; overflow: hidden; border-style: inset; border-width: 1px;"></div>
+      <div v-for="entry in selected" :key="entry.id">
+        <p>
+          Name: {{entry.name}}<br>
           Department: {{entry.department}}<br>
           Destination: {{entry.destination}}<br>
-          # of Travellers: {{entry.travellers}}<br>
+          # of Travellers:{{entry.travellers}}<br>
           Arrival Date: {{entry.arrivalDate}}<br>
           Return Date: {{entry.returnDate}}<br>
           Contacted First Nation: {{entry.contactedFirstNation}}<br>
@@ -66,17 +68,20 @@
           Contacted Other Group: {{entry.contactedOtherGroup}}<br>
           Other Group Contact Info: {{entry.otherContactInfo}}<br>
           Requries Assistance: {{entry.requireAssistance}}
-        </v-col>
-        <v-col>
+        </p>
+        <p>
           Purpose: {{entry.purpose}}
-        </v-col>
-      </v-row>
+        </p>
+        <div style="display: block; margin-before: 0.5em; margin-after: 0.5em; margin-start: auto; margin-end: auto; overflow: hidden; border-style: inset; border-width: 1px;"></div>
+      </div>
     </div>
+
   </v-container>
 
 </template>
 
 <script>
+
   import urls from '../urls'
   import moment from 'moment'
   export default {
@@ -86,6 +91,7 @@
     components: {},
     name: 'TravelReport',
     data: () => ({
+      CommunityName: '',
       notices: [],
       expanded: [],
       singleExpand: false,
@@ -142,6 +148,9 @@
       }
     },
     methods: {
+      properCase(string) {
+        return string.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()})
+      },
       deleteNotices() {
         this.selected.forEach(entry => {
           this.$api.post(urls.deleteNotice, entry).then(this.getNotices())
@@ -161,11 +170,13 @@
         })
       },
       printSection() {
-        this.$htmlToPaper("printSection");
+        this.$htmlToPaper('printSection')
       }
     },
     mounted: function() {
       this.getNotices()
+      this.CommunityName = this.properCase(this.community.split('-').join(' '))
+      console.log(this.CommunityName)
     }
   }
 

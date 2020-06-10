@@ -6,6 +6,7 @@ const app = express()
 const port = process.env.PORT || 3000
 const db = require('./queries')
 const cors = require('cors')
+const mail = require('./emailer')
 
 app.use(bodyParser.json())
 app.use(
@@ -19,6 +20,8 @@ app.use(cors());
 app.get('/api/status', function (req, res) {
     res.send('The API Service is running');
 })
+
+mail.sendSuccessfulSubmit('maxrparker@gmail.com', 'bloop')
 
 app.get('/api/v1/getCommunities', db.getCommunities)
 app.get('/api/v1/getCommunityGroups', db.getCommunityGroups)

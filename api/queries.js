@@ -1,6 +1,7 @@
 var environment = process.env.NODE_ENV || 'staging'
 var config = require('./config/knexfile.js')[environment]
 const knex = require('knex')(config)
+const mail = require('./emailer')
 
 exports.getCommunities = function(req, res) {
   knex('communities')
@@ -36,7 +37,10 @@ exports.createNotice = function(req, res) {
   req.body.destination = toArrayString(req.body.destination)
   knex('travelNotices')
   .insert(req.body)
-  .then(sqlResults => res.send(sqlResults))
+  .then(sqlResults => {
+    mail.sendSuccess('maxrparker@gmail.com', req.body.code)
+    res.send(sqlResults)
+  })
   .catch(function(e){
     console.log(e)
     res.sendStatus(404).send('Not found')
@@ -49,7 +53,10 @@ exports.updateNotice = function(req, res) {
   .where('code','=',req.body.code)
   .update(req.body)
   .returning('*')
-  .then(sqlResults =>res.send(sqlResults))
+  .then(sqlResults => {
+    mail.sendUpdate('maxrparker@gmail.com', req.body.code)
+    res.send(sqlResults)
+  })
   .catch(function(e){
     console.log(e)
     res.sendStatus(404).send('Not found')
