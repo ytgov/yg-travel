@@ -11,7 +11,6 @@ const url = 'http://localhost:8080/'
 
 exports.sendSuccessfulSubmit = function(receiver, code){
   const subject = 'YG Travel Form Submitted'
-  const body = url+'recover/'+code
   const ewsArgs = getEmailConfig(receiver, subject, submittedFormEmailBody(code))
   ews.run('CreateItem', ewsArgs)
     .then(result => {
@@ -24,7 +23,6 @@ exports.sendSuccessfulSubmit = function(receiver, code){
 
 exports.sendSuccessfulUpdate = function(receiver, code){
   const subject = 'YG Travel Form Updated'
-  const body = url+'recover/'+code
   const ewsArgs = getEmailConfig(receiver, subject, submittedFormEmailBody(code))
   ews.run('CreateItem', ewsArgs)
     .then(result => {
@@ -35,10 +33,11 @@ exports.sendSuccessfulUpdate = function(receiver, code){
     });
 }
 
-exports.sendReport = function(receiver, code){
-  const subject = 'test subject'
-  const body = url+'recover/'+code
-  const ewsArgs = getEmailConfig(receiver, subject, body)
+exports.sendSingleReport = function(email, form){
+  //should have something about requiring assistance
+  const subject = 'A Travel Notice for your Community has been Submitted'
+  const body = form
+  const ewsArgs = getEmailConfig(email, subject, form)
   ews.run('CreateItem', ewsArgs)
     .then(result => {
       console.log(JSON.stringify(result));

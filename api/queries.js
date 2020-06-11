@@ -214,7 +214,7 @@ function emailCommunitiesImmediate(destinationArray, form){
     .where('community', '=', destination)
     .then(sqlResults => {
       sqlResults.forEach( email => {
-        console.log(email.email)
+        mail.sendSingleReport(email.email, form)
       })
     })
     .catch(function(e){
