@@ -33,11 +33,11 @@ exports.sendSuccessfulUpdate = function(receiver, code){
     });
 }
 
-exports.sendSingleReport = function(email, form){
+exports.sendSingleReport = function(receiver, form){
   //should have something about requiring assistance
   const subject = 'A Travel Notice for your Community has been Submitted'
   const body = form
-  const ewsArgs = getEmailConfig(email, subject, form)
+  const ewsArgs = getEmailConfig(receiver, subject, body)
   ews.run('CreateItem', ewsArgs)
     .then(result => {
       console.log(JSON.stringify(result));

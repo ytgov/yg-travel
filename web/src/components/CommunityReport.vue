@@ -52,7 +52,7 @@
       </v-btn>
     </div>
 
-    <div id="printSection" v-show="true">
+    <div id="printSection" v-show="false">
       <h2>Travel Notices for {{CommunityName}}</h2>
       <div style="display: block; margin-before: 0.5em; margin-after: 0.5em; margin-start: auto; margin-end: auto; overflow: hidden; border-style: inset; border-width: 1px;"></div>
       <div v-for="entry in selected" :key="entry.id">

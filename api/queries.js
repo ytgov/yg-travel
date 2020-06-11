@@ -207,7 +207,6 @@ exports.deleteEmail = function(req, res){
 
 function emailCommunitiesImmediate(destinationArray, form){
   var emails = []
-  console.log(form)
   destinationArray.forEach(destination => {
     knex('emails')
     .select('email')
