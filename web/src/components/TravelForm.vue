@@ -269,7 +269,7 @@
               this.snackText = 'Form updated successfully'
               this.snackbar = true
               this.$router.push('/')
-              this.form = this.initialState()
+              //this.form = this.initialState()
             })
             .catch(e => {
               this.snackText = 'Failed to update form'
@@ -283,8 +283,8 @@
             .then(() => {
               this.snackText = 'Form submitted successfully'
               this.snackbar = true
-              this.form = this.initialState()
-              this.form.code = null
+              //this.form = this.initialState()
+              //this.form.code = null
             })
             .catch(e => {
               this.snackText = 'Failed to submit form'

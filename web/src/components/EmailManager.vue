@@ -67,13 +67,16 @@
       emailRules: [v => !!v || 'E-mail is required', v => /.+@.+\..+/.test(v) || 'E-mail must be valid']
     }),
     methods: {
+      properCase(string) {
+        return string.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()})
+      },
       getEmails() {
         this.$api.get(urls.getEmailsByCommunity + this.community).then(response => {
           this.entries = response.data
         })
       },
       addEmail() {
-        this.subscribe.community = this.community
+        this.subscribe.community = this.properCase(this.community.split('-').join(' '))
         this.$api.post(urls.createEmail, this.subscribe).then(() => {
           this.getEmails()
         })

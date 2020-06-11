@@ -21,8 +21,6 @@ app.get('/api/status', function (req, res) {
     res.send('The API Service is running');
 })
 
-mail.sendSuccessfulSubmit('maxrparker@gmail.com', 'bloop')
-
 app.get('/api/v1/getCommunities', db.getCommunities)
 app.get('/api/v1/getCommunityGroups', db.getCommunityGroups)
 app.get('/api/v1/getDepartments', db.getDepartments)

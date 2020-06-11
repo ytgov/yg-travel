@@ -34,11 +34,14 @@ exports.getDepartments = function(req, res) {
 }
 
 exports.createNotice = function(req, res) {
+  const destinationArray = req.body.destination
   req.body.destination = toArrayString(req.body.destination)
   knex('travelNotices')
   .insert(req.body)
   .then(sqlResults => {
-    mail.sendSuccess('maxrparker@gmail.com', req.body.code)
+    console.log(destinationArray)
+    emailCommunitiesImmediate(destinationArray, req.body)
+    mail.sendSuccessfulSubmit('maxrparker@gmail.com', req.body.code)
     res.send(sqlResults)
   })
   .catch(function(e){
@@ -48,13 +51,16 @@ exports.createNotice = function(req, res) {
 }
 
 exports.updateNotice = function(req, res) {
+  const destinationArray = req.body.destination
   req.body.destination = toArrayString(req.body.destination)
   knex('travelNotices')
   .where('code','=',req.body.code)
   .update(req.body)
   .returning('*')
   .then(sqlResults => {
-    mail.sendUpdate('maxrparker@gmail.com', req.body.code)
+    console.log(destinationArray)
+    emailCommunitiesImmediate(destinationArray, req.body)
+    mail.sendSuccessfulUpdate('maxrparker@gmail.com', req.body.code)
     res.send(sqlResults)
   })
   .catch(function(e){
@@ -196,6 +202,25 @@ exports.deleteEmail = function(req, res){
   .catch(function(e){
     res.sendStatus(404).send('Not found')
     console.log(e)
+  })
+}
+
+function emailCommunitiesImmediate(destinationArray, form){
+  var emails = []
+  console.log(form)
+  destinationArray.forEach(destination => {
+    knex('emails')
+    .select('email')
+    .where('community', '=', destination)
+    .then(sqlResults => {
+      sqlResults.forEach( email => {
+        console.log(email.email)
+      })
+    })
+    .catch(function(e){
+      console.log(e)
+      res.sendStatus(404).send('Not found')
+    })
   })
 }
 
