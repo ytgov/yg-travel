@@ -22,23 +22,53 @@
                   show-select
                   class="elevation-1"
                   v-model="selected">
+      <template v-slot:item.name="{ item }">
+        <div :class="requiresAssistance(item)">
+          {{item.name}}
+        </div>
+      </template>
+      <template v-slot:item.department="{ item }">
+        <div :class="requiresAssistance(item)">
+          {{item.department}}
+        </div>
+      </template>
+      <template v-slot:item.destination="{ item }">
+        <div :class="requiresAssistance(item)">
+          {{item.destination}}
+        </div>
+      </template>
+      <template v-slot:item.travellers="{ item }">
+        <div :class="requiresAssistance(item)">
+          {{item.travellers}}
+        </div>
+      </template>
+      <template v-slot:item.arrivalDateDisplay="{ item }">
+        <div :class="requiresAssistance(item)">
+          {{item.arrivalDateDisplay}}
+        </div>
+      </template>
+      <template v-slot:item.returnDateDisplay="{ item }">
+        <div :class="requiresAssistance(item)">
+          {{item.returnDateDisplay}}
+        </div>
+      </template>
       <template v-slot:expanded-item="{ headers, item }">
-         <td :colspan="headers.length">
-           <v-row>
-             <v-col>
-               Purpose: {{item.purpose}}
-             </v-col>
-             <v-col>
-               Contacted First Nation: {{item.contactedFirstNation}}<br>
-               Contacted Municipality: {{item.contactedMunicipality}}<br>
-               Contacted Other Group: {{item.contactedOtherGroup}}<br>
-               Other Group Contact Info: {{item.otherContactInfo}}<br>
-               Requries Assistance: {{item.requireAssistance}}
-             </v-col>
-           </v-row>
-           <br>
-         </td>
-        </template>
+        <td :colspan="headers.length">
+          <v-row>
+            <v-col>
+            Purpose: {{item.purpose}}
+            </v-col>
+            <v-col>
+            Contacted First Nation: {{item.contactedFirstNation}}<br>
+            Contacted Municipality: {{item.contactedMunicipality}}<br>
+            Contacted Other Group: {{item.contactedOtherGroup}}<br>
+            Other Group Contact Info: {{item.otherContactInfo}}<br>
+            Requries Assistance: {{item.requireAssistance}}
+            </v-col>
+          </v-row>
+          <br>
+        </td>
+      </template>
     </v-data-table>
     <div class="text-right" style="padding: 5px 0px;">
       <v-btn value="print" @click='printSection' class="white--text" color='#244c58'>
@@ -157,9 +187,7 @@
         })
       },
       toggleNoticeFlags() {
-        console.log(this.selected)
         this.selected.forEach(entry => {
-          console.log(!entry.requireAssistance)
           entry.requireAssistance = !entry.requireAssistance
           this.$api.post(urls.flagNotice, entry).then(this.getNotices())
         })
@@ -171,17 +199,21 @@
       },
       printSection() {
         this.$htmlToPaper('printSection')
+      },
+      requiresAssistance(notice){
+        if(notice.requireAssistance == true) return 'requireAssistance'
       }
     },
     mounted: function() {
       this.getNotices()
       this.CommunityName = this.properCase(this.community.split('-').join(' '))
-      console.log(this.CommunityName)
     }
   }
 
 </script>
 
 <style>
-
+  .requireAssistance{
+    color: red;
+  }
 </style>

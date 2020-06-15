@@ -23,7 +23,7 @@ exports.sendSuccessfulSubmit = function(receiver, code){
 
 exports.sendSuccessfulUpdate = function(receiver, code){
   const subject = 'YG Travel Form Updated'
-  const ewsArgs = getEmailConfig(receiver, subject, submittedFormEmailBody(code))
+  const ewsArgs = getEmailConfig(receiver, subject, updatedFormEmailBody(code))
   ews.run('CreateItem', ewsArgs)
     .then(result => {
       console.log(JSON.stringify(result));
@@ -36,8 +36,7 @@ exports.sendSuccessfulUpdate = function(receiver, code){
 exports.sendSingleReport = function(receiver, form){
   //should have something about requiring assistance
   const subject = 'A Travel Notice for your Community has been Submitted'
-  const body = form
-  const ewsArgs = getEmailConfig(receiver, subject, body)
+  const ewsArgs = getEmailConfig(receiver, subject, singleReportEmailBody(form))
   ews.run('CreateItem', ewsArgs)
     .then(result => {
       console.log(JSON.stringify(result));
@@ -84,6 +83,10 @@ function submittedFormEmailBody(code){
   return `You travel request has been successfully submitted. If you required assistance, someone will contezct you within the next few days. If you wish to update your travel request, please visit `+url+code+`.`
 }
 
-function updateFormEmailBody(code){
+function updatedFormEmailBody(code){
   return `You travel request has been successfully updated. If you required assistance, someone will contezct you within the next few days. If you wish to update your travel request again, please visit `+url+code+`.`
+}
+
+function singleReportEmailBody(form){
+  return `Report Details: `+form
 }
