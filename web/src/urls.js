@@ -9,8 +9,10 @@ export default {
   getNotices: "/getNotices",
   getNotice: "/getNotice/",
   getNoticesByCommunity: "/getNotices/byCommunity/",
+  getNoticesByDepartment: "/getNotices/byDepartment/",
   getEmails: "/getEmails",
   getEmailsByCommunity: "/getEmailsByCommunity/",
+  getEmailsByDepartment: "/getEmailsByDepartment/",
   createEmail: "/createEmail",
   updateEmail: "/updateEmail/",
   deleteEmail: "/deleteEmail/"

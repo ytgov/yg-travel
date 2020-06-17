@@ -1,13 +1,13 @@
 <template>
   <v-app>
-    <v-toolbar-title>{{this.CommunityName}} Report</v-toolbar-title>
+    <v-toolbar-title>{{this.scopeName}} Report</v-toolbar-title>
     <br>
     <v-card style="padding: 5px 0px;">
-      <CommunityReport :community="this.$route.params.community"/>
+      <Report :scope="this.$route.params.scope"/>
     </v-card>
     <br />
     <v-card style="padding: 5px 0px;">
-      <EmailManager :community="this.$route.params.community" />
+      <EmailManager :scope="this.$route.params.scope"/>
     </v-card>
 
   </v-app>
@@ -16,20 +16,20 @@
 
 <script>
 
-  import CommunityReport from '../components/CommunityReport.vue'
+  import Report from '../components/Report.vue'
   import EmailManager from '../components/EmailManager.vue'
   export default {
     name: 'App',
     components: {
-      CommunityReport,
+      Report,
       EmailManager
     },
     data: () => ({
-      CommunityName: ''
+      scopeName: '',
     }),
     mounted: function() {
-      this.community = this.$route.params.community
-      this.CommunityName = this.properCase(this.community.split('-').join(' '))
+      this.scope = this.$route.params.scope
+      this.scopeName = this.properCase(this.scope.split('-').join(' '))
     },
     methods: {
       properCase(string) {

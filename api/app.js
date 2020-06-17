@@ -37,6 +37,8 @@ app.post('/api/v1/flagNotice', db.flagNotice)
 
 app.get('/api/v1/getEmails', db.getEmails)
 app.get('/api/v1/getEmailsByCommunity/:community', db.getEmailsByCommunity)
+app.get('/api/v1/getEmailsByDepartment/:department', db.getEmailsByDepartment)
+
 
 app.post('/api/v1/createEmail', db.createEmail)
 app.post('/api/v1/updateEmail', db.updateEmail)

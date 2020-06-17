@@ -1,3 +1,5 @@
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
+
 var environment = process.env.NODE_ENV || 'staging'
 var config = require('./config/knexfile.js')[environment]
 const knex = require('knex')(config)
@@ -155,19 +157,36 @@ exports.getEmails = function(req, res){
   .select('*')
   .then(sqlResults => {res.send(sqlResults)})
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
     console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 
 exports.getEmailsByCommunity = function(req, res){
+  console.log(knex('emails')
+  .select('*')
+  .whereRaw('replace(replace(replace(replace(lower(value), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', [req.params.community.toLowerCase()])
+  .toSQL().toNative())
+
   knex('emails')
   .select('*')
-  .whereRaw('replace(replace(replace(replace(lower(community), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', [req.params.community.toLowerCase()])
+  .whereRaw('replace(replace(replace(replace(lower(value), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', [req.params.community.toLowerCase()])
   .then(sqlResults => {res.send(sqlResults)})
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
     console.log(e)
+    res.sendStatus(404).send('Not found')
+
+  })
+}
+
+exports.getEmailsByDepartment = function(req, res){
+  knex('emails')
+  .select('*')
+  .whereRaw('replace(replace(replace(replace(lower(value), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', ['%'+req.params.department.toLowerCase()+'%'])
+  .then(sqlResults => res.send(sqlResults))
+  .catch(function(e){
+    console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 
@@ -190,6 +209,7 @@ exports.updateEmail = function(req, res){
   .catch(function(e){
     console.log(e)
     res.sendStatus(404).send('Not found')
+
   })
 }
 
@@ -200,8 +220,8 @@ exports.deleteEmail = function(req, res){
   .returning('*')
   .then(sqlResults =>res.send(sqlResults))
   .catch(function(e){
-    res.sendStatus(404).send('Not found')
     console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 

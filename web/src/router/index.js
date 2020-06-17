@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Admin from '@/views/Admin'
-import CommunityPage from '@/views/CommunityPage'
+import ReportPage from '@/views/ReportPage'
 
 import TravelReport from '@/components/TravelReport'
 import TravelForm from '@/components/TravelForm'
@@ -24,9 +24,14 @@ export default new Router({
             component: TravelForm
         },
         {
-            path: '/reports/:community',
+            path: '/reportsByCommunity/:scope',
             name: 'Community Report',
-            component: CommunityPage
+            component: ReportPage
+        },
+        {
+            path: '/reportsByDepartment/:scope',
+            name: 'Department Report',
+            component: ReportPage
         },
         {
             path: '/reports',

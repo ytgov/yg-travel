@@ -87,7 +87,7 @@
     </div>
 
     <div id="printSection" v-show="false">
-      <h2>Travel Notices for {{CommunityName}}</h2>
+      <h2>Travel Notices for {{scopeName}}</h2>
       <div style="display: block; margin-before: 0.5em; margin-after: 0.5em; margin-start: auto; margin-end: auto; overflow: hidden; border-style: inset; border-width: 1px;"></div>
       <div v-for="entry in selected" :key="entry.id">
         <p>
@@ -120,12 +120,12 @@
   import moment from 'moment'
   export default {
     props: {
-      community: String
+      scope: String
     },
     components: {},
     name: 'TravelReport',
     data: () => ({
-      CommunityName: '',
+      scopeName: '',
       notices: [],
       expanded: [],
       singleExpand: false,
@@ -198,15 +198,25 @@
         })
       },
       getNotices() {
-        this.$api.get(urls.getNoticesByCommunity + this.community).then(response => {
-          this.notices = response.data
-        })
+        if(this.type == 'community'){
+          this.$api.get(urls.getNoticesByCommunity + this.scope).then(response => {
+            this.notices = response.data
+          })
+        } else if(this.type == 'department'){
+          this.$api.get(urls.getNoticesByDepartment + this.scope).then(response => {
+            this.notices = response.data
+          })
+        }
       },
       printSection() {
         this.$htmlToPaper('printSection')
       },
       requiresAssistance(notice){
         if(notice.requireAssistance == true) return 'requireAssistance'
+      },
+      getTypeFromRoute(){
+        if(this.$route.name.search("Community")!=-1) this.type = 'community'
+        else if(this.$route.name.search("Department")!=-1) this.type = 'department'
       }
     },
     filters: {
@@ -216,8 +226,9 @@
       }
     },
     mounted: function() {
+      this.getTypeFromRoute()
       this.getNotices()
-      this.CommunityName = this.properCase(this.community.split('-').join(' '))
+      this.reportName = this.properCase(this.scope.split('-').join(' '))
     }
   }
 

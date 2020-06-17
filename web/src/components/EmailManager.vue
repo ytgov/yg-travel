@@ -55,7 +55,7 @@
   export default {
     name: 'EmailManager',
     props: {
-      community: String
+      scope: String
     },
     data: () => ({
       options: ['Immediately', 'Weekly', 'Both'],
@@ -71,12 +71,19 @@
         return string.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()})
       },
       getEmails() {
-        this.$api.get(urls.getEmailsByCommunity + this.community).then(response => {
-          this.entries = response.data
-        })
+        if(this.type == 'community'){
+          this.$api.get(urls.getEmailsByCommunity + this.scope).then(response => {
+            this.entries = response.data
+          })
+        } else if(this.type == 'department'){
+          this.$api.get(urls.getEmailsByDepartment + this.scope).then(response => {
+            this.entries = response.data
+          })
+        }
       },
       addEmail() {
-        this.subscribe.community = this.properCase(this.community.split('-').join(' '))
+        this.subscribe.value = this.properCase(this.scope.split('-').join(' '))
+        this.subscribe.type = this.type
         this.$api.post(urls.createEmail, this.subscribe).then(() => {
           this.getEmails()
         })
@@ -85,10 +92,15 @@
         this.$api.post(urls.deleteEmail, entry).then(() => {
           this.getEmails()
         })
+      },
+      getTypeFromRoute(){
+        if(this.$route.name.search("Community")!=-1) this.type = 'community'
+        else if(this.$route.name.search("Department")!=-1) this.type = 'department'
       }
     },
     filters: {},
     mounted: function() {
+      this.getTypeFromRoute()
       this.getEmails()
     }
   }

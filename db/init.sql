@@ -16,7 +16,8 @@ CREATE TABLE "departments"(
 CREATE TABLE "emails"(
     id SERIAL,
     email varchar(64),
-    community varchar(32),
+    type varchar(16),
+    value varchar(64),
     frequency varchar(16)
 );
 
