@@ -183,13 +183,14 @@
       },
       deleteNotices() {
         this.selected.forEach(entry => {
-          this.$api.post(urls.deleteNotice, entry).then(this.getNotices())
+          this.$api.post(urls.deleteNotice, entry)
+          this.notices.splice(this.notices.findIndex(notice => notice.id == entry.id),1)
         })
       },
       toggleNoticeFlags() {
         this.selected.forEach(entry => {
           entry.requireAssistance = !entry.requireAssistance
-          this.$api.post(urls.flagNotice, entry).then(this.getNotices())
+          this.$api.post(urls.flagNotice, entry)
         })
       },
       getNotices() {

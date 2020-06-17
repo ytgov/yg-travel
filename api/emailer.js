@@ -7,7 +7,7 @@ const ewsConfig = {
 const ews = new EWS(ewsConfig)
 
 //const url = 'https://travel.gov.yk.ca/'
-const url = 'http://localhost:8080/'
+const url = 'http://localhost:8080/recover'
 
 exports.sendSuccessfulSubmit = function(receiver, code){
   const subject = 'YG Travel Form Submitted'
