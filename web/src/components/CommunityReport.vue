@@ -59,11 +59,15 @@
             Purpose: {{item.purpose}}
             </v-col>
             <v-col>
-            Contacted First Nation: {{item.contactedFirstNation}}<br>
-            Contacted Municipality: {{item.contactedMunicipality}}<br>
-            Contacted Other Group: {{item.contactedOtherGroup}}<br>
-            Other Group Contact Info: {{item.otherContactInfo}}<br>
-            Requries Assistance: {{item.requireAssistance}}
+              Contacted First Nation: {{item.contactedFirstNation | booleanToUser}}<br>
+              Contacted Municipality: {{item.contactedMunicipality | booleanToUser}}<br>
+              Contacted Other Group: {{item.contactedOtherGroup | booleanToUser}}<br>
+              <div v-show="item.contactedOtherGroup == true">
+                Other Group Contact Info: {{item.otherContactInfo}}<br>
+              </div>
+              <div :class="requiresAssistance(item)">
+                Requries Assistance: {{item.requireAssistance | booleanToUser}}
+              </div>
             </v-col>
           </v-row>
           <br>
@@ -203,6 +207,12 @@
       },
       requiresAssistance(notice){
         if(notice.requireAssistance == true) return 'requireAssistance'
+      }
+    },
+    filters: {
+      booleanToUser: function (value) {
+        if (value) return 'Yes'
+        else return 'No'
       }
     },
     mounted: function() {
