@@ -11,9 +11,6 @@ const options = {
     "fullscreen=yes",
     "titlebar=yes",
     "scrollbars=yes"
-  ],
-  "styles": [
-    "../styles/vuetify.css"
   ]
 }
 

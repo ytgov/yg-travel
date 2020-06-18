@@ -75,57 +75,32 @@
       </template>
     </v-data-table>
     <div class="text-right" style="padding: 5px 0px;">
-      <v-btn value="print" @click='printSection' class="white--text" color='#244c58'>
-        Print Selected
-      </v-btn>
-      <v-btn value="toggle" @click='toggleNoticeFlags' class="white--text" color='#ffa500'>
+      <v-btn value="toggle" @click='toggleNoticeFlags' class="white--text" color='#ffa500' style="margin: 0px 5px;">
         Toggle Flag
       </v-btn>
-      <v-btn value="remove" @click='deleteNotices' class="white--text" color='#dc4404'>
+      <v-btn value="remove" @click='deleteNotices' class="white--text" color='#dc4404' style="margin: 0px 5px;">
         Remove Selected Requets
       </v-btn>
+      <PrintReport :notices="this.selected" :scopeName="this.reportName" style="margin: 0px 5px;"/>
     </div>
-
-    <div id="printSection" v-show="false">
-      <h2>Travel Notices for {{scopeName}}</h2>
-      <div style="display: block; margin-before: 0.5em; margin-after: 0.5em; margin-start: auto; margin-end: auto; overflow: hidden; border-style: inset; border-width: 1px;"></div>
-      <div v-for="entry in selected" :key="entry.id">
-        <p>
-          Name: {{entry.name}}<br>
-          Department: {{entry.department}}<br>
-          Destination: {{entry.destination}}<br>
-          # of Travellers:{{entry.travellers}}<br>
-          Arrival Date: {{entry.arrivalDate}}<br>
-          Return Date: {{entry.returnDate}}<br>
-          Contacted First Nation: {{entry.contactedFirstNation}}<br>
-          Contacted Municipality: {{entry.contactedMunicipality}}<br>
-          Contacted Other Group: {{entry.contactedOtherGroup}}<br>
-          Other Group Contact Info: {{entry.otherContactInfo}}<br>
-          Requries Assistance: {{entry.requireAssistance}}
-        </p>
-        <p>
-          Purpose: {{entry.purpose}}
-        </p>
-        <div style="display: block; margin-before: 0.5em; margin-after: 0.5em; margin-start: auto; margin-end: auto; overflow: hidden; border-style: inset; border-width: 1px;"></div>
-      </div>
-    </div>
-
   </v-container>
 
 </template>
 
 <script>
-
   import urls from '../urls'
   import moment from 'moment'
+  import PrintReport from './PrintReport.vue'
   export default {
     props: {
       scope: String
     },
-    components: {},
-    name: 'TravelReport',
+    components: {
+      PrintReport
+    },
+    name: 'Report',
     data: () => ({
-      scopeName: '',
+      reportName: '',
       notices: [],
       expanded: [],
       singleExpand: false,
@@ -207,9 +182,6 @@
             this.notices = response.data
           })
         }
-      },
-      printSection() {
-        this.$htmlToPaper('printSection')
       },
       requiresAssistance(notice){
         if(notice.requireAssistance == true) return 'requireAssistance'

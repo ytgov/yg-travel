@@ -163,11 +163,6 @@ exports.getEmails = function(req, res){
 }
 
 exports.getEmailsByCommunity = function(req, res){
-  console.log(knex('emails')
-  .select('*')
-  .whereRaw('replace(replace(replace(replace(lower(value), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', [req.params.community.toLowerCase()])
-  .toSQL().toNative())
-
   knex('emails')
   .select('*')
   .whereRaw('replace(replace(replace(replace(lower(value), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', [req.params.community.toLowerCase()])
