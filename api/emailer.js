@@ -1,13 +1,12 @@
 const EWS = require('node-ews');
 const ewsConfig = {
-  username: 'travapp',
-  password: '5F8%x^p6',
-  host: 'https://exchange.gov.yk.ca/'
+  username: process.env.EMAILER_USERNAME,
+  password: process.env.EMAILER_PASSWORD,
+  host: process.env.EMAIL_HOST
 };
 const ews = new EWS(ewsConfig)
 
-//const url = 'https://travel.gov.yk.ca/'
-const url = 'http://localhost:8080/recover'
+const url = process.env.APP_URL + 'recover/'
 
 exports.sendSuccessfulSubmit = function(receiver, code){
   const subject = 'YG Travel Form Submitted'
