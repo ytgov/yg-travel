@@ -75,13 +75,13 @@
       </template>
     </v-data-table>
     <div class="text-right" style="padding: 5px 0px;">
-      <v-btn value="toggle" @click='toggleNoticeFlags' class="white--text" color='#ffa500' style="margin: 0px 5px;">
+      <v-btn value="toggle" @click='toggleNoticeFlags' class="white--text" color='#ffa500' style="margin: 0px 0px 0px 5px;">
         Toggle Flag
       </v-btn>
-      <v-btn value="remove" @click='deleteNotices' class="white--text" color='#dc4404' style="margin: 0px 5px;">
+      <v-btn value="remove" @click='deleteNotices' class="white--text" color='#dc4404' style="margin: 0px 0px 0px 5px;">
         Remove Selected Requets
       </v-btn>
-      <PrintReport :notices="this.selected" :scopeName="this.reportName" style="margin: 0px 5px;"/>
+      <PrintReport :notices="this.selected" :scopeName="this.reportName" style="margin: 0px 0px 0px 5px;"/>
     </div>
   </v-container>
 
