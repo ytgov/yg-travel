@@ -42,7 +42,7 @@ exports.createNotice = function(req, res) {
   .insert(req.body)
   .then(sqlResults => {
     console.log(destinationArray)
-    emailCommunitiesImmediate(destinationArray, req.body)
+    //emailCommunitiesImmediate(destinationArray, req.body)
     mail.sendSuccessfulSubmit('maxrparker@gmail.com', req.body.code)
     res.send(sqlResults)
   })
@@ -61,7 +61,7 @@ exports.updateNotice = function(req, res) {
   .returning('*')
   .then(sqlResults => {
     console.log(destinationArray)
-    emailCommunitiesImmediate(destinationArray, req.body)
+    //emailCommunitiesImmediate(destinationArray, req.body)
     mail.sendSuccessfulUpdate('maxrparker@gmail.com', req.body.code)
     res.send(sqlResults)
   })
@@ -127,7 +127,21 @@ exports.getNotices = function(req, res) {
 exports.getNoticesByCommunity = function(req, res){
   knex('travelNotices')
   .select('*')
-  .whereRaw('replace(replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', ['%"'+req.params.community.toLowerCase()+'"%'])
+  .whereRaw('replace(replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ? and current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated"', ['%"'+req.params.community.toLowerCase()+'"%'])
+  .then(sqlResults => {
+    sqlResults.map(result => {return parseDestination(result)})
+    res.send(sqlResults)
+  })
+  .catch(function(e){
+    console.log(e)
+    res.sendStatus(404).send('Not found')
+  })
+}
+
+exports.getPastWeekNoticesByCommunity = function(req, res){
+  knex('travelNotices')
+  .select('*')
+  .whereRaw('replace(replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ? and current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated"', ['%"'+req.params.community.toLowerCase()+'"%'])
   .then(sqlResults => {
     sqlResults.map(result => {return parseDestination(result)})
     res.send(sqlResults)
@@ -141,7 +155,7 @@ exports.getNoticesByCommunity = function(req, res){
 exports.getNoticesByDepartment = function(req, res){
   knex('travelNotices')
   .select('*')
-  .whereRaw('replace(replace(replace(replace(lower(department), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', ['%'+req.params.department.toLowerCase()+'%'])
+  .whereRaw('replace(replace(replace(replace(lower(department), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', [req.params.department.toLowerCase()])
   .then(sqlResults => {
     sqlResults.map(result => {return parseDestination(result)})
     res.send(sqlResults)
@@ -151,6 +165,22 @@ exports.getNoticesByDepartment = function(req, res){
     res.sendStatus(404).send('Not found')
   })
 }
+
+
+exports.getPastWeekNoticesByDepartment = function(req, res){
+  knex('travelNotices')
+  .select('*')
+  .whereRaw('replace(replace(replace(replace(lower(department), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', [req.params.department.toLowerCase()])
+  .then(sqlResults => {
+    sqlResults.map(result => {return parseDestination(result)})
+    res.send(sqlResults)
+  })
+  .catch(function(e){
+    console.log(e)
+    res.sendStatus(404).send('Not found')
+  })
+}
+
 
 exports.getEmails = function(req, res){
   knex('emails')
@@ -177,7 +207,7 @@ exports.getEmailsByCommunity = function(req, res){
 exports.getEmailsByDepartment = function(req, res){
   knex('emails')
   .select('*')
-  .whereRaw('replace(replace(replace(replace(lower(value), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', ['%'+req.params.department.toLowerCase()+'%'])
+  .whereRaw('replace(replace(replace(replace(lower(value), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ?', [req.params.department.toLowerCase()])
   .then(sqlResults => res.send(sqlResults))
   .catch(function(e){
     console.log(e)

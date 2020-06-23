@@ -1,12 +1,21 @@
-const EWS = require('node-ews');
+const EWS = require('node-ews')
+const schedule = require('node-schedule')
+const db = require('./queries')
+
 const ewsConfig = {
   username: process.env.EMAILER_USERNAME,
   password: process.env.EMAILER_PASSWORD,
   host: process.env.EMAIL_HOST
 };
 const ews = new EWS(ewsConfig)
-
 const url = process.env.APP_URL + 'recover/'
+const cron = require('node-cron');
+
+exports.createWeeklySchedule = function(){
+  cron.schedule('* * * * *', () => {
+    console.log('Minute Mail');
+  });
+}
 
 exports.sendSuccessfulSubmit = function(receiver, code){
   const subject = 'YG Travel Form Submitted'
@@ -34,7 +43,7 @@ exports.sendSuccessfulUpdate = function(receiver, code){
 
 exports.sendSingleReport = function(receiver, form){
   //should have something about requiring assistance
-  const subject = 'A Travel Notice for your Community has been Submitted'
+  const subject = 'A Travel Notice for your community has been Submitted'
   const ewsArgs = getEmailConfig(receiver, subject, singleReportEmailBody(form))
   ews.run('CreateItem', ewsArgs)
     .then(result => {
@@ -88,4 +97,37 @@ function updatedFormEmailBody(code){
 
 function singleReportEmailBody(form){
   return `Report Details: `+form
+}
+
+function createReportForEmail(email){
+
+  if(email.type == 'community'){
+    db.getPastWeekNoticesByCommunity()
+  } else if(email.type == 'department'){
+    db.getPastWeekNoticesByDepartment()
+  }
+
+  `<div id="printSection" v-show="false">
+    <h2>Travel Notices for `+scopeName+`</h2>
+    <div style="display: block; margin-before: 0.5em; margin-after: 0.5em; margin-start: auto; margin-end: auto; overflow: hidden; border-style: inset; border-width: 1px;"></div>
+    <div v-for="entry in notices" :key="entry.id">
+      Name: `+name+`<br>
+      Department: `+name+`<br>
+      Destination: `+name+`<br>
+      # of Travellers: `+name+`<br>
+      Arrival Date: `+name+`<br>
+      Return Date: `+name+`<br>
+      Contacted First Nation: `+name+`<br>
+      Contacted Municipality: `+name+`<br>
+      Contacted Other Group: `+name+`<br>
+      <div `+name+`>
+        Other Group Contact Info: `+name+`<br>
+      </div>
+      <div :class="requiresAssistance(entry)">
+        Requries Assistance: {{entry.requireAssistance | booleanToUser}}
+      </div>
+      Purpose: `+name+`
+      <div style="display: block; margin-before: 0.5em; margin-after: 0.5em; margin-start: auto; margin-end: auto; overflow: hidden; border-style: inset; border-width: 1px;"></div>
+    </div>
+  </div>`
 }

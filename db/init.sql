@@ -1,3 +1,11 @@
+CREATE OR REPLACE FUNCTION update_modified_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW."noticeUpdated" = now();
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
 CREATE TABLE "communities"(
     id SERIAL,
     name varchar(32)
@@ -37,8 +45,13 @@ CREATE TABLE "travelNotices"(
     "contactedFirstNation" boolean,
     "contactedMunicipality" boolean,
     "contactedOtherGroup" boolean,
-    "otherGroupInfo" varchar(64)
+    "otherGroupInfo" varchar(64),
+    "noticeCreated" timestamp default current_timestamp,
+    "noticeUpdated" timestamp default null
 );
+
+CREATE TRIGGER "noiceUpdated" BEFORE UPDATE ON "travelNotices" FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
+
 
 INSERT INTO "communities" (name) values
 ('Whitehorse'),('Carmacks'),('Dawson City'),('Beaver Creek'),('Burwash Landing'),('Tagish'),('Carcross'),

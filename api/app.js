@@ -7,6 +7,7 @@ const port = process.env.PORT || 3000
 const db = require('./queries')
 const cors = require('cors')
 const mail = require('./emailer')
+const schedule = require('node-schedule')
 
 app.use(bodyParser.json())
 app.use(
@@ -21,6 +22,8 @@ app.get('/api/status', function (req, res) {
     res.send('The API Service is running');
 })
 
+mail.createWeeklySchedule()
+
 app.get('/api/v1/getCommunities', db.getCommunities)
 app.get('/api/v1/getCommunityGroups', db.getCommunityGroups)
 app.get('/api/v1/getDepartments', db.getDepartments)
@@ -29,6 +32,9 @@ app.get('/api/v1/getNotices', db.getNotices)
 app.get('/api/v1/getNotice/:code', db.getNotice)
 app.get('/api/v1/getNotices/byCommunity/:community', db.getNoticesByCommunity)
 app.get('/api/v1/getNotices/byDepartment/:department', db.getNoticesByDepartment)
+
+app.get('/api/v1/getNotices/byCommunityThisWeek/:community', db.getPastWeekNoticesByCommunity)
+app.get('/api/v1/getNotices/byDepartmentThisWeek/:department', db.getPastWeekNoticesByDepartment)
 
 app.post('/api/v1/createNotice', db.createNotice)
 app.post('/api/v1/updateNotice', db.updateNotice)
