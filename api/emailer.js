@@ -9,13 +9,14 @@ const ewsConfig = {
 };
 const ews = new EWS(ewsConfig)
 const url = process.env.APP_URL + 'recover/'
-const cron = require('node-cron');
-
-exports.createWeeklySchedule = function(){
-  cron.schedule('* * * * *', () => {
-    console.log('Minute Mail');
-  });
-}
+// const cron = require('node-cron');
+//
+// exports.createWeeklySchedule = function(){
+//   // cron.schedule('* * * * *', () => {
+//   //   console.log('Minute Mail');
+//   // });
+//   createReportForEmail({'email':'maxrparker@gmail.com', 'type':'department', 'value':'education'})
+// }
 
 exports.sendSuccessfulSubmit = function(receiver, code){
   const subject = 'YG Travel Form Submitted'
@@ -99,35 +100,36 @@ function singleReportEmailBody(form){
   return `Report Details: `+form
 }
 
-function createReportForEmail(email){
+// function createReportForEmail(email){
+//   var notices = {}
+//   if(email.type == 'community'){
+//     notices = db.getPastWeekNoticesByCommunity(email)
+//   } else if(email.type == 'department'){
+//     notices = db.getPastWeekNoticesByDepartment(email)
+//   }
+//   console.log(notices)
 
-  if(email.type == 'community'){
-    db.getPastWeekNoticesByCommunity()
-  } else if(email.type == 'department'){
-    db.getPastWeekNoticesByDepartment()
-  }
-
-  `<div id="printSection" v-show="false">
-    <h2>Travel Notices for `+scopeName+`</h2>
-    <div style="display: block; margin-before: 0.5em; margin-after: 0.5em; margin-start: auto; margin-end: auto; overflow: hidden; border-style: inset; border-width: 1px;"></div>
-    <div v-for="entry in notices" :key="entry.id">
-      Name: `+name+`<br>
-      Department: `+name+`<br>
-      Destination: `+name+`<br>
-      # of Travellers: `+name+`<br>
-      Arrival Date: `+name+`<br>
-      Return Date: `+name+`<br>
-      Contacted First Nation: `+name+`<br>
-      Contacted Municipality: `+name+`<br>
-      Contacted Other Group: `+name+`<br>
-      <div `+name+`>
-        Other Group Contact Info: `+name+`<br>
-      </div>
-      <div :class="requiresAssistance(entry)">
-        Requries Assistance: {{entry.requireAssistance | booleanToUser}}
-      </div>
-      Purpose: `+name+`
-      <div style="display: block; margin-before: 0.5em; margin-after: 0.5em; margin-start: auto; margin-end: auto; overflow: hidden; border-style: inset; border-width: 1px;"></div>
-    </div>
-  </div>`
-}
+  // `<div id="printSection" v-show="false">
+  //   <h2>Travel Notices for `+scopeName+`</h2>
+  //   <div style="display: block; margin-before: 0.5em; margin-after: 0.5em; margin-start: auto; margin-end: auto; overflow: hidden; border-style: inset; border-width: 1px;"></div>
+  //   <div v-for="entry in notices" :key="entry.id">
+  //     Name: `+name+`<br>
+  //     Department: `+name+`<br>
+  //     Destination: `+name+`<br>
+  //     # of Travellers: `+name+`<br>
+  //     Arrival Date: `+name+`<br>
+  //     Return Date: `+name+`<br>
+  //     Contacted First Nation: `+name+`<br>
+  //     Contacted Municipality: `+name+`<br>
+  //     Contacted Other Group: `+name+`<br>
+  //     <div `+name+`>
+  //       Other Group Contact Info: `+name+`<br>
+  //     </div>
+  //     <div :class="requiresAssistance(entry)">
+  //       Requries Assistance: {{entry.requireAssistance | booleanToUser}}
+  //     </div>
+  //     Purpose: `+name+`
+  //     <div style="display: block; margin-before: 0.5em; margin-after: 0.5em; margin-start: auto; margin-end: auto; overflow: hidden; border-style: inset; border-width: 1px;"></div>
+  //   </div>
+  // </div>`
+// }

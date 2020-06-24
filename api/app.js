@@ -22,7 +22,7 @@ app.get('/api/status', function (req, res) {
     res.send('The API Service is running');
 })
 
-mail.createWeeklySchedule()
+// mail.createWeeklySchedule()
 
 app.get('/api/v1/getCommunities', db.getCommunities)
 app.get('/api/v1/getCommunityGroups', db.getCommunityGroups)
@@ -33,8 +33,8 @@ app.get('/api/v1/getNotice/:code', db.getNotice)
 app.get('/api/v1/getNotices/byCommunity/:community', db.getNoticesByCommunity)
 app.get('/api/v1/getNotices/byDepartment/:department', db.getNoticesByDepartment)
 
-app.get('/api/v1/getNotices/byCommunityThisWeek/:community', db.getPastWeekNoticesByCommunity)
-app.get('/api/v1/getNotices/byDepartmentThisWeek/:department', db.getPastWeekNoticesByDepartment)
+// app.get('/api/v1/getNotices/byCommunityThisWeek/:community', db.getPastWeekNoticesByCommunity)
+// app.get('/api/v1/getNotices/byDepartmentThisWeek/:department', db.getPastWeekNoticesByDepartment)
 
 app.post('/api/v1/createNotice', db.createNotice)
 app.post('/api/v1/updateNotice', db.updateNotice)

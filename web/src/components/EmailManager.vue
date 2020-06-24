@@ -58,7 +58,8 @@
       scope: String
     },
     data: () => ({
-      options: ['Immediately', 'Weekly', 'Both'],
+      // options: ['Immediately', 'Weekly', 'Both'],\
+      options: ['Immediately'],
       entries: [],
       subscribe: {
         email: '',
