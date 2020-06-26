@@ -9,8 +9,8 @@
           Department: {{entry.department}}<br>
           Destination: {{entry.destination}}<br>
           # of Travellers:{{entry.travellers}}<br>
-          Arrival Date: {{entry.arrivalDate}}<br>
-          Return Date: {{entry.returnDate}}<br>
+          Arrival Date: {{entry.arrivalDate | formatDate}}<br>
+          Return Date: {{entry.returnDate | formatDate}}<br>
           Contacted First Nation: {{entry.contactedFirstNation | booleanToUser}}<br>
           Contacted Municipality: {{entry.contactedMunicipality | booleanToUser}}<br>
           Contacted Other Group: {{entry.contactedOtherGroup | booleanToUser}}<br>
@@ -27,12 +27,14 @@
     </v-btn>
 </template>
 <script>
+  import moment from 'moment'
   export default {
     props: {
       notices: Array,
       scopeName: String
     },
-    components: {},
+    components: {
+    },
     name: 'PrintReport',
     data: () => ({
     }),
@@ -47,7 +49,10 @@
       }
     },
     filters: {
-      booleanToUser: function (value) {
+      formatDate: function(date){
+          return moment(date).format('LL')
+      },
+      booleanToUser: function(value){
         if (value) return 'Yes'
         else return 'No'
       }

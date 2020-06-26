@@ -17,6 +17,7 @@ const options = {
 Vue.use(VueHtmlToPaper, options);
 
 console.log(`API Base: ${process.env.VUE_APP_API_BASE}`)
+console.log(`App Base: ${process.env.APP_BASE}`)
 Vue.config.productionTip = false
 Vue.use({
     install (Vue) {

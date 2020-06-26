@@ -26,25 +26,28 @@
     </v-simple-table>
     <v-divider></v-divider>
     <br>
-    <v-row>
-      <v-col>
-        <v-text-field label="Email"
-                      required
-                      filled
-                      v-model="subscribe.email"
-                      :rules="emailRules"></v-text-field>
-      </v-col>
-      <v-col>
-        <v-select label="Frequency"
-                  :items="options"
-                  v-model="subscribe.frequency"
-                  filled></v-select>
-      </v-col>
-    </v-row>
-    <div class="text-right">
-      <v-btn color="#6f9d2a" class="white--text" @click="addEmail">Add
-      </v-btn>
-    </div>
+    <v-form lazy-validation ref="form">
+      <v-row>
+        <v-col>
+          <v-text-field label="Email"
+                        required
+                        filled
+                        v-model="subscribe.email"
+                        :rules="emailRules"></v-text-field>
+        </v-col>
+        <v-col>
+          <v-select label="Frequency"
+                    :items="options"
+                    v-model="subscribe.frequency"
+                    :rules="requiredField"
+                    filled></v-select>
+        </v-col>
+      </v-row>
+      <div class="text-right">
+        <v-btn color="#6f9d2a" class="white--text" @click="addEmail">Add
+        </v-btn>
+      </div>
+    </v-form>
   </v-container>
 
 </template>
@@ -65,6 +68,7 @@
         email: '',
         frequency: ''
       },
+      requiredField: [v => !!v || 'This field is required'],
       emailRules: [v => !!v || 'E-mail is required', v => /.+@.+\..+/.test(v) || 'E-mail must be valid']
     }),
     methods: {
@@ -83,11 +87,13 @@
         }
       },
       addEmail() {
-        this.subscribe.value = this.properCase(this.scope.split('-').join(' '))
-        this.subscribe.type = this.type
-        this.$api.post(urls.createEmail, this.subscribe).then(() => {
-          this.getEmails()
-        })
+        if(this.$refs.form.validate()){
+          this.subscribe.value = this.properCase(this.scope.split('-').join(' '))
+          this.subscribe.type = this.type
+          this.$api.post(urls.createEmail, this.subscribe).then(() => {
+            this.getEmails()
+          })
+        }
       },
       deleteEmail(entry) {
         this.$api.post(urls.deleteEmail, entry).then(() => {

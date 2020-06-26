@@ -42,10 +42,23 @@ exports.sendSuccessfulUpdate = function(receiver, code){
     });
 }
 
-exports.sendSingleReport = function(receiver, form){
+exports.sendSingleCommunityReport = function(receiver, form){
   //should have something about requiring assistance
   const subject = 'A Travel Notice for your community has been Submitted'
-  const ewsArgs = getEmailConfig(receiver, subject, singleReportEmailBody(form))
+  const ewsArgs = getEmailConfig(receiver, subject, singleReportCommunityEmailBody(form))
+  ews.run('CreateItem', ewsArgs)
+    .then(result => {
+      console.log(JSON.stringify(result));
+    })
+    .catch(err => {
+      console.log(err.stack);
+    });
+}
+
+exports.sendSingleDepartmentReport = function(receiver, form){
+  //should have something about requiring assistance
+  const subject = 'A Travel Notice for your community has been Submitted'
+  const ewsArgs = getEmailConfig(receiver, subject, singleReportDepartmentEmailBody(form))
   ews.run('CreateItem', ewsArgs)
     .then(result => {
       console.log(JSON.stringify(result));

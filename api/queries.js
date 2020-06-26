@@ -249,7 +249,6 @@ exports.deleteEmail = function(req, res){
 }
 
 function emailCommunitiesImmediate(destinationArray, form){
-  var emails = []
   destinationArray.forEach(destination => {
     knex('emails')
     .select('email')
@@ -263,6 +262,21 @@ function emailCommunitiesImmediate(destinationArray, form){
       console.log(e)
       res.sendStatus(404).send('Not found')
     })
+  })
+}
+
+function emailDepartmentImmediate(department, form){
+  knex('emails')
+  .select('email')
+  .where('department', '=', department)
+  .then(sqlResults => {
+    sqlResults.forEach( email => {
+      mail.sendSingleReport(email.email, form)
+    })
+  })
+  .catch(function(e){
+    console.log(e)
+    res.sendStatus(404).send('Not found')
   })
 }
 

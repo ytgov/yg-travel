@@ -66,8 +66,9 @@
                 Other Group Contact Info: {{item.otherContactInfo}}<br>
               </div>
               <div :class="requiresAssistance(item)">
-                Requries Assistance: {{item.requireAssistance | booleanToUser}}
+                Requries Assistance: {{item.requireAssistance | booleanToUser}}<br>
               </div>
+              Form Link: <a :href="url+'recover/'+item.code">{{url}}recover/{{item.code}}</a>
             </v-col>
           </v-row>
           <br>
@@ -100,6 +101,7 @@
     },
     name: 'Report',
     data: () => ({
+      url: process.env.VUE_APP_BASE,
       reportName: '',
       notices: [],
       expanded: [],
