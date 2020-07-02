@@ -1,7 +1,7 @@
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
 
-var environment = process.env.NODE_ENV || 'staging'
-var config = require('./config/knexfile.js')[environment]
+const environment = process.env.NODE_ENV || 'staging'
+const config = require('./config/knexfile.js')[environment]
 const knex = require('knex')(config)
 const mail = require('./emailer')
 

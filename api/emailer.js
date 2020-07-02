@@ -1,6 +1,10 @@
 const EWS = require('node-ews')
 const schedule = require('node-schedule')
 const db = require('./queries')
+const environment = process.env.NODE_ENV || 'staging'
+const config = require('./config/knexfile.js')[environment]
+const knex = require('knex')(config)
+const moment = require('moment')
 
 const ewsConfig = {
   username: process.env.EMAILER_USERNAME,
@@ -9,14 +13,26 @@ const ewsConfig = {
 };
 const ews = new EWS(ewsConfig)
 const url = process.env.APP_URL + 'recover/'
-// const cron = require('node-cron');
-//
-// exports.createWeeklySchedule = function(){
-//   // cron.schedule('* * * * *', () => {
-//   //   console.log('Minute Mail');
-//   // });
-//   createReportForEmail({'email':'maxrparker@gmail.com', 'type':'department', 'value':'education'})
-// }
+const cron = require('node-cron');
+
+exports.createWeeklySchedule = function(){
+  cron.schedule('* * * * *', () => {
+    sendWeeklyReport()
+  });
+  //sendWeeklyReport()
+  //createReportForEmail({'email':'maxrparker@gmail.com', 'type':'department', 'value':'education'})
+}
+
+function sendEmail(receiver, subject, body){
+  const ewsArgs = getEmailConfig(receiver, subject, body)
+  ews.run('CreateItem', ewsArgs)
+    .then(result => {
+      console.log(JSON.stringify(result));
+    })
+    .catch(err => {
+      console.log(err.stack);
+    });
+}
 
 exports.sendSuccessfulSubmit = function(receiver, code){
   const subject = 'YG Travel Form Submitted'
@@ -68,6 +84,51 @@ exports.sendSingleDepartmentReport = function(receiver, form){
     });
 }
 
+function sendWeeklyReport()
+{
+  knex('emails')
+  .select('*')
+  .then(res => {
+    res.forEach( entry => {
+      if(entry.type == 'community'){
+        knex('travelNotices')
+        .select('*')
+        .whereRaw('replace(replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ? and current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated"', ['%"'+entry.value.toLowerCase()+'"%'])
+        .then(notices => {
+          notices.map(notice => {
+            notice = parseDestination(notice)
+          })
+          sendEmail(entry.email, 'Travel Report for '+entry.value, createReportForEmail(notices))
+        })
+        .catch(function(e){
+          console.log(e)
+        })
+      } else if(entry.type == 'department'){
+          knex('travelNotices')
+          .select('*')
+          .whereRaw('replace(replace(replace(replace(lower(department), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ? and current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated"', [entry.value.toLowerCase()])
+          .then(notices => {
+            notices.map(notice => {
+              notice = parseDestination(notice)
+            })
+            sendEmail(entry.email, 'Travel Report for '+entry.value, createReportForEmail(notices))
+          })
+          .catch(function(e){
+            console.log(e)
+          })
+      }
+    })
+  })
+  .catch(function(e){
+    console.log(e)
+  })
+}
+
+function parseDestination(form) {
+  form.destination = JSON.parse(form.destination)
+  return form
+}
+
 function getEmailConfig( receiver, subject, body ){
   return {
     "attributes" : {
@@ -113,36 +174,31 @@ function singleReportEmailBody(form){
   return `Report Details: `+form
 }
 
-// function createReportForEmail(email){
-//   var notices = {}
-//   if(email.type == 'community'){
-//     notices = db.getPastWeekNoticesByCommunity(email)
-//   } else if(email.type == 'department'){
-//     notices = db.getPastWeekNoticesByDepartment(email)
-//   }
-//   console.log(notices)
+function createReportForEmail(notices){
+  report = ''
+  notices.forEach((notice) => {
+    report += 'Name: '+notice.name+"\n"
+      +'Department: '+notice.department+"\n"
+      +'Destination: '+notice.destination+"\n"
+      +'# of Travellers: '+notice.travellers+"\n"
+      +'Arrival Date: '+moment(notice.arrivalDate).format('LL')+"\n"
+      +'Return Date: '+moment(notice.returnDate).format('LL')+"\n"
+      +'Purpose: '+notice.purpose+"\n"
+      +'Contacted First Nation: '+notice.contactedFirstNation
+      +'Contacted Municipality: '+
+      +'Contacted Other Group: '+
+      +'--------------------------'+"\n"
 
-  // `<div id="printSection" v-show="false">
-  //   <h2>Travel Notices for `+scopeName+`</h2>
-  //   <div style="display: block; margin-before: 0.5em; margin-after: 0.5em; margin-start: auto; margin-end: auto; overflow: hidden; border-style: inset; border-width: 1px;"></div>
-  //   <div v-for="entry in notices" :key="entry.id">
-  //     Name: `+name+`<br>
-  //     Department: `+name+`<br>
-  //     Destination: `+name+`<br>
-  //     # of Travellers: `+name+`<br>
-  //     Arrival Date: `+name+`<br>
-  //     Return Date: `+name+`<br>
-  //     Contacted First Nation: `+name+`<br>
-  //     Contacted Municipality: `+name+`<br>
-  //     Contacted Other Group: `+name+`<br>
-  //     <div `+name+`>
-  //       Other Group Contact Info: `+name+`<br>
-  //     </div>
-  //     <div :class="requiresAssistance(entry)">
-  //       Requries Assistance: {{entry.requireAssistance | booleanToUser}}
-  //     </div>
-  //     Purpose: `+name+`
-  //     <div style="display: block; margin-before: 0.5em; margin-after: 0.5em; margin-start: auto; margin-end: auto; overflow: hidden; border-style: inset; border-width: 1px;"></div>
-  //   </div>
-  // </div>`
-// }
+      // Contacted First Nation: {{entry.contactedFirstNation | booleanToUser}}<br>
+      // Contacted Municipality: {{entry.contactedMunicipality | booleanToUser}}<br>
+      // Contacted Other Group: {{entry.contactedOtherGroup | booleanToUser}}<br>
+      // <div v-show="entry.contactedOtherGroup == true">
+      //   Other Group Contact Info: {{entry.otherContactInfo}}<br>
+      // </div>
+      // <div :class="requiresAssistance(entry)">
+      //   Requries Assistance: {{entry.requireAssistance | booleanToUser}}
+      // </div>
+      // Purpose: {{entry.purpose}}
+  })
+  return report
+}
