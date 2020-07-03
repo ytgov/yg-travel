@@ -17,9 +17,9 @@ const cron = require('node-cron');
 
 exports.createWeeklySchedule = function(){
   cron.schedule('* * * * *', () => {
-    sendWeeklyReport()
+    //sendWeeklyReport()
   });
-  //sendWeeklyReport()
+  sendWeeklyReport()
   //createReportForEmail({'email':'maxrparker@gmail.com', 'type':'department', 'value':'education'})
 }
 
@@ -90,20 +90,21 @@ function sendWeeklyReport()
   .select('*')
   .then(res => {
     res.forEach( entry => {
-      if(entry.type == 'community'){
-        knex('travelNotices')
-        .select('*')
-        .whereRaw('replace(replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ? and current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated"', ['%"'+entry.value.toLowerCase()+'"%'])
-        .then(notices => {
-          notices.map(notice => {
-            notice = parseDestination(notice)
+      if(entry.frequency == 'Weekly' || entry.frequency == 'Both'){
+        if(entry.type == 'community'){
+          knex('travelNotices')
+          .select('*')
+          .whereRaw('replace(replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ? and current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated"', ['%"'+entry.value.toLowerCase()+'"%'])
+          .then(notices => {
+            notices.map(notice => {
+              notice = parseDestination(notice)
+            })
+            sendEmail(entry.email, 'Travel Report for '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' to '+moment().format('MMMM D'), createReportForEmail(notices))
           })
-          sendEmail(entry.email, 'Travel Report for '+entry.value, createReportForEmail(notices))
-        })
-        .catch(function(e){
-          console.log(e)
-        })
-      } else if(entry.type == 'department'){
+          .catch(function(e){
+            console.log(e)
+          })
+        } else if(entry.type == 'department'){
           knex('travelNotices')
           .select('*')
           .whereRaw('replace(replace(replace(replace(lower(department), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ? and current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated"', [entry.value.toLowerCase()])
@@ -111,11 +112,12 @@ function sendWeeklyReport()
             notices.map(notice => {
               notice = parseDestination(notice)
             })
-            sendEmail(entry.email, 'Travel Report for '+entry.value, createReportForEmail(notices))
+            sendEmail(entry.email, 'Travel Report for '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' to '+moment().format('MMMM D'), createReportForEmail(notices))
           })
           .catch(function(e){
             console.log(e)
           })
+        }
       }
     })
   })
@@ -177,6 +179,9 @@ function singleReportEmailBody(form){
 function createReportForEmail(notices){
   report = ''
   notices.forEach((notice) => {
+    const contactedFirstNation = notice.contactedFirstNation ? "Yes" : "No"
+    const contactedMunicipality = notice.contactedMunicipality ? "Yes" : "No"
+    const contactedOtherGroup = notice.contactedOtherGroup ? "Yes" : "No"
     report += 'Name: '+notice.name+"\n"
       +'Department: '+notice.department+"\n"
       +'Destination: '+notice.destination+"\n"
@@ -184,21 +189,11 @@ function createReportForEmail(notices){
       +'Arrival Date: '+moment(notice.arrivalDate).format('LL')+"\n"
       +'Return Date: '+moment(notice.returnDate).format('LL')+"\n"
       +'Purpose: '+notice.purpose+"\n"
-      +'Contacted First Nation: '+notice.contactedFirstNation
-      +'Contacted Municipality: '+
-      +'Contacted Other Group: '+
-      +'--------------------------'+"\n"
-
-      // Contacted First Nation: {{entry.contactedFirstNation | booleanToUser}}<br>
-      // Contacted Municipality: {{entry.contactedMunicipality | booleanToUser}}<br>
-      // Contacted Other Group: {{entry.contactedOtherGroup | booleanToUser}}<br>
-      // <div v-show="entry.contactedOtherGroup == true">
-      //   Other Group Contact Info: {{entry.otherContactInfo}}<br>
-      // </div>
-      // <div :class="requiresAssistance(entry)">
-      //   Requries Assistance: {{entry.requireAssistance | booleanToUser}}
-      // </div>
-      // Purpose: {{entry.purpose}}
+      +'Contacted First Nation: '+contactedFirstNation+"\n"
+      +'Contacted Municipality: '+contactedMunicipality+"\n"
+      +'Contacted Other Group: '+contactedOtherGroup+"\n"
+      if(notice.contactedOtherGroup) report += notice.otherContactInfo
+      report += '─────────────────────'+"\n"
   })
   return report
 }

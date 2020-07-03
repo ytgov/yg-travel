@@ -24,12 +24,12 @@ export default new Router({
             component: TravelForm
         },
         {
-            path: '/reportsByCommunity/:scope',
+            path: '/reports/byCommunity/:scope',
             name: 'Community Report',
             component: ReportPage
         },
         {
-            path: '/reportsByDepartment/:scope',
+            path: '/reports/byDepartment/:scope',
             name: 'Department Report',
             component: ReportPage
         },

@@ -53,7 +53,6 @@
 </template>
 
 <script>
-
   import urls from '../urls'
   export default {
     name: 'EmailManager',
@@ -61,8 +60,7 @@
       scope: String
     },
     data: () => ({
-      // options: ['Immediately', 'Weekly', 'Both'],\
-      options: ['Immediately'],
+      options: ['Immediately', 'Weekly', 'Both'],
       entries: [],
       subscribe: {
         email: '',
