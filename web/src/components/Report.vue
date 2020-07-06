@@ -66,7 +66,7 @@
                 Other Group Contact Info: {{item.otherContactInfo}}<br>
               </div>
               <div :class="requiresAssistance(item)">
-                Requries Assistance: {{item.requireAssistance | booleanToUser}}<br>
+                Requires Assistance: {{item.requireAssistance | booleanToUser}}<br>
               </div>
               Form Link: <a :href="url+'recover/'+item.code">{{url}}recover/{{item.code}}</a>
             </v-col>
