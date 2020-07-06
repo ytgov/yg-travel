@@ -58,6 +58,7 @@ exports.updateNotice = function(req, res) {
   knex('travelNotices')
   .where('code','=',req.body.code)
   .update(req.body)
+  .returning('*')
   .then(sqlResults => {
     emailCommunitiesImmediate(destinationArray, req.body, false)
     emailDepartmentImmediate(req.body.department, req.body, false)
@@ -224,6 +225,9 @@ function emailCommunitiesImmediate(destinationArray, form, newNotice){
     knex('emails')
     .select('email')
     .where('value', '=', destination)
+    .andWhere(function() {
+      this.where('frequency', '=', 'Immediately').orWhere('frequency', '=', 'Both')
+    })
     .then(sqlResults => {
       sqlResults.forEach( email => {
         if(newNotice) mail.sendEmail(email.email, 'A travel notice for your community has been created', mail.createSingleReportForEmail(form))
@@ -240,6 +244,9 @@ function emailDepartmentImmediate(department, form, newNotice){
   knex('emails')
   .select('email')
   .where('value', '=', department)
+  .andWhere(function() {
+    this.where('frequency', '=', 'Immediately').orWhere('frequency', '=', 'Both')
+  })
   .then(sqlResults => {
     sqlResults.forEach( email => {
       if(newNotice) mail.sendEmail(email.email, 'A travel notice for your department has been created', mail.createSingleReportForEmail(form))

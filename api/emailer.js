@@ -18,7 +18,7 @@ const cron = require('node-cron');
 exports.createWeeklySchedule = function(){
   cron.schedule('0 8 * * 1', () => {
     sendWeeklyReport()
-  });
+  })
 }
 
 function sendEmail(receiver, subject, body){
