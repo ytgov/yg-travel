@@ -80,7 +80,7 @@
         Toggle Flag
       </v-btn>
       <v-btn value="remove" @click='deleteNotices' class="white--text" color='#dc4404' style="margin: 0px 0px 0px 5px;">
-        Remove Selected Requets
+        Remove Selected Requests
       </v-btn>
       <PrintReport :notices="this.selected" :scopeName="this.reportName" style="margin: 0px 0px 0px 5px;"/>
     </div>

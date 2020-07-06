@@ -174,11 +174,11 @@ function getEmailConfig( receiver, subject, body ){
 }
 
 function submittedFormEmailBody(code){
-  return `You travel request has been successfully submitted. If you required assistance, someone will contezct you within the next few days. If you wish to update your travel request, please visit `+url+code+`.`
+  return `You travel request has been successfully submitted. If you required assistance, someone will contact you within the next few days. If you wish to update your travel request, please visit `+url+code+`.`
 }
 
 function updatedFormEmailBody(code){
-  return `You travel request has been successfully updated. If you required assistance, someone will contezct you within the next few days. If you wish to update your travel request again, please visit `+url+code+`.`
+  return `You travel request has been successfully updated. If you required assistance, someone will contact you within the next few days. If you wish to update your travel request again, please visit `+url+code+`.`
 }
 
 function singleReportEmailBody(form){
