@@ -22,10 +22,6 @@ app.get('/api/status', function (req, res) {
     res.send('The API Service is running');
 })
 
-var hi = "[Dawson,Bloop]"
-hi = hi.replace(/\[|\]/g, '').replace(',', ', ')
-console.log(hi)
-
 mail.createWeeklySchedule()
 
 app.get('/api/v1/getCommunities', db.getCommunities)
