@@ -16,14 +16,23 @@ const url = process.env.APP_URL + 'recover/'
 const cron = require('node-cron');
 
 exports.createWeeklySchedule = function(){
-  cron.schedule('* * * * *', () => {
-    //sendWeeklyReport()
+  cron.schedule('0 8 * * 1', () => {
+    sendWeeklyReport()
   });
-  sendWeeklyReport()
-  //createReportForEmail({'email':'maxrparker@gmail.com', 'type':'department', 'value':'education'})
 }
 
 function sendEmail(receiver, subject, body){
+  const ewsArgs = getEmailConfig(receiver, subject, body)
+  ews.run('CreateItem', ewsArgs)
+    .then(result => {
+      console.log(JSON.stringify(result));
+    })
+    .catch(err => {
+      console.log(err.stack);
+    });
+}
+
+exports.sendEmail = function(receiver, subject, body){
   const ewsArgs = getEmailConfig(receiver, subject, body)
   ews.run('CreateItem', ewsArgs)
     .then(result => {
@@ -185,15 +194,38 @@ function createReportForEmail(notices){
     report += 'Name: '+notice.name+"\n"
       +'Department: '+notice.department+"\n"
       +'Destination: '+notice.destination+"\n"
-      +'# of Travellers: '+notice.travellers+"\n"
+      +'Number of Travellers: '+destinationToString(notice.travellers)+"\n"
       +'Arrival Date: '+moment(notice.arrivalDate).format('LL')+"\n"
       +'Return Date: '+moment(notice.returnDate).format('LL')+"\n"
       +'Purpose: '+notice.purpose+"\n"
       +'Contacted First Nation: '+contactedFirstNation+"\n"
       +'Contacted Municipality: '+contactedMunicipality+"\n"
       +'Contacted Other Group: '+contactedOtherGroup+"\n"
-      if(notice.contactedOtherGroup) report += notice.otherContactInfo
-      report += '─────────────────────'+"\n"
+    if(notice.contactedOtherGroup) report += notice.otherGroupInfo+"\n"
+    report += '─────────────────────'+"\n"
   })
   return report
+}
+
+exports.createSingleReportForEmail = function(notice){
+  report = ''
+  const contactedFirstNation = notice.contactedFirstNation ? "Yes" : "No"
+  const contactedMunicipality = notice.contactedMunicipality ? "Yes" : "No"
+  const contactedOtherGroup = notice.contactedOtherGroup ? "Yes" : "No"
+  report += 'Name: '+notice.name+"\n"
+    +'Department: '+notice.department+"\n"
+    +'Destination: '+destinationToString(notice.destination)+"\n"
+    +'Number of Travellers: '+notice.travellers+"\n"
+    +'Arrival Date: '+moment(notice.arrivalDate).format('LL')+"\n"
+    +'Return Date: '+moment(notice.returnDate).format('LL')+"\n"
+    +'Purpose: '+notice.purpose+"\n"
+    +'Contacted First Nation: '+contactedFirstNation+"\n"
+    +'Contacted Municipality: '+contactedMunicipality+"\n"
+    +'Contacted Other Group: '+contactedOtherGroup+"\n"
+  if(notice.contactedOtherGroup) report += notice.otherGroupInfo+"\n"
+  return report
+}
+
+function destinationToString(destination){
+  return destination.replace(/\[|\]|\"/g, '').replace(/,/g, ', ')
 }

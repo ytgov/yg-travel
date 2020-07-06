@@ -41,9 +41,9 @@ exports.createNotice = function(req, res) {
   knex('travelNotices')
   .insert(req.body)
   .then(sqlResults => {
-    console.log(destinationArray)
-    //emailCommunitiesImmediate(destinationArray, req.body)
-    mail.sendSuccessfulSubmit('maxrparker@gmail.com', req.body.code)
+    emailCommunitiesImmediate(destinationArray, req.body, true)
+    emailDepartmentImmediate(req.body.department, req.body, true)
+    mail.sendSuccessfulSubmit(req.body.email, req.body.code)
     res.send(sqlResults)
   })
   .catch(function(e){
@@ -58,11 +58,10 @@ exports.updateNotice = function(req, res) {
   knex('travelNotices')
   .where('code','=',req.body.code)
   .update(req.body)
-  .returning('*')
   .then(sqlResults => {
-    console.log(destinationArray)
-    //emailCommunitiesImmediate(destinationArray, req.body)
-    mail.sendSuccessfulUpdate('maxrparker@gmail.com', req.body.code)
+    emailCommunitiesImmediate(destinationArray, req.body, false)
+    emailDepartmentImmediate(req.body.department, req.body, false)
+    mail.sendSuccessfulUpdate(req.body.email, req.body.code)
     res.send(sqlResults)
   })
   .catch(function(e){
@@ -138,20 +137,6 @@ exports.getNoticesByCommunity = function(req, res){
   })
 }
 
-// exports.getPastWeekNoticesByCommunity = function(email){
-//   knex('travelNotices')
-//   .select('*')
-//   .whereRaw('replace(replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ? and current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated"', ['%"'+email.value.toLowerCase()+'"%'])
-//   .then(sqlResults => {
-//     sqlResults.map(result => {return parseDestination(result)})
-//     return sqlResults
-//   })
-//   .catch(function(e){
-//     console.log(e)
-//     return null
-//   })
-// }
-
 exports.getNoticesByDepartment = function(req, res){
   knex('travelNotices')
   .select('*')
@@ -165,20 +150,6 @@ exports.getNoticesByDepartment = function(req, res){
     res.sendStatus(404).send('Not found')
   })
 }
-
-// exports.getPastWeekNoticesByDepartment = function(email){
-//   knex('travelNotices')
-//   .select('*')
-//   .whereRaw('replace(replace(replace(replace(lower(department), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ? and current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated"', [email.value.toLowerCase()])
-//   .then(sqlResults => {
-//     sqlResults.map(result => {return parseDestination(result)})
-//     return sqlResults
-//   })
-//   .catch(function(e){
-//     console.log(e)
-//     return null
-//   })
-// }
 
 exports.getEmails = function(req, res){
   knex('emails')
@@ -248,35 +219,35 @@ exports.deleteEmail = function(req, res){
   })
 }
 
-function emailCommunitiesImmediate(destinationArray, form){
+function emailCommunitiesImmediate(destinationArray, form, newNotice){
   destinationArray.forEach(destination => {
     knex('emails')
     .select('email')
-    .where('community', '=', destination)
+    .where('value', '=', destination)
     .then(sqlResults => {
       sqlResults.forEach( email => {
-        mail.sendSingleReport(email.email, form)
+        if(newNotice) mail.sendEmail(email.email, 'A travel notice for your community has been created', mail.createSingleReportForEmail(form))
+        else mail.sendEmail(email.email, 'A travel notice for your community has been updated', mail.createSingleReportForEmail(form))
       })
     })
     .catch(function(e){
       console.log(e)
-      res.sendStatus(404).send('Not found')
     })
   })
 }
 
-function emailDepartmentImmediate(department, form){
+function emailDepartmentImmediate(department, form, newNotice){
   knex('emails')
   .select('email')
-  .where('department', '=', department)
+  .where('value', '=', department)
   .then(sqlResults => {
     sqlResults.forEach( email => {
-      mail.sendSingleReport(email.email, form)
+      if(newNotice) mail.sendEmail(email.email, 'A travel notice for your department has been created', mail.createSingleReportForEmail(form))
+      else mail.sendEmail(email.email, 'A travel notice for your department has been updated', mail.createSingleReportForEmail(form))
     })
   })
   .catch(function(e){
     console.log(e)
-    res.sendStatus(404).send('Not found')
   })
 }
 

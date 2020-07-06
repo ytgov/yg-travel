@@ -22,6 +22,10 @@ app.get('/api/status', function (req, res) {
     res.send('The API Service is running');
 })
 
+var hi = "[Dawson,Bloop]"
+hi = hi.replace(/\[|\]/g, '').replace(',', ', ')
+console.log(hi)
+
 mail.createWeeklySchedule()
 
 app.get('/api/v1/getCommunities', db.getCommunities)
@@ -33,9 +37,6 @@ app.get('/api/v1/getNotice/:code', db.getNotice)
 app.get('/api/v1/getNotices/byCommunity/:community', db.getNoticesByCommunity)
 app.get('/api/v1/getNotices/byDepartment/:department', db.getNoticesByDepartment)
 
-// app.get('/api/v1/getNotices/byCommunityThisWeek/:community', db.getPastWeekNoticesByCommunity)
-// app.get('/api/v1/getNotices/byDepartmentThisWeek/:department', db.getPastWeekNoticesByDepartment)
-
 app.post('/api/v1/createNotice', db.createNotice)
 app.post('/api/v1/updateNotice', db.updateNotice)
 app.post('/api/v1/deleteNotice', db.deleteNotice)
@@ -44,7 +45,6 @@ app.post('/api/v1/flagNotice', db.flagNotice)
 app.get('/api/v1/getEmails', db.getEmails)
 app.get('/api/v1/getEmailsByCommunity/:community', db.getEmailsByCommunity)
 app.get('/api/v1/getEmailsByDepartment/:department', db.getEmailsByDepartment)
-
 
 app.post('/api/v1/createEmail', db.createEmail)
 app.post('/api/v1/updateEmail', db.updateEmail)
