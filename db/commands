@@ -1,0 +1,3 @@
+pg_dump -U postgres --file notices.sql --table public."travelNotices" postgres
+
+pg_dump -d postgres -t public."travelNotices" > file.sql

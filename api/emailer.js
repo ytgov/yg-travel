@@ -10,7 +10,8 @@ const ewsConfig = {
   username: process.env.EMAILER_USERNAME,
   password: process.env.EMAILER_PASSWORD,
   host: process.env.EMAIL_HOST
-};
+}
+
 const ews = new EWS(ewsConfig)
 const url = process.env.APP_URL + 'recover/'
 const cron = require('node-cron');
@@ -19,6 +20,10 @@ exports.createWeeklySchedule = function(){
   cron.schedule('0 8 * * 1', () => {
     sendWeeklyReport()
   })
+}
+
+exports.manualEmail = function(){
+    sendWeeklyReport()
 }
 
 function sendEmail(receiver, subject, body){
