@@ -108,7 +108,7 @@ function sendWeeklyReport()
         if(entry.type == 'community'){
           knex('travelNotices')
           .select('*')
-          .whereRaw('replace(replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ? and current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated"', ['%"'+entry.value.toLowerCase()+'"%'])
+          .whereRaw('replace(replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ? and (current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated")', ['%"'+entry.value.toLowerCase()+'"%'])
           .then(notices => {
             notices.map(notice => {
               notice = parseDestination(notice)
@@ -121,7 +121,7 @@ function sendWeeklyReport()
         } else if(entry.type == 'department'){
           knex('travelNotices')
           .select('*')
-          .whereRaw('replace(replace(replace(replace(lower(department), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ? and current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated"', [entry.value.toLowerCase()])
+          .whereRaw('replace(replace(replace(replace(lower(department), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ? and (current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated")', [entry.value.toLowerCase()])
           .then(notices => {
             notices.map(notice => {
               notice = parseDestination(notice)
