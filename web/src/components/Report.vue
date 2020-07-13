@@ -63,7 +63,7 @@
               Contacted Municipality: {{item.contactedMunicipality | booleanToUser}}<br>
               Contacted Other Group: {{item.contactedOtherGroup | booleanToUser}}<br>
               <div v-show="item.contactedOtherGroup == true">
-                Other Group Contact Info: {{item.otherContactInfo}}<br>
+                Other Contact: {{item.otherContactInfo}}<br>
               </div>
               <div :class="requiresAssistance(item)">
                 Requires Assistance: {{item.requireAssistance | booleanToUser}}<br>

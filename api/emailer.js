@@ -206,7 +206,7 @@ function createReportForEmail(notices){
       +'Contacted First Nation: '+contactedFirstNation+"\n"
       +'Contacted Municipality: '+contactedMunicipality+"\n"
       +'Contacted Other Group: '+contactedOtherGroup+"\n"
-    if(notice.contactedOtherGroup) report += notice.otherGroupInfo+"\n"
+    if(notice.contactedOtherGroup) report += "Other Contact: "+notice.otherGroupInfo+"\n"
     report += '─────────────────────'+"\n"
   })
   return report
@@ -227,7 +227,7 @@ exports.createSingleReportForEmail = function(notice){
     +'Contacted First Nation: '+contactedFirstNation+"\n"
     +'Contacted Municipality: '+contactedMunicipality+"\n"
     +'Contacted Other Group: '+contactedOtherGroup+"\n"
-  if(notice.contactedOtherGroup) report += notice.otherGroupInfo+"\n"
+  if(notice.contactedOtherGroup) report += "Other Contact: "+notice.otherGroupInfo+"\n"
   return report
 }
 
