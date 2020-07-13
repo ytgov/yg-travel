@@ -232,5 +232,5 @@ exports.createSingleReportForEmail = function(notice){
 }
 
 function destinationToString(destination){
-  return destination.replace(/\[|\]|\"/g, '').replace(/,/g, ', ')
+  return destination.toString().replace(/,/g, ', ')
 }
