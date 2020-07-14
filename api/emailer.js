@@ -108,7 +108,7 @@ function sendWeeklyReport()
         if(entry.type == 'community'){
           knex('travelNotices')
           .select('*')
-          .whereRaw('replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \'&\', \'and\') like ? and ((current_date <= returnDate) and (current_date + INTERVAL \'1 week\' >= arrivalDate))', ['%"'+entry.value.toLowerCase()+'"%'])
+          .whereRaw('replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \'&\', \'and\') like ? and ((current_date <= "returnDate") and (current_date + INTERVAL \'1 week\' >= "arrivalDate"))', ['%"'+entry.value.toLowerCase()+'"%'])
           .then(notices => {
             notices.map(notice => {
               notice = parseDestination(notice)
@@ -199,7 +199,7 @@ function createEmptyReportEmail(){
 
 function createReportForEmail(notices){
   report = ''
-  report += notices.length+' trips to your community this week.<br>'
+  report += 'Trips to your community this week: '+notices.length+'<br>'
   report += '─────────────────────'+'<br>'
   notices.forEach((notice) => {
     const contactedFirstNation = notice.contactedFirstNation ? "Yes" : "No"
