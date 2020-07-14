@@ -107,6 +107,7 @@ function sendWeeklyReport()
   .then(res => {
     res.forEach( entry => {
       if(entry.frequency == 'Weekly' || entry.frequency == 'Both'){
+        console.log(entry.email)
         if(entry.type == 'community'){
           knex('travelNotices')
           .select('*')
