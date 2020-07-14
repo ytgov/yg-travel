@@ -108,30 +108,33 @@ function sendWeeklyReport()
         if(entry.type == 'community'){
           knex('travelNotices')
           .select('*')
-          .whereRaw('replace(replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ? and (current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated")', ['%"'+entry.value.toLowerCase()+'"%'])
+          .whereRaw('replace(replace(replace(lower(destination), \'\'\'\', \'\'), \',\', \'\'), \'&\', \'and\') like ? and ((current_date <= returnDate) and (current_date + INTERVAL \'1 week\' >= arrivalDate))', ['%"'+entry.value.toLowerCase()+'"%'])
           .then(notices => {
             notices.map(notice => {
               notice = parseDestination(notice)
             })
-            sendEmail(entry.email, 'Travel Report for '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' to '+moment().format('MMMM D'), createReportForEmail(notices))
-          })
-          .catch(function(e){
-            console.log(e)
-          })
-        } else if(entry.type == 'department'){
-          knex('travelNotices')
-          .select('*')
-          .whereRaw('replace(replace(replace(replace(lower(department), \'\'\'\', \'\'), \',\', \'\'), \' \', \'-\'), \'&\', \'and\') like ? and (current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated")', [entry.value.toLowerCase()])
-          .then(notices => {
-            notices.map(notice => {
-              notice = parseDestination(notice)
-            })
-            sendEmail(entry.email, 'Travel Report for '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' to '+moment().format('MMMM D'), createReportForEmail(notices))
+            if( notices.length > 0 ) sendEmail(entry.email, 'Travel Report for notices created between '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' and '+moment().format('MMMM D'), createReportForEmail(notices))
+            else sendEmail(entry.email, 'Travel Report for notices created between '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' and '+moment().format('MMMM D'), createEmptyReportEmail())
           })
           .catch(function(e){
             console.log(e)
           })
         }
+        // } else if(entry.type == 'department'){
+        //   knex('travelNotices')
+        //   .select('*')
+        //   //.whereRaw('replace(replace(replace(lower(department), \'\'\'\', \'\'), \',\', \'\'), \'&\', \'and\') like ? and (current_date - INTERVAL \'1 week\' <= "noticeCreated" OR current_date - INTERVAL \'1 week\' <= "noticeUpdated")', [entry.value.toLowerCase()])
+        //   .then(notices => {
+        //     notices.map(notice => {
+        //       notice = parseDestination(notice)
+        //     })
+        //     if( notices.length > 0 ) sendEmail(entry.email, 'Travel Report for notices created between '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' and '+moment().format('MMMM D'), createReportForEmail(notices))
+        //     else sendEmail(entry.email, 'Travel Report for notices created between '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' and '+moment().format('MMMM D'), createEmptyReportEmail())
+        //   })
+        //   .catch(function(e){
+        //     console.log(e)
+        //   })
+        // }
       }
     })
   })
@@ -163,7 +166,7 @@ function getEmailConfig( receiver, subject, body ){
         "Subject" : subject,
         "Body" : {
           "attributes": {
-            "BodyType" : "Text"
+            "BodyType" : "HTML"
           },
           "$value": body
         },
@@ -190,24 +193,31 @@ function singleReportEmailBody(form){
   return `Report Details: `+form
 }
 
+function createEmptyReportEmail(){
+  return 'No notices were created or updated this week.'
+}
+
 function createReportForEmail(notices){
   report = ''
+  report += notices.length+' travel notices were created for your area last week.<br>'
+  report += '─────────────────────'+'<br>'
   notices.forEach((notice) => {
     const contactedFirstNation = notice.contactedFirstNation ? "Yes" : "No"
     const contactedMunicipality = notice.contactedMunicipality ? "Yes" : "No"
     const contactedOtherGroup = notice.contactedOtherGroup ? "Yes" : "No"
-    report += 'Name: '+notice.name+"\n"
-      +'Department: '+notice.department+"\n"
-      +'Destination: '+destinationToString(notice.destination)+"\n"
-      +'Number of Travellers: '+notice.travellers+"\n"
-      +'Arrival Date: '+moment(notice.arrivalDate).format('LL')+"\n"
-      +'Return Date: '+moment(notice.returnDate).format('LL')+"\n"
-      +'Purpose: '+notice.purpose+"\n"
-      +'Contacted First Nation: '+contactedFirstNation+"\n"
-      +'Contacted Municipality: '+contactedMunicipality+"\n"
-      +'Contacted Other Group: '+contactedOtherGroup+"\n"
-    if(notice.contactedOtherGroup) report += "Other Contact: "+notice.otherGroupInfo+"\n"
-    report += '─────────────────────'+"\n"
+    report += '<b>Name:</b> '+notice.name+'<br>'
+      +'<b>Email:</b> '+notice.email+'<br>'
+      +'<b>Department:</b> '+notice.department+'<br>'
+      +'<b>Destinations:</b> '+destinationToString(notice.destination)+'<br>'
+      +'<b>Number of Travellers:</b> '+notice.travellers+'<br>'
+      +'<b>Arrival Date:</b> '+moment(notice.arrivalDate).format('LL')+'<br>'
+      +'<b>Return Date:</b> '+moment(notice.returnDate).format('LL')+'<br>'
+      +'<b>Purpose:</b> '+notice.purpose+'<br>'
+      +'<b>Contacted First Nation:</b> '+contactedFirstNation+'<br>'
+      +'<b>Contacted Municipality:</b> '+contactedMunicipality+'<br>'
+      +'<b>Contacted Other Group:</b> '+contactedOtherGroup+'<br>'
+    if(notice.contactedOtherGroup) report += "</b>Other Contact: </b>"+notice.otherGroupInfo+'<br>'
+    report += '─────────────────────'+'<br>'
   })
   return report
 }
@@ -217,16 +227,17 @@ exports.createSingleReportForEmail = function(notice){
   const contactedFirstNation = notice.contactedFirstNation ? "Yes" : "No"
   const contactedMunicipality = notice.contactedMunicipality ? "Yes" : "No"
   const contactedOtherGroup = notice.contactedOtherGroup ? "Yes" : "No"
-  report += 'Name: '+notice.name+"\n"
-    +'Department: '+notice.department+"\n"
-    +'Destination: '+destinationToString(notice.destination)+"\n"
-    +'Number of Travellers: '+notice.travellers+"\n"
-    +'Arrival Date: '+moment(notice.arrivalDate).format('LL')+"\n"
-    +'Return Date: '+moment(notice.returnDate).format('LL')+"\n"
-    +'Purpose: '+notice.purpose+"\n"
-    +'Contacted First Nation: '+contactedFirstNation+"\n"
-    +'Contacted Municipality: '+contactedMunicipality+"\n"
-    +'Contacted Other Group: '+contactedOtherGroup+"\n"
+  report += '<b>Name:</b> '+notice.name+'<br>'
+    +'<b>Email:</b> '+notice.email+'<br>'
+    +'<b>Department:</b> '+notice.department+'<br>'
+    +'<b>Destinations:</b> '+destinationToString(notice.destination)+'<br>'
+    +'<b>Number of Travellers:</b> '+notice.travellers+'<br>'
+    +'<b>Arrival Date:</b> '+moment(notice.arrivalDate).format('LL')+'<br>'
+    +'<b>Return Date:</b> '+moment(notice.returnDate).format('LL')+'<br>'
+    +'<b>Purpose:</b> '+notice.purpose+'<br>'
+    +'<b>Contacted First Nation:</b> '+contactedFirstNation+'<br>'
+    +'<b>Contacted Municipality:</b> '+contactedMunicipality+'<br>'
+    +'<b>Contacted Other Group:</b> '+contactedOtherGroup+'<br>'
   if(notice.contactedOtherGroup) report += "Other Contact: "+notice.otherGroupInfo+"\n"
   return report
 }
