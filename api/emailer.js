@@ -205,7 +205,7 @@ function createReportForEmail(notices){
     const contactedFirstNation = notice.contactedFirstNation ? "Yes" : "No"
     const contactedMunicipality = notice.contactedMunicipality ? "Yes" : "No"
     const contactedOtherGroup = notice.contactedOtherGroup ? "Yes" : "No"
-    report += '<b>Name:</b> '+notice.name+'<br>'
+    report += '<br><b>Name:</b> '+notice.name+'<br>'
       +'<b>Email:</b> '+notice.email+'<br>'
       +'<b>Department:</b> '+notice.department+'<br>'
       +'<b>Destinations:</b> '+notice.destination.toString().replace(/,/g, ', ')+'<br>'
