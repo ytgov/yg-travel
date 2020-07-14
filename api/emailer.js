@@ -113,8 +113,8 @@ function sendWeeklyReport()
             notices.map(notice => {
               notice = parseDestination(notice)
             })
-            if( notices.length > 0 ) sendEmail(entry.email, 'Travel Report for notices created between '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' and '+moment().format('MMMM D'), createReportForEmail(notices))
-            else sendEmail(entry.email, 'Travel Report for notices created between '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' and '+moment().format('MMMM D'), createEmptyReportEmail())
+            if( notices.length > 0 ) sendEmail(entry.email, 'Travel Report for trips to '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' to '+moment().format('MMMM D'), createReportForEmail(notices))
+            else sendEmail(entry.email, 'Travel Report for trips to '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' to '+moment().format('MMMM D'), createEmptyReportEmail())
           })
           .catch(function(e){
             console.log(e)
@@ -194,12 +194,12 @@ function singleReportEmailBody(form){
 }
 
 function createEmptyReportEmail(){
-  return 'No notices were created or updated this week.'
+  return 'No trips to your area this week.'
 }
 
 function createReportForEmail(notices){
   report = ''
-  report += notices.length+' travel notices were created for your area last week.<br>'
+  report += notices.length+' trips to your community this week.<br>'
   report += '─────────────────────'+'<br>'
   notices.forEach((notice) => {
     const contactedFirstNation = notice.contactedFirstNation ? "Yes" : "No"
