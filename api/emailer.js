@@ -108,6 +108,7 @@ function sendWeeklyReport()
   .then(res => {
     res.forEach( entry => {
       if(entry.frequency == 'Weekly' || entry.frequency == 'Both'){
+        sleep(2000)
         console.log(entry.email)
         if(entry.type == 'community'){
           knex('travelNotices')
@@ -119,7 +120,6 @@ function sendWeeklyReport()
             })
             if( notices.length > 0 ) sendEmail(entry.email, 'Travel Report for trips to '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' to '+moment().format('MMMM D'), createReportForEmail(notices))
             else sendEmail(entry.email, 'Travel Report for trips to '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' to '+moment().format('MMMM D'), createEmptyReportEmail())
-            sleep(2000);
           })
           .catch(function(e){
             console.log(e)
