@@ -13,6 +13,8 @@ const ewsConfig = {
 }
 
 const ews = new EWS(ewsConfig)
+ews.auth.toString = ()=>'auth';
+
 const url = process.env.APP_URL + 'recover/'
 const cron = require('node-cron');
 
