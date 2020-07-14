@@ -30,6 +30,7 @@ exports.manualEmail = function(){
 
 function sendEmail(receiver, subject, body){
   const ewsArgs = getEmailConfig(receiver, subject, body)
+
   ews.run('CreateItem', ewsArgs)
     .then(result => {
       console.log(JSON.stringify(result));
@@ -118,6 +119,7 @@ function sendWeeklyReport()
             })
             if( notices.length > 0 ) sendEmail(entry.email, 'Travel Report for trips to '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' to '+moment().format('MMMM D'), createReportForEmail(notices))
             else sendEmail(entry.email, 'Travel Report for trips to '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' to '+moment().format('MMMM D'), createEmptyReportEmail())
+            sleep(2000);
           })
           .catch(function(e){
             console.log(e)
@@ -243,4 +245,12 @@ exports.createSingleReportForEmail = function(notice){
     +'<b>Contacted Other Group:</b> '+contactedOtherGroup+'<br>'
   if(notice.contactedOtherGroup) report += "Other Contact: "+notice.otherGroupInfo+"\n"
   return report
+}
+
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
 }
