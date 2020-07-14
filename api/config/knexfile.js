@@ -9,8 +9,8 @@ module.exports = {
       password : process.env.DB_PASSWORD,
     },
     pool: {
-      min: 2,
-      max: 10
+      min: 10,
+      max: 50
     }
   }
 }
