@@ -208,7 +208,7 @@ function createReportForEmail(notices){
     report += '<b>Name:</b> '+notice.name+'<br>'
       +'<b>Email:</b> '+notice.email+'<br>'
       +'<b>Department:</b> '+notice.department+'<br>'
-      +'<b>Destinations:</b> '+destinationToString(notice.destination)+'<br>'
+      +'<b>Destinations:</b> '+notice.destination.toString().replace(/,/g, ', ')+'<br>'
       +'<b>Number of Travellers:</b> '+notice.travellers+'<br>'
       +'<b>Arrival Date:</b> '+moment(notice.arrivalDate).format('LL')+'<br>'
       +'<b>Return Date:</b> '+moment(notice.returnDate).format('LL')+'<br>'
@@ -230,7 +230,7 @@ exports.createSingleReportForEmail = function(notice){
   report += '<b>Name:</b> '+notice.name+'<br>'
     +'<b>Email:</b> '+notice.email+'<br>'
     +'<b>Department:</b> '+notice.department+'<br>'
-    +'<b>Destinations:</b> '+destinationToString(notice.destination)+'<br>'
+    +'<b>Destinations:</b> '+notice.destination.replace(/\[|\]|\"/g, '').replace(/,/g, ', ')+'<br>'
     +'<b>Number of Travellers:</b> '+notice.travellers+'<br>'
     +'<b>Arrival Date:</b> '+moment(notice.arrivalDate).format('LL')+'<br>'
     +'<b>Return Date:</b> '+moment(notice.returnDate).format('LL')+'<br>'
@@ -240,8 +240,4 @@ exports.createSingleReportForEmail = function(notice){
     +'<b>Contacted Other Group:</b> '+contactedOtherGroup+'<br>'
   if(notice.contactedOtherGroup) report += "Other Contact: "+notice.otherGroupInfo+"\n"
   return report
-}
-
-function destinationToString(destination){
-  return destination.toString().replace(/,/g, ', ')
 }
