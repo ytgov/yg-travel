@@ -31,7 +31,9 @@ exports.manualEmail = function(){
 function sendEmail(receiver, subject, body){
   const ewsArgs = getEmailConfig(receiver, subject, body)
 
-  ews.run('CreateItem', ewsArgs)
+  const ewsChild = new EWS(ewsConfig)
+
+  ewsChild.run('CreateItem', ewsArgs)
     .then(result => {
       console.log(JSON.stringify(result));
     })
@@ -108,7 +110,6 @@ function sendWeeklyReport()
   .then(res => {
     res.forEach( entry => {
       if(entry.frequency == 'Weekly' || entry.frequency == 'Both'){
-        sleep(2000)
         console.log(entry.email)
         if(entry.type == 'community'){
           knex('travelNotices')
@@ -245,12 +246,4 @@ exports.createSingleReportForEmail = function(notice){
     +'<b>Contacted Other Group:</b> '+contactedOtherGroup+'<br>'
   if(notice.contactedOtherGroup) report += "Other Contact: "+notice.otherGroupInfo+"\n"
   return report
-}
-
-function sleep(milliseconds) {
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
 }
