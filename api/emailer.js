@@ -119,8 +119,8 @@ function sendWeeklyReport()
             notices.map(notice => {
               notice = parseDestination(notice)
             })
-            if( notices.length > 0 ) sendEmail(entry.email, 'Travel Report for trips to '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' to '+moment().format('MMMM D'), createReportForEmail(notices))
-            else sendEmail(entry.email, 'Travel Report for trips to '+entry.value+', '+moment().subtract(1, 'week').format('MMMM D')+' to '+moment().format('MMMM D'), createEmptyReportEmail())
+            if( notices.length > 0 ) sendEmail(entry.email, 'Travel Report for trips to '+entry.value+', '+moment().format('MMMM D')+' to '+moment().add(1, 'week').format('MMMM D'), createReportForEmail(notices))
+            else sendEmail(entry.email, 'Travel Report for trips to '+entry.value+', '+moment().format('MMMM D')+' to '+moment().add(1, 'week').format('MMMM D'), createEmptyReportEmail())
           })
           .catch(function(e){
             console.log(e)
@@ -222,7 +222,7 @@ function createReportForEmail(notices){
       +'<b>Contacted First Nation:</b> '+contactedFirstNation+'<br>'
       +'<b>Contacted Municipality:</b> '+contactedMunicipality+'<br>'
       +'<b>Contacted Other Group:</b> '+contactedOtherGroup+'<br>'
-    if(notice.contactedOtherGroup) report += "</b>Other Contact: </b>"+notice.otherGroupInfo+'<br>'
+    if(notice.contactedOtherGroup) report += "<b>Other Contact:</b> "+notice.otherGroupInfo+'<br>'
     report += '─────────────────────'+'<br>'
   })
   return report
@@ -244,6 +244,6 @@ exports.createSingleReportForEmail = function(notice){
     +'<b>Contacted First Nation:</b> '+contactedFirstNation+'<br>'
     +'<b>Contacted Municipality:</b> '+contactedMunicipality+'<br>'
     +'<b>Contacted Other Group:</b> '+contactedOtherGroup+'<br>'
-  if(notice.contactedOtherGroup) report += "Other Contact: "+notice.otherGroupInfo+"\n"
+  if(notice.contactedOtherGroup) report += "<b>Other Contact:</b> "+notice.otherGroupInfo+"\n"
   return report
 }
