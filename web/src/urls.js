@@ -10,6 +10,7 @@ export default {
   getNotice: "/getNotice/",
   getNoticesByCommunity: "/getNotices/byCommunity/",
   getNoticesByDepartment: "/getNotices/byDepartment/",
+  getNoticesRollup: "/getNotices",
   getEmails: "/getEmails",
   getEmailsByCommunity: "/getEmailsByCommunity/",
   getEmailsByDepartment: "/getEmailsByDepartment/",

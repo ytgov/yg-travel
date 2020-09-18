@@ -34,6 +34,11 @@ export default new Router({
             component: ReportPage
         },
         {
+            path: '/reports/rollup',
+            name: 'Rollup Report',
+            component: ReportPage
+        },
+        {
             path: '/reports',
             name: 'Community Reports',
             component: TravelReport

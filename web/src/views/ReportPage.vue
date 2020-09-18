@@ -28,7 +28,11 @@
       scopeName: '',
     }),
     mounted: function() {
-      this.scope = this.$route.params.scope
+      if(this.$route.params.scope) {
+        this.scope = this.$route.params.scope
+      } else {
+        this.scope = 'Rollup'
+      }
       this.scopeName = this.properCase(this.scope.split('-').join(' '))
     },
     methods: {

@@ -183,6 +183,10 @@
           this.$api.get(urls.getNoticesByDepartment + this.scope).then(response => {
             this.notices = response.data
           })
+        } else if(this.type == 'rollup'){
+          this.$api.get(urls.getNoticesRollup).then(response => {
+            this.notices = response.data
+          })
         }
       },
       requiresAssistance(notice){
@@ -191,6 +195,7 @@
       getTypeFromRoute(){
         if(this.$route.name.search("Community")!=-1) this.type = 'community'
         else if(this.$route.name.search("Department")!=-1) this.type = 'department'
+        else if(this.$route.name.search("Rollup")!=-1) this.type = 'rollup'
       }
     },
     filters: {
@@ -202,7 +207,8 @@
     mounted: function() {
       this.getTypeFromRoute()
       this.getNotices()
-      this.reportName = this.properCase(this.scope.split('-').join(' '))
+      if( this.type == 'rollup' ) this.reportName = 'Rollup'
+      else this.reportName = this.properCase(this.scope.split('-').join(' '))
     }
   }
 
