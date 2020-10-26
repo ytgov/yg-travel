@@ -266,6 +266,7 @@ function toArrayString(arr) {
     result += '"'+slice+'",'
   })
   result = result.slice(0, -1)+"]"
+  if( result == ']' ) result = '[]'
   return result
 }
 
