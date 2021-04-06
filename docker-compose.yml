@@ -5,6 +5,7 @@ services:
     build: ./api
     ports:
       - "4033:4033"
+    restart: always
     links:
       - "dbpostgres"
   client:
@@ -12,11 +13,13 @@ services:
     build: ./web
     ports:
       - "4032:8080"
+    restart: always
     links:
       - server
   dbpostgres:
     container_name: travel_db
-    image: "postgres"
+    image: "postgres:12.5"
+    restart: always
     volumes:
       - ./data:/var/lib/postgresql/data
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql

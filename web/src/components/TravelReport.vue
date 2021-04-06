@@ -17,7 +17,8 @@
     </v-row>
     <v-data-table :headers="computedHeaders"
                   :items="displayedNotices"
-                  class="elevation-1"></v-data-table>
+                  class="elevation-1"
+                  :custom-sort="customSort"></v-data-table>
   </div>
 </template>
 
@@ -67,6 +68,28 @@
       }
     },
     methods: {
+      customSort: function(items, index, isDesc) {
+        items.sort((a, b) => {
+            if (index[0]=='arrivalDate' || index[0]=='returnDate') {
+              if (!isDesc[0]) {
+                  return new Date(b[index]) - new Date(a[index]);
+              } else {
+                  return new Date(a[index]) - new Date(b[index]);
+              }
+            }
+            else {
+              if(typeof a[index] !== 'undefined'){
+                if (!isDesc[0]) {
+                   return a[index].toLowerCase().localeCompare(b[index].toLowerCase());
+                }
+                else {
+                    return b[index].toLowerCase().localeCompare(a[index].toLowerCase());
+                }
+              }
+            }
+        });
+        return items;
+      }
     }
   }
 
