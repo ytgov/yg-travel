@@ -1,14 +1,12 @@
 FROM node:lts-alpine
 
-# install simple http server for serving static content
-# RUN npm install -g http-server
-RUN npm install -g express connect-history-api-fallback
-
 # make the 'app' folder the current working directory
 WORKDIR /app
 
 # copy both 'package.json' and 'package-lock.json' (if available)
 COPY package*.json ./
+
+RUN npx browserslist@latest --update-db
 
 # install project dependencies
 RUN npm install

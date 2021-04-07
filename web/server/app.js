@@ -10,7 +10,7 @@ var app = express();
 app.use(history({
     verbose: true}));
 
-app.use('',express.static('dist'))
+app.use(express.static('dist'))
 
-app.listen(port);  
+app.listen(port);
 console.log(`Travel App listening on internal port ${port}`)
