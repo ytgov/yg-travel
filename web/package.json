@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "apexcharts": "^3.19.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "babel-loader": "^8.1.0",
     "core-js": "^3.6.5",
     "pg": "^8.0.3",
