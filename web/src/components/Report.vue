@@ -125,8 +125,8 @@
         else if (this.dateRange == 'month') cutoffDate.add(1, 'month')
         else cutoffDate.add(1, 'year')
         formattedNotices = this.notices.map(notice => {
-          notice.arrivalDateDisplay = moment(notice.arrivalDate).format('LL')
-          notice.returnDateDisplay = moment(notice.returnDate).format('LL')
+          notice.arrivalDateDisplay = moment(notice.arrivalDate).format('YYYY-MM-DD')
+          notice.returnDateDisplay = moment(notice.returnDate).format('YYYY-MM-DD')
           notice.destination = notice.destination
             .toString()
             .split(',')
