@@ -249,8 +249,8 @@
           if (Object.keys(response.data).length !== 0) {
             this.resubmit = true
             this.form = response.data[0]
-            this.form.arrivalDate = moment().format('YYYY-MM-DD')
-            this.form.returnDate = moment().format('YYYY-MM-DD')
+            this.form.arrivalDate = moment(this.form.arrivalDate).format('YYYY-MM-DD')
+            this.form.returnDate = moment(this.form.returnDate).format('YYYY-MM-DD')
             if (this.contactedMunicipality || this.form.contactedFirstNation || this.contactedOtherGroup)
               this.contactedCommunity = true
 
